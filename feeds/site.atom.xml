@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link rel="alternate" href="https://tjanez.github.io/"></link><link rel="self" href="https://tjanez.github.io/feeds/site.atom.xml"></link><id>https://tjanez.github.io/</id><updated>2016-10-06T10:52:00+02:00</updated><entry><title>Hello, World!</title><link rel="alternate" href="https://tjanez.github.io/hello-world.html"></link><published>2016-10-06T10:52:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tjanez.github.io,2016-10-06:hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
+and Alexandre Vicenzi's great &lt;a href="https://github.com/alexandrevicenzi/Flex/"&gt;Flex&lt;/a&gt;
+theme :)!&lt;/p&gt;
+&lt;p&gt;Stay tuned for a follow-up blog post, where I'll describe to how to setup a
+Pelican site like this.&lt;/p&gt;</summary></entry></feed>
