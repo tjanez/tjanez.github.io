@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="https://tjanez.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://tjanez.github.io/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="https://tjanez.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="https://tjanez.github.io/static/custom.css" rel="stylesheet">
+
+    <link href="https://tjanez.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Tadej Janež" />
+<meta name="description" content="According to StaticGen, Pelican is the most popular static site generator written in Python. As of Oct 10, 2016 it has 6168 stars on GitHub. In this blog post, I'll show you how to create your own Pelican site, track it in a git repository, use Fabric to administer ..." />
+<meta name="keywords" content="pelican, fedora, python, fabric, site">
+<meta property="og:site_name" content="Tadej Janež"/>
+<meta property="og:title" content="Setting up a Pelican site with Python 3 and Fabric on Fedora 24"/>
+<meta property="og:description" content="According to StaticGen, Pelican is the most popular static site generator written in Python. As of Oct 10, 2016 it has 6168 stars on GitHub. In this blog post, I'll show you how to create your own Pelican site, track it in a git repository, use Fabric to administer ..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://tjanez.github.io/setting-up-pelican-site.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-10-08 10:16:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://tjanez.github.io/author/tadej-janez.html">
+<meta property="article:section" content="Site"/>
+<meta property="article:tag" content="pelican"/>
+<meta property="article:tag" content="fedora"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="fabric"/>
+<meta property="article:tag" content="site"/>
+<meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+  <title>Tadej Janež &ndash; Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://tjanez.github.io">
+        <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
+      </a>
+      <h1><a href="https://tjanez.github.io">Tadej Janež</a></h1>
+<p>Systems Engineer, DevOps</p>      <ul class="social">
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <h1 id="setting-up-pelican-site">Setting up a Pelican site with Python 3 and Fabric on Fedora 24</h1>
+    <p>Posted on Sat 08 October 2016 in <a href="https://tjanez.github.io/category/site.html">Site</a></p>
+  </header>
+  <div>
+    <p>According to <a href="https://www.staticgen.com/">StaticGen</a>, <a href="http://getpelican.com/">Pelican</a> is the most popular static site generator written in
+<a href="https://www.python.org/">Python</a>. As of Oct 10, 2016 it has
+<a href="https://github.com/getpelican/pelican">6168 stars on GitHub</a>.</p>
+<p>In this blog post, I'll show you how to create your own Pelican site, track
+it in a <a href="https://git-scm.com/">git</a> repository, use <a href="http://www.fabfile.org/">Fabric</a> to administer it, change site's default theme and
+finally, create a Hello World blog post.</p>
+<h2>Installing prerequisites</h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example uses a vanilla <a href="https://getfedora.org/en/cloud/">Fedora 24 Cloud</a> system.</p>
+</div>
+<p>Install Pelican (Python 3 version), git and Fabric (unfortunately,
+<a href="http://fedora.portingdb.xyz/pkg/fabric/">only Python 2 version is currently available</a>):</p>
+<div class="highlight"><pre><span></span>sudo dnf -y install python3-pelican git fabric
+</pre></div>
+
+
+<h2>Creating a git repository for the site</h2>
+<p>Create a directory for the site:</p>
+<div class="highlight"><pre><span></span>mkdir my-site
+cd my-site
+</pre></div>
+
+
+<p>To setup a Pelican skeleton for the site, run <code>py3-pelican-quickstart</code> and
+answer the questions. If you are unsure, you can safely accept the default
+answer.</p>
+<p>Before initializing the git repository, clean up the generated skeleton.
+Remove the <code>Makefile</code> and edit <code>fabfile.py</code> to remove the unnecessary
+functionality and make it work with Python 3 version of Pelican.</p>
+<p>All <code>pelican</code> commands need to be replaced with <code>py3-pelican</code>. In addition,
+the <code>serve()</code> function needs to be rewritten since it tries to directly import
+the Python 2 version of <code>pelican.server</code> which is not available. You can also
+safely remove the parts connected with Rackspace Cloud Files, rsync publishing
+and <a href="https://pages.github.com/">GitHub Pages</a> (I'll describe how to add support
+for it in a follow-up blog post).</p>
+<p>The cleaned-up version of <code>fabfile.py</code> should look something like:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">fabric.contrib.project</span> <span class="kn">as</span> <span class="nn">project</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="c1"># Local path configuration (can be absolute or relative to fabfile)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+
+<span class="c1"># Port for `serve`</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8000</span>
+
+<span class="k">def</span> <span class="nf">clean</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Remove generated files&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Build local version of site&quot;&quot;&quot;</span>
+    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;py3-pelican -s pelicanconf.py&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">rebuild</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;`clean`, then `build`&quot;&quot;&quot;</span>
+    <span class="n">clean</span><span class="p">()</span>
+    <span class="n">build</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">regenerate</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Automatically regenerate site upon file modification&quot;&quot;&quot;</span>
+    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;py3-pelican -r -s pelicanconf.py&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">serve</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Serve site at http://localhost:PORT/&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
+        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;python3 -m pelican.server {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PORT</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">reserve</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;`build`, then `serve`&quot;&quot;&quot;</span>
+    <span class="n">build</span><span class="p">()</span>
+    <span class="n">serve</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">preview</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Build production version of site&quot;&quot;&quot;</span>
+    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;py3-pelican -s publishconf.py&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Since we are using the Python 3 version of Pelican, we can remove the Python 2
+compatibility headers from <code>pelicanconf.py</code> and <code>publishconf.py</code>:</p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*- #</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+</pre></div>
+
+
+<p>In addition, remove the shebang from <code>publishconf.py</code>.</p>
+<p>Initialize the git repository and create the initial commit:</p>
+<div class="highlight"><pre><span></span>git init
+git add *.py
+git commit -m &quot;Initial site created with pelican-quickstart&quot;
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use git for the first time, you must configure your git email and
+user name with:</p>
+<div class="highlight"><pre><span></span>git config --global user.email <span class="s2">&quot;&lt;your-email-address&gt;&quot;</span>
+git config --global user.name <span class="s2">&quot;&lt;your-name&gt;&quot;</span>
+</pre></div>
+
+
+</div>
+<p>To instruct git to ignore the generated Python byte-code and the generated
+site, create <code>.gitignore</code> file with the following contents:</p>
+<div class="highlight"><pre><span></span># ignore Python byte-code
+*.pyc
+
+# ignore generated site
+/output/
+</pre></div>
+
+
+<p>and commit it with:</p>
+<div class="highlight"><pre><span></span>git add .gitignore
+git commit -m &quot;Add .gitignore&quot;
+</pre></div>
+
+
+<h2>Administering the site with Fabric</h2>
+<p>Fabric is a Python library and a command-line tool for automating deployment
+and system administration tasks. By default, it looks for a <code>fabfile.py</code> file
+where one can define Fabric's tasks. See the <code>fabfile.py</code> code listing above
+to get a glimpse of how Fabric tasks look like.</p>
+<p>To run Fabric tasks, just execute <code>fab</code> followed by the task's name, e.g.
+<code>serve</code>. Here are a couple of tasks that you will typically use when
+administering a site.</p>
+<p>To generate the site, use:</p>
+<div class="highlight"><pre><span></span>fab build
+</pre></div>
+
+
+<p>To serve the site locally on port 8080, use:</p>
+<div class="highlight"><pre><span></span>fab serve
+</pre></div>
+
+
+<p>To regenerate the site and serve it locally, use:</p>
+<div class="highlight"><pre><span></span>fab reserve
+</pre></div>
+
+
+<p>To automatically regenerate the site upon file modification and serve it
+locally, run the following commands in two separate terminals:</p>
+<div class="highlight"><pre><span></span>fab regenerate
+fab serve
+</pre></div>
+
+
+<h2>Changing site's default theme</h2>
+<p>Frankly speaking, the default Pelican theme looks dated nowadays, so you'll
+want to change it sooner rather than later.
+Take a look at the <a href="http://www.pelicanthemes.com/">Pelican Themes site</a> and
+find a theme you like.</p>
+<p>After you decide which theme you'll use (in the example I'll use <a href="https://github.com/alexandrevicenzi/Flex/">Alexandre
+Vicenzi's Flex theme</a>, which I use
+for my Pelican site), add it to your git repo as a submodule:</p>
+<div class="highlight"><pre><span></span>git submodule add https://github.com/alexandrevicenzi/Flex.git Flex
+</pre></div>
+
+
+<p>Then configure it in <code>pelicanconf.py</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each theme has its own configuration. Consult the chosen theme's
+documentation on what you can configure.</p>
+</div>
+<p>Here is an example configuration for the Flex theme:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+
+<span class="o">...</span> <span class="n">other</span> <span class="n">configuration</span> <span class="o">...</span>
+
+<span class="c1"># Theme</span>
+<span class="n">THEME</span> <span class="o">=</span> <span class="s1">&#39;Flex&#39;</span>
+<span class="n">SITETITLE</span> <span class="o">=</span> <span class="n">SITENAME</span>
+<span class="n">SITESUBTITLE</span> <span class="o">=</span> <span class="s1">&#39;My cool descrition&#39;</span>
+<span class="n">email</span> <span class="o">=</span> <span class="s1">&#39;my.email@somedomain.com&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">SITELOGO</span> <span class="o">=</span> <span class="s1">&#39;https://seccdn.libravatar.org/avatar/{}?s=256&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
+<span class="n">copyright_year_start</span> <span class="o">=</span> <span class="mi">2016</span>
+<span class="n">copyright_year_end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span>
+<span class="k">if</span> <span class="n">copyright_year_end</span> <span class="o">==</span> <span class="n">copyright_year_start</span><span class="p">:</span>
+    <span class="n">COPYRIGHT_YEAR</span> <span class="o">=</span> <span class="n">copyright_year_start</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">COPYRIGHT_YEAR</span> <span class="o">=</span> <span class="s1">&#39;{}-{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">copyright_year_start</span><span class="p">,</span> <span class="n">copyright_year_end</span><span class="p">)</span>
+<span class="n">PYGMENTS_STYLE</span> <span class="o">=</span> <span class="s1">&#39;native&#39;</span>
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the example, I use <a href="https://www.libravatar.org/">libravatar</a>, a
+federated open source avatar hosting service, for my site's logo.
+To use it for your own site, <a href="https://www.libravatar.org/account/new/">create an account</a> with them.</p>
+</div>
+<p>Finally, commit the changes to git:</p>
+<div class="highlight"><pre><span></span>git commit -a -m &quot;Use Flex theme&quot;
+</pre></div>
+
+
+<h2>Creating a Hello World blog post</h2>
+<p>To create your first blog post, create a Markdown file in the <code>content</code>
+directory with the following content:</p>
+<div class="highlight"><pre><span></span><span class="n">Title</span><span class="o">:</span> <span class="n">Hello</span><span class="o">,</span> <span class="n">World</span><span class="o">!</span>
+<span class="n">Date</span><span class="o">:</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">06</span> <span class="mi">10</span><span class="o">:</span><span class="mi">52</span>
+<span class="n">Category</span><span class="o">:</span> <span class="n">Site</span>
+
+<span class="n">This</span> <span class="k">is</span> <span class="n">my</span> <span class="n">first</span> <span class="n">blog</span> <span class="n">post</span> <span class="n">using</span> <span class="o">[</span><span class="n">Pelican</span><span class="o">](</span><span class="n">http</span><span class="o">://</span><span class="n">blog</span><span class="o">.</span><span class="na">getpelican</span><span class="o">.</span><span class="na">com</span><span class="o">/)</span>
+<span class="n">and</span> <span class="o">[</span><span class="n">Flex</span><span class="o">](</span><span class="n">https</span><span class="o">://</span><span class="n">github</span><span class="o">.</span><span class="na">com</span><span class="sr">/alexandrevicenzi/Flex/</span><span class="o">)!</span>
+</pre></div>
+
+
+<p>Commit the changes to git with:</p>
+<div class="highlight"><pre><span></span>git add content/
+git commit -m &quot;Add Hello World blog post&quot;
+</pre></div>
+
+
+<p>Preview the site with:</p>
+<div class="highlight"><pre><span></span>fab reserve
+</pre></div>
+
+
+<h2>Next steps</h2>
+<p>You have successfully completed setting up a Pelican site. But the site doesn't
+really serve its purpose if its only available on your local computer, does it?</p>
+<p>I plan to write a follow-up blog post that will show you how to publish your
+site to GitHub Pages with a sleek Fabric task to do it automatically. Stay
+tuned!</p>
+<p>Meanwhile, you can also browse the <a href="https://github.com/tjanez/site">source repo of my Pelican site</a>.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://tjanez.github.io/tag/pelican.html">pelican</a>
+      <a href="https://tjanez.github.io/tag/fedora.html">fedora</a>
+      <a href="https://tjanez.github.io/tag/python.html">python</a>
+      <a href="https://tjanez.github.io/tag/fabric.html">fabric</a>
+      <a href="https://tjanez.github.io/tag/site.html">site</a>
+    </p>
+  </div>
+</article>
+
+    <footer>
+        <p>&copy; Tadej Janež 2016</p>
+<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Tadej Janež ",
+  "url" : "https://tjanez.github.io",
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "description": ""
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "Setting up a Pelican site with Python 3 and Fabric on Fedora 24",
+  "headline": "Setting up a Pelican site with Python 3 and Fabric on Fedora 24",
+  "datePublished": "2016-10-08 10:16:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Tadej Janež",
+    "url": "https://tjanez.github.io/author/tadej-janez.html"
+  },
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "url": "https://tjanez.github.io/setting-up-pelican-site.html",
+  "description": "According to StaticGen, Pelican is the most popular static site generator written in Python. As of Oct 10, 2016 it has 6168 stars on GitHub. In this blog post, I'll show you how to create your own Pelican site, track it in a git repository, use Fabric to administer ..."
+}
+</script></body>
+</html>

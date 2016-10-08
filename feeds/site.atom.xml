@@ -1,5 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="https://tjanez.github.io/" rel="alternate"></link><link href="https://tjanez.github.io/feeds/site.atom.xml" rel="self"></link><id>https://tjanez.github.io/</id><updated>2016-10-06T10:52:00+02:00</updated><entry><title>Hello, World!</title><link href="https://tjanez.github.io/hello-world.html" rel="alternate"></link><published>2016-10-06T10:52:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tjanez.github.io,2016-10-06:hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link rel="alternate" href="https://tjanez.github.io/"></link><link rel="self" href="https://tjanez.github.io/feeds/site.atom.xml"></link><id>https://tjanez.github.io/</id><updated>2016-10-08T10:16:00+02:00</updated><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link rel="alternate" href="https://tjanez.github.io/setting-up-pelican-site.html"></link><published>2016-10-08T10:16:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tjanez.github.io,2016-10-08:setting-up-pelican-site.html</id><summary type="html">&lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
+&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;. As of Oct 10, 2016 it has
+&lt;a href="https://github.com/getpelican/pelican"&gt;6168 stars on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this blog post, I'll show you how to create your own Pelican site, track
+it in a &lt;a href="https://git-scm.com/"&gt;git&lt;/a&gt; repository, use &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; to administer it, change site's default theme and
+finally, create a Hello World blog post.&lt;/p&gt;
+&lt;h2&gt;Installing prerequisites&lt;/h2&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;This example uses a vanilla &lt;a href="https://getfedora.org/en/cloud/"&gt;Fedora 24 Cloud&lt;/a&gt; system.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Install Pelican (Python 3 version), git and Fabric (unfortunately,
+&lt;a href="http://fedora.portingdb.xyz/pkg/fabric/"&gt;only Python 2 version is currently available&lt;/a&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo dnf -y install python3-pelican git fabric
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Creating a git repository for the site&lt;/h2&gt;
+&lt;p&gt;Create a directory for the site:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir my-site
+cd my-site
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To setup a Pelican skeleton for the site, run &lt;code&gt;py3-pelican-quickstart&lt;/code&gt; and
+answer the questions. If you are unsure, you can safely accept the default
+answer.&lt;/p&gt;
+&lt;p&gt;Before initializing the git repository, clean up the generated skeleton.
+Remove the &lt;code&gt;Makefile&lt;/code&gt; and edit &lt;code&gt;fabfile.py&lt;/code&gt; to remove the unnecessary
+functionality and make it work with Python 3 version of Pelican.&lt;/p&gt;
+&lt;p&gt;All &lt;code&gt;pelican&lt;/code&gt; commands need to be replaced with &lt;code&gt;py3-pelican&lt;/code&gt;. In addition,
+the &lt;code&gt;serve()&lt;/code&gt; function needs to be rewritten since it tries to directly import
+the Python 2 version of &lt;code&gt;pelican.server&lt;/code&gt; which is not available. You can also
+safely remove the parts connected with Rackspace Cloud Files, rsync publishing
+and &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; (I'll describe how to add support
+for it in a follow-up blog post).&lt;/p&gt;
+&lt;p&gt;The cleaned-up version of &lt;code&gt;fabfile.py&lt;/code&gt; should look something like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.api&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;fabric.contrib.project&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;project&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;shutil&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Local path configuration (can be absolute or relative to fabfile)&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;output&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Port for `serve`&lt;/span&gt;
+&lt;span class="n"&gt;PORT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;8000&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Remove generated files&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rmtree&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;makedirs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;build&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Build local version of site&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;py3-pelican -s pelicanconf.py&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;rebuild&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;`clean`, then `build`&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;regenerate&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Automatically regenerate site upon file modification&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;py3-pelican -r -s pelicanconf.py&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;serve&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Serve site at http://localhost:PORT/&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;lcd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;python3 -m pelican.server {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PORT&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;reserve&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;`build`, then `serve`&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;serve&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;preview&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Build production version of site&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;py3-pelican -s publishconf.py&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since we are using the Python 3 version of Pelican, we can remove the Python 2
+compatibility headers from &lt;code&gt;pelicanconf.py&lt;/code&gt; and &lt;code&gt;publishconf.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# -*- coding: utf-8 -*- #&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;__future__&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;unicode_literals&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In addition, remove the shebang from &lt;code&gt;publishconf.py&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Initialize the git repository and create the initial commit:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git init
+git add *.py
+git commit -m &amp;quot;Initial site created with pelican-quickstart&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;If you use git for the first time, you must configure your git email and
+user name with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git config --global user.email &lt;span class="s2"&gt;&amp;quot;&amp;lt;your-email-address&amp;gt;&amp;quot;&lt;/span&gt;
+git config --global user.name &lt;span class="s2"&gt;&amp;quot;&amp;lt;your-name&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;To instruct git to ignore the generated Python byte-code and the generated
+site, create &lt;code&gt;.gitignore&lt;/code&gt; file with the following contents:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# ignore Python byte-code
+*.pyc
+
+# ignore generated site
+/output/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and commit it with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git add .gitignore
+git commit -m &amp;quot;Add .gitignore&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Administering the site with Fabric&lt;/h2&gt;
+&lt;p&gt;Fabric is a Python library and a command-line tool for automating deployment
+and system administration tasks. By default, it looks for a &lt;code&gt;fabfile.py&lt;/code&gt; file
+where one can define Fabric's tasks. See the &lt;code&gt;fabfile.py&lt;/code&gt; code listing above
+to get a glimpse of how Fabric tasks look like.&lt;/p&gt;
+&lt;p&gt;To run Fabric tasks, just execute &lt;code&gt;fab&lt;/code&gt; followed by the task's name, e.g.
+&lt;code&gt;serve&lt;/code&gt;. Here are a couple of tasks that you will typically use when
+administering a site.&lt;/p&gt;
+&lt;p&gt;To generate the site, use:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab build
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To serve the site locally on port 8080, use:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab serve
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To regenerate the site and serve it locally, use:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab reserve
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To automatically regenerate the site upon file modification and serve it
+locally, run the following commands in two separate terminals:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab regenerate
+fab serve
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Changing site's default theme&lt;/h2&gt;
+&lt;p&gt;Frankly speaking, the default Pelican theme looks dated nowadays, so you'll
+want to change it sooner rather than later.
+Take a look at the &lt;a href="http://www.pelicanthemes.com/"&gt;Pelican Themes site&lt;/a&gt; and
+find a theme you like.&lt;/p&gt;
+&lt;p&gt;After you decide which theme you'll use (in the example I'll use &lt;a href="https://github.com/alexandrevicenzi/Flex/"&gt;Alexandre
+Vicenzi's Flex theme&lt;/a&gt;, which I use
+for my Pelican site), add it to your git repo as a submodule:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git submodule add https://github.com/alexandrevicenzi/Flex.git Flex
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then configure it in &lt;code&gt;pelicanconf.py&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Each theme has its own configuration. Consult the chosen theme's
+documentation on what you can configure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Here is an example configuration for the Flex theme:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;hashlib&lt;/span&gt;
+
+&lt;span class="o"&gt;...&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;configuration&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Theme&lt;/span&gt;
+&lt;span class="n"&gt;THEME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Flex&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;SITETITLE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SITENAME&lt;/span&gt;
+&lt;span class="n"&gt;SITESUBTITLE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;My cool descrition&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;email&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;my.email@somedomain.com&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;SITELOGO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https://seccdn.libravatar.org/avatar/{}?s=256&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;hashlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;md5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hexdigest&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;copyright_year_start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2016&lt;/span&gt;
+&lt;span class="n"&gt;copyright_year_end&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;today&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;copyright_year_end&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;copyright_year_start&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;COPYRIGHT_YEAR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;copyright_year_start&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;COPYRIGHT_YEAR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{}-{}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;copyright_year_start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;copyright_year_end&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;PYGMENTS_STYLE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;native&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;In the example, I use &lt;a href="https://www.libravatar.org/"&gt;libravatar&lt;/a&gt;, a
+federated open source avatar hosting service, for my site's logo.
+To use it for your own site, &lt;a href="https://www.libravatar.org/account/new/"&gt;create an account&lt;/a&gt; with them.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Finally, commit the changes to git:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git commit -a -m &amp;quot;Use Flex theme&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Creating a Hello World blog post&lt;/h2&gt;
+&lt;p&gt;To create your first blog post, create a Markdown file in the &lt;code&gt;content&lt;/code&gt;
+directory with the following content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Title&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Hello&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;World&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2016&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;06&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;52&lt;/span&gt;
+&lt;span class="n"&gt;Category&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Site&lt;/span&gt;
+
+&lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;my&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="n"&gt;blog&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt; &lt;span class="n"&gt;using&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Pelican&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;://&lt;/span&gt;&lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getpelican&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/)&lt;/span&gt;
+&lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Flex&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;://&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;com&lt;/span&gt;&lt;span class="sr"&gt;/alexandrevicenzi/Flex/&lt;/span&gt;&lt;span class="o"&gt;)!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Commit the changes to git with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git add content/
+git commit -m &amp;quot;Add Hello World blog post&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Preview the site with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab reserve
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;You have successfully completed setting up a Pelican site. But the site doesn't
+really serve its purpose if its only available on your local computer, does it?&lt;/p&gt;
+&lt;p&gt;I plan to write a follow-up blog post that will show you how to publish your
+site to GitHub Pages with a sleek Fabric task to do it automatically. Stay
+tuned!&lt;/p&gt;
+&lt;p&gt;Meanwhile, you can also browse the &lt;a href="https://github.com/tjanez/site"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</summary><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry><entry><title>Hello, World!</title><link rel="alternate" href="https://tjanez.github.io/hello-world.html"></link><published>2016-10-06T10:52:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tjanez.github.io,2016-10-06:hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
 and Alexandre Vicenzi's great &lt;a href="https://github.com/alexandrevicenzi/Flex/"&gt;Flex&lt;/a&gt;
 theme :)!&lt;/p&gt;
 &lt;p&gt;Stay tuned for a follow-up blog post, where I'll describe how to setup a
