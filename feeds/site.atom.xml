@@ -1,10 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/site.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2016-10-08T10:16:00+02:00</updated><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="http://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:setting-up-pelican-site.html</id><summary type="html">&lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/site.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2016-10-19T19:05:00+02:00</updated><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="http://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:publishing-to-github-pages.html</id><summary type="html">&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
+it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
+
+
+&lt;h2&gt;Review of existing approaches&lt;/h2&gt;
+&lt;p&gt;There are various approaches to managing publishing your Pelican site to
+GitHub Pages.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://docs.getpelican.com/en/stable/tips.html#publishing-to-github"&gt;Pelican authors recommend&lt;/a&gt; using the
+&lt;a href="https://github.com/davisp/ghp-import"&gt;&lt;code&gt;ghp-import&lt;/code&gt; tool&lt;/a&gt; to import the
+contents of the &lt;code&gt;output&lt;/code&gt; directory to a special &lt;code&gt;gh-pages&lt;/code&gt; git branch, which
+can then be pushed to the desired GitHub pages repository's branch (i.e.
+&lt;code&gt;master&lt;/code&gt; branch for User pages or &lt;code&gt;gh-pages&lt;/code&gt; branch for Project pages).&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://ankursinha.in/blog/"&gt;Ankur Sinha&lt;/a&gt; wrote an
+&lt;a href="https://fedoramagazine.org/make-github-pages-blog-with-pelican/"&gt;excellent article for Fedora Magazine&lt;/a&gt;, where he
+recommends creating two git repositories, the main repository containing the
+source of the Pelican page and the second repository containing the contents of
+the &lt;code&gt;output&lt;/code&gt; directory.
+The recommendation is to add the second repository as a submodule of the main
+repository.&lt;/p&gt;
+&lt;p&gt;I didn't find any of those two approaches satisfy my needs.
+The downside of using the &lt;code&gt;ghp-import&lt;/code&gt; tool is that it is not packaged for
+Fedora yet (&lt;a href="https://bugzilla.redhat.com/show_bug.cgi?id=1183422"&gt;review request&lt;/a&gt;) and that it destroys the
+&lt;code&gt;gh-pages&lt;/code&gt; branch on each run, thus one is unable to keep previous contents of
+the page as older commits.
+On the other hand, tracking the contents of the &lt;code&gt;output&lt;/code&gt; directory as a
+submodule in a separate git repo has the disadvantage of having to update the
+submodule reference in the main git repo every time a new version of the site
+is built, thus leading to a large number of "submodule bump" commits in the
+main git repo.&lt;/p&gt;
+&lt;h2&gt;A new approach using a custom Fabric task&lt;/h2&gt;
+&lt;p&gt;Therefore, I crafted a new approach that tries to overcome these disadvantages.
+Like in Ankur Sinha's article, I created two git repositories, the main
+repository containing the source of the Pelican page and the second repository
+containing the contents of the &lt;code&gt;output&lt;/code&gt; directory.
+However, instead of linking the repositories via a submodule, I just created
+a custom Fabric task that rebuilds the source page, commits its output to the
+second git repository and pushes it to GitHub Pages.&lt;/p&gt;
+&lt;p&gt;To use this approach, first create the &lt;em&gt;username&lt;/em&gt;.github.io repository on
+&lt;a href="https://github.com/new"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Then generate a clean production version of the site:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab clean
+fab preview
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Add the contents of the &lt;code&gt;output&lt;/code&gt; directory to the &lt;em&gt;username&lt;/em&gt;.github.io git
+repository:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd output
+git init
+git add --all
+git commit -m &amp;quot;Initial commit&amp;quot;
+git remote add origin git@github.com:&amp;lt;username&amp;gt;/&amp;lt;username&amp;gt;.github.io.git
+git push origin master
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Edit &lt;code&gt;publishconf.py&lt;/code&gt; and remove the following line:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;DELETE_OUTPUT_DIRECTORY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This will prevent Pelican from deleting the whole &lt;code&gt;output&lt;/code&gt; directory, including
+the git repository initialized in the previous step, when building the
+production version of the site.&lt;/p&gt;
+&lt;p&gt;Modify the &lt;code&gt;clean&lt;/code&gt; function in Fabric's &lt;code&gt;fabfile.py&lt;/code&gt; to not delete the &lt;code&gt;.git&lt;/code&gt;
+directory:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Remove generated files&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dirs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;walk&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;dirs&lt;/span&gt;&lt;span class="p"&gt;[:]:&lt;/span&gt;
+            &lt;span class="c1"&gt;# Do not recurse into this directory&lt;/span&gt;
+            &lt;span class="n"&gt;dirs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;.git&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="c1"&gt;# Do not remove .git/ directory&lt;/span&gt;
+                &lt;span class="k"&gt;pass&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rmtree&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Add the following &lt;code&gt;gh_pages&lt;/code&gt; function (and its &lt;code&gt;publish&lt;/code&gt; alias) to Fabric's
+&lt;code&gt;fabfile.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.contrib.console&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;confirm&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Get absolute path of project&amp;#39;s root directory&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;project_root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;real_fabfile&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# Set absolute path of project&amp;#39;s deploy directory&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;project_root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;output&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Github Pages configuration&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;github_pages_branch&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;master&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;gh_pages&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Publish to GitHub Pages&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;lcd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;project_root&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# ensure the main git repository is clean&lt;/span&gt;
+        &lt;span class="n"&gt;main_git_unclean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git status --untracked-files=no --porcelain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                 &lt;span class="n"&gt;capture&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;main_git_unclean&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;abort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;The main git repository is not clean:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                             &lt;span class="n"&gt;main_git_unclean&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+        &lt;span class="c1"&gt;# get main git repository&amp;#39;s HEAD&amp;#39;s sha checksum&lt;/span&gt;
+        &lt;span class="n"&gt;main_commit_sha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git rev-parse --short HEAD&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;capture&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;lcd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# sync local GitHub Pages git repository with remote repository&lt;/span&gt;
+        &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git fetch origin {github_pages_branch}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git reset --hard origin/{github_pages_branch}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c1"&gt;# build a production version of the site&lt;/span&gt;
+    &lt;span class="n"&gt;preview&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;lcd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deploy_path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;pages_git_unclean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git status --porcelain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;capture&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;pages_git_unclean&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git add --all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git commit -m &amp;quot;Build of source repo @ {}&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;main_commit_sha&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;confirm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Do you wish to publish the current version of the &amp;quot;&lt;/span&gt;
+                       &lt;span class="s2"&gt;&amp;quot;page to GitHub Pages?&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git push origin {github_pages_branch}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="n"&gt;commit_sha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git rev-parse --short HEAD&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;capture&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;puts&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Pushed commit {} to GitHub Pages&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;commit_sha&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="c1"&gt;# reset the git repo to the one on GitHub Pages&lt;/span&gt;
+                &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;git reset origin/master&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;puts&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Exiting on user request.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;puts&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Nothing has changed. Exiting.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;publish&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Publish to GitHub Pages&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;gh_pages&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To publish the page, run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab publish
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and answer &lt;code&gt;y&lt;/code&gt; when prompted.&lt;/p&gt;
+&lt;p&gt;Visit the page at https://&lt;em&gt;username&lt;/em&gt;.github.io and share it with the World!&lt;/p&gt;
+&lt;h2&gt;Setting up a custom domain&lt;/h2&gt;
+&lt;p&gt;To use a custom domain with GitHub Pages, e.g. &lt;code&gt;blog.mysite.com&lt;/code&gt;, one needs to
+add a &lt;code&gt;CNAME&lt;/code&gt; file in the root of the generated site which tells GitHub Pages
+on which custom domain the site is hosted.&lt;/p&gt;
+&lt;p&gt;The contents of the file should match the custom domain name. For the example
+custom domain above, one would create the file &lt;code&gt;content/extra/CNAME&lt;/code&gt; with
+the following content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;blog.mysite.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To instruct Pelican to copy the &lt;code&gt;CNAME&lt;/code&gt; file to site's root, list it among
+site's static paths:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;STATIC_PATHS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="o"&gt;...&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;static&lt;/span&gt; &lt;span class="n"&gt;paths&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+    &lt;span class="c1"&gt;# GitHub Pages custom domain&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;extra/CNAME&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and annotate it with extra path metadata:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;EXTRA_PATH_METADATA&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="o"&gt;...&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;extra&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="n"&gt;metadata&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;extra/CNAME&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;path&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;CNAME&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, change the value of &lt;code&gt;SITEURL&lt;/code&gt; variable in &lt;code&gt;publishconf.py&lt;/code&gt; to the
+custom domain's name and commit the changes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git add content/extra/CNAME
+git commit -a -m &amp;quot;Change site&amp;#39;s URL to http://blog.mysite.com&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Before we publish the new version of the site with a custom domain, we need
+to configure an appropriate DNS record with our DNS provider. The above example
+custom domain is a custom &lt;strong&gt;subdomain&lt;/strong&gt;, so we need to set up a &lt;code&gt;CNAME&lt;/code&gt; record
+with our DNS provider that points to &lt;em&gt;username&lt;/em&gt;.github.io. Follow your DNS
+provider's instructions on how to do that.&lt;/p&gt;
+&lt;p&gt;To confirm that the new DNS record is set up correctly, use the &lt;code&gt;dig&lt;/code&gt; utility:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dig +nocmd +nostats +nocomments blog.mysite.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and make sure the output is similar to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;;blog.mysite.com.               IN  A
+blog.mysite.com.        1747    IN  CNAME   username.github.io.
+username.github.io.     3547    IN  CNAME   github.map.fastly.net.
+github.map.fastly.net.  650     IN  CNAME   prod.github.map.fastlylb.net.
+prod.github.map.fastlylb.net. 17 IN A       151.101.12.133
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If your custom domain is an apex domain (e.g. &lt;code&gt;mysite.com&lt;/code&gt;), you will need
+to configure a different type of a DNS record. See &lt;a href="https://help.github.com/articles/setting-up-an-apex-domain/"&gt;GitHub Pages's Help on
+Setting up an apex domain&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;After DNS is properly configured, publish the updated site to GitHub Pages
+with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fab publish
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Visit the page at your custom domain!&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Currently, it is not possible to set up a custom domain with SSL support
+via GitHub Pages. For more information, see the &lt;a href="https://github.com/isaacs/github/issues/156"&gt;issue report with a
+lengthy discussion&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;To see this implemented in practice, browse the
+&lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</summary><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="http://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:setting-up-pelican-site.html</id><summary type="html">&lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
 &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;. As of Oct 10, 2016 it has
 &lt;a href="https://github.com/getpelican/pelican"&gt;6168 stars on GitHub&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this blog post, I'll show you how to create your own Pelican site, track
 it in a &lt;a href="https://git-scm.com/"&gt;git&lt;/a&gt; repository, use &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; to administer it, change site's default theme and
 finally, create a Hello World blog post.&lt;/p&gt;
+
+
 &lt;h2&gt;Installing prerequisites&lt;/h2&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
@@ -232,9 +453,13 @@ git commit -m &amp;quot;Add Hello World blog post&amp;quot;
 &lt;p&gt;You have successfully completed setting up a Pelican site. But the site doesn't
 really serve its purpose if its only available on your local computer, does it?&lt;/p&gt;
 &lt;p&gt;I plan to write a follow-up blog post that will show you how to publish your
-site to GitHub Pages with a sleek Fabric task to do it automatically. Stay
-tuned!&lt;/p&gt;
-&lt;p&gt;Meanwhile, you can also browse the &lt;a href="https://github.com/tjanez/site"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</summary><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry><entry><title>Hello, World!</title><link href="http://tadej.ja.nez.si/hello-world.html" rel="alternate"></link><published>2016-10-06T10:52:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-06:hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
+site to &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; with a sleek Fabric task to
+do it automatically. Stay tuned!&lt;/p&gt;
+&lt;p&gt;Meanwhile, you can also browse the &lt;a href="https://github.com/tjanez/site"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Update (October 19, 2016):
+The &lt;a href="http://tadej.ja.nez.si/publishing-to-github-pages.html"&gt;follow-up blog post&lt;/a&gt; on
+publishing your site to GitHub Pages with a sleek Fabric task has been
+published.&lt;/em&gt;&lt;/p&gt;</summary><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry><entry><title>Hello, World!</title><link href="http://tadej.ja.nez.si/hello-world.html" rel="alternate"></link><published>2016-10-06T10:52:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-06:hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
 and Alexandre Vicenzi's great &lt;a href="https://github.com/alexandrevicenzi/Flex/"&gt;Flex&lt;/a&gt;
 theme :)!&lt;/p&gt;
 &lt;p&gt;Stay tuned for a follow-up blog post, where I'll describe how to setup a

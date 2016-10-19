@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
+
+    <link href="http://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Tadej Janež" />
+<meta name="description" content="In the previous blog post we looked at setting up a Pelican site with Python 3 and Fabric on Fedora 24. Now that we have a Pelican site up and running, I will show you how to publish it on GitHub Pages using a sleek Fabric task." />
+<meta name="keywords" content="pelican, python, fabric, github, site">
+<meta property="og:site_name" content="Tadej Janež"/>
+<meta property="og:title" content="Publishing a Pelican site to GitHub Pages using Fabric"/>
+<meta property="og:description" content="In the previous blog post we looked at setting up a Pelican site with Python 3 and Fabric on Fedora 24. Now that we have a Pelican site up and running, I will show you how to publish it on GitHub Pages using a sleek Fabric task."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://tadej.ja.nez.si/publishing-to-github-pages.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-10-19 19:05:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://tadej.ja.nez.si/author/tadej-janez.html">
+<meta property="article:section" content="Site"/>
+<meta property="article:tag" content="pelican"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="fabric"/>
+<meta property="article:tag" content="github"/>
+<meta property="article:tag" content="site"/>
+<meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+  <title>Tadej Janež &ndash; Publishing a Pelican site to GitHub Pages using Fabric</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://tadej.ja.nez.si">
+        <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
+      </a>
+      <h1><a href="http://tadej.ja.nez.si">Tadej Janež</a></h1>
+<p>Systems Engineer, DevOps</p>      <ul class="social">
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <h1 id="publishing-to-github-pages">Publishing a Pelican site to GitHub Pages using Fabric</h1>
+    <p>Posted on Wed 19 October 2016 in <a href="http://tadej.ja.nez.si/category/site.html">Site</a></p>
+  </header>
+  <div>
+    <p>In the <a href="http://tadej.ja.nez.si/setting-up-pelican-site.html">previous blog post</a> we looked at
+setting up a <a href="http://getpelican.com/">Pelican</a> site with <a href="https://www.python.org/">Python 3</a> and <a href="http://www.fabfile.org/">Fabric</a> on <a href="https://getfedora.org/">Fedora 24</a>.</p>
+<p>Now that we have a Pelican site up and running, I will show you how to publish
+it on <a href="https://pages.github.com/">GitHub Pages</a> using a sleek Fabric task.</p>
+
+
+<h2>Review of existing approaches</h2>
+<p>There are various approaches to managing publishing your Pelican site to
+GitHub Pages.</p>
+<p><a href="http://docs.getpelican.com/en/stable/tips.html#publishing-to-github">Pelican authors recommend</a> using the
+<a href="https://github.com/davisp/ghp-import"><code>ghp-import</code> tool</a> to import the
+contents of the <code>output</code> directory to a special <code>gh-pages</code> git branch, which
+can then be pushed to the desired GitHub pages repository's branch (i.e.
+<code>master</code> branch for User pages or <code>gh-pages</code> branch for Project pages).</p>
+<p><a href="http://ankursinha.in/blog/">Ankur Sinha</a> wrote an
+<a href="https://fedoramagazine.org/make-github-pages-blog-with-pelican/">excellent article for Fedora Magazine</a>, where he
+recommends creating two git repositories, the main repository containing the
+source of the Pelican page and the second repository containing the contents of
+the <code>output</code> directory.
+The recommendation is to add the second repository as a submodule of the main
+repository.</p>
+<p>I didn't find any of those two approaches satisfy my needs.
+The downside of using the <code>ghp-import</code> tool is that it is not packaged for
+Fedora yet (<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1183422">review request</a>) and that it destroys the
+<code>gh-pages</code> branch on each run, thus one is unable to keep previous contents of
+the page as older commits.
+On the other hand, tracking the contents of the <code>output</code> directory as a
+submodule in a separate git repo has the disadvantage of having to update the
+submodule reference in the main git repo every time a new version of the site
+is built, thus leading to a large number of "submodule bump" commits in the
+main git repo.</p>
+<h2>A new approach using a custom Fabric task</h2>
+<p>Therefore, I crafted a new approach that tries to overcome these disadvantages.
+Like in Ankur Sinha's article, I created two git repositories, the main
+repository containing the source of the Pelican page and the second repository
+containing the contents of the <code>output</code> directory.
+However, instead of linking the repositories via a submodule, I just created
+a custom Fabric task that rebuilds the source page, commits its output to the
+second git repository and pushes it to GitHub Pages.</p>
+<p>To use this approach, first create the <em>username</em>.github.io repository on
+<a href="https://github.com/new">GitHub</a>.</p>
+<p>Then generate a clean production version of the site:</p>
+<div class="highlight"><pre><span></span>fab clean
+fab preview
+</pre></div>
+
+
+<p>Add the contents of the <code>output</code> directory to the <em>username</em>.github.io git
+repository:</p>
+<div class="highlight"><pre><span></span>cd output
+git init
+git add --all
+git commit -m &quot;Initial commit&quot;
+git remote add origin git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git
+git push origin master
+</pre></div>
+
+
+<p>Edit <code>publishconf.py</code> and remove the following line:</p>
+<div class="highlight"><pre><span></span><span class="n">DELETE_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+
+
+<p>This will prevent Pelican from deleting the whole <code>output</code> directory, including
+the git repository initialized in the previous step, when building the
+production version of the site.</p>
+<p>Modify the <code>clean</code> function in Fabric's <code>fabfile.py</code> to not delete the <code>.git</code>
+directory:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Remove generated files&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">[:]:</span>
+            <span class="c1"># Do not recurse into this directory</span>
+            <span class="n">dirs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;.git&#39;</span><span class="p">:</span>
+                <span class="c1"># Do not remove .git/ directory</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Add the following <code>gh_pages</code> function (and its <code>publish</code> alias) to Fabric's
+<code>fabfile.py</code>:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fabric.contrib.console</span> <span class="kn">import</span> <span class="n">confirm</span>
+
+<span class="c1"># Get absolute path of project&#39;s root directory</span>
+<span class="n">env</span><span class="o">.</span><span class="n">project_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">real_fabfile</span><span class="p">)</span>
+<span class="c1"># Set absolute path of project&#39;s deploy directory</span>
+<span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">project_root</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">)</span>
+
+<span class="c1"># Github Pages configuration</span>
+<span class="n">env</span><span class="o">.</span><span class="n">github_pages_branch</span> <span class="o">=</span> <span class="s1">&#39;master&#39;</span>
+
+<span class="k">def</span> <span class="nf">gh_pages</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Publish to GitHub Pages&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">project_root</span><span class="p">):</span>
+        <span class="c1"># ensure the main git repository is clean</span>
+        <span class="n">main_git_unclean</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git status --untracked-files=no --porcelain&#39;</span><span class="p">,</span>
+                                 <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">main_git_unclean</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;The main git repository is not clean:&quot;</span><span class="p">,</span>
+                             <span class="n">main_git_unclean</span><span class="p">]))</span>
+        <span class="c1"># get main git repository&#39;s HEAD&#39;s sha checksum</span>
+        <span class="n">main_commit_sha</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git rev-parse --short HEAD&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
+        <span class="c1"># sync local GitHub Pages git repository with remote repository</span>
+        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git fetch origin {github_pages_branch}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
+        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git reset --hard origin/{github_pages_branch}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
+
+    <span class="n">clean</span><span class="p">()</span>
+    <span class="c1"># build a production version of the site</span>
+    <span class="n">preview</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
+        <span class="n">pages_git_unclean</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git status --porcelain&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pages_git_unclean</span><span class="p">:</span>
+            <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git add --all&#39;</span><span class="p">)</span>
+            <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git commit -m &quot;Build of source repo @ {}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">main_commit_sha</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Do you wish to publish the current version of the &quot;</span>
+                       <span class="s2">&quot;page to GitHub Pages?&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+                <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git push origin {github_pages_branch}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
+                <span class="n">commit_sha</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git rev-parse --short HEAD&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">puts</span><span class="p">(</span><span class="s2">&quot;Pushed commit {} to GitHub Pages&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">commit_sha</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># reset the git repo to the one on GitHub Pages</span>
+                <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git reset origin/master&#39;</span><span class="p">)</span>
+                <span class="n">puts</span><span class="p">(</span><span class="s2">&quot;Exiting on user request.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">puts</span><span class="p">(</span><span class="s2">&quot;Nothing has changed. Exiting.&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">publish</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Publish to GitHub Pages&quot;&quot;&quot;</span>
+    <span class="n">gh_pages</span><span class="p">()</span>
+</pre></div>
+
+
+<p>To publish the page, run:</p>
+<div class="highlight"><pre><span></span>fab publish
+</pre></div>
+
+
+<p>and answer <code>y</code> when prompted.</p>
+<p>Visit the page at https://<em>username</em>.github.io and share it with the World!</p>
+<h2>Setting up a custom domain</h2>
+<p>To use a custom domain with GitHub Pages, e.g. <code>blog.mysite.com</code>, one needs to
+add a <code>CNAME</code> file in the root of the generated site which tells GitHub Pages
+on which custom domain the site is hosted.</p>
+<p>The contents of the file should match the custom domain name. For the example
+custom domain above, one would create the file <code>content/extra/CNAME</code> with
+the following content:</p>
+<div class="highlight"><pre><span></span>blog.mysite.com
+</pre></div>
+
+
+<p>To instruct Pelican to copy the <code>CNAME</code> file to site's root, list it among
+site's static paths:</p>
+<div class="highlight"><pre><span></span><span class="n">STATIC_PATHS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="o">...</span> <span class="n">other</span> <span class="n">static</span> <span class="n">paths</span> <span class="o">...</span>
+    <span class="c1"># GitHub Pages custom domain</span>
+    <span class="s1">&#39;extra/CNAME&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+
+<p>and annotate it with extra path metadata:</p>
+<div class="highlight"><pre><span></span><span class="n">EXTRA_PATH_METADATA</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">...</span> <span class="n">other</span> <span class="n">extra</span> <span class="n">path</span> <span class="n">metadata</span> <span class="o">...</span>
+    <span class="s1">&#39;extra/CNAME&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;CNAME&#39;</span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Finally, change the value of <code>SITEURL</code> variable in <code>publishconf.py</code> to the
+custom domain's name and commit the changes:</p>
+<div class="highlight"><pre><span></span>git add content/extra/CNAME
+git commit -a -m &quot;Change site&#39;s URL to http://blog.mysite.com&quot;
+</pre></div>
+
+
+<p>Before we publish the new version of the site with a custom domain, we need
+to configure an appropriate DNS record with our DNS provider. The above example
+custom domain is a custom <strong>subdomain</strong>, so we need to set up a <code>CNAME</code> record
+with our DNS provider that points to <em>username</em>.github.io. Follow your DNS
+provider's instructions on how to do that.</p>
+<p>To confirm that the new DNS record is set up correctly, use the <code>dig</code> utility:</p>
+<div class="highlight"><pre><span></span>dig +nocmd +nostats +nocomments blog.mysite.com
+</pre></div>
+
+
+<p>and make sure the output is similar to:</p>
+<div class="highlight"><pre><span></span>;blog.mysite.com.               IN  A
+blog.mysite.com.        1747    IN  CNAME   username.github.io.
+username.github.io.     3547    IN  CNAME   github.map.fastly.net.
+github.map.fastly.net.  650     IN  CNAME   prod.github.map.fastlylb.net.
+prod.github.map.fastlylb.net. 17 IN A       151.101.12.133
+</pre></div>
+
+
+<p>If your custom domain is an apex domain (e.g. <code>mysite.com</code>), you will need
+to configure a different type of a DNS record. See <a href="https://help.github.com/articles/setting-up-an-apex-domain/">GitHub Pages's Help on
+Setting up an apex domain</a>.</p>
+<p>After DNS is properly configured, publish the updated site to GitHub Pages
+with:</p>
+<div class="highlight"><pre><span></span>fab publish
+</pre></div>
+
+
+<p>Visit the page at your custom domain!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, it is not possible to set up a custom domain with SSL support
+via GitHub Pages. For more information, see the <a href="https://github.com/isaacs/github/issues/156">issue report with a
+lengthy discussion</a>.</p>
+</div>
+<p>To see this implemented in practice, browse the
+<a href="https://github.com/tjanez/site/tree/5012f31">source repo of my Pelican site</a>.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://tadej.ja.nez.si/tag/pelican.html">pelican</a>
+      <a href="http://tadej.ja.nez.si/tag/python.html">python</a>
+      <a href="http://tadej.ja.nez.si/tag/fabric.html">fabric</a>
+      <a href="http://tadej.ja.nez.si/tag/github.html">github</a>
+      <a href="http://tadej.ja.nez.si/tag/site.html">site</a>
+    </p>
+  </div>
+</article>
+
+    <footer>
+        <p>&copy; Tadej Janež 2016</p>
+<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Tadej Janež ",
+  "url" : "http://tadej.ja.nez.si",
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "description": ""
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "Publishing a Pelican site to GitHub Pages using Fabric",
+  "headline": "Publishing a Pelican site to GitHub Pages using Fabric",
+  "datePublished": "2016-10-19 19:05:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Tadej Janež",
+    "url": "http://tadej.ja.nez.si/author/tadej-janez.html"
+  },
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "url": "http://tadej.ja.nez.si/publishing-to-github-pages.html",
+  "description": "In the previous blog post we looked at setting up a Pelican site with Python 3 and Fabric on Fedora 24. Now that we have a Pelican site up and running, I will show you how to publish it on GitHub Pages using a sleek Fabric task."
+}
+</script></body>
+</html>
