@@ -64,7 +64,20 @@
     <p>Posted on Sat 08 October 2016 in <a href="http://tadej.ja.nez.si/category/site.html">Site</a></p>
   </header>
   <div>
-    <p>According to <a href="https://www.staticgen.com/">StaticGen</a>, <a href="http://getpelican.com/">Pelican</a> is the most popular static site generator written in
+    <p><em>Update (December 6, 2016): Newer Fedora Pelican packages (
+<a href="http://koji.fedoraproject.org/koji/search?terms=python-pelican-3.6.3-6.fc24&amp;type=build&amp;match=glob">3.6.3-6.fc24</a>,
+<a href="http://koji.fedoraproject.org/koji/search?terms=python-pelican-3.6.3-6.fc25&amp;type=build&amp;match=glob">3.6.3-6.fc24</a>,
+<a href="http://koji.fedoraproject.org/koji/search?terms=python-pelican-3.6.3-6.fc26&amp;type=build&amp;match=glob">3.6.3-6.fc26</a>
+) <a href="https://pkgs.fedoraproject.org/cgit/rpms/python-pelican.git/commit/?id=998b43e24184da9293815a5b4e965d6d954cf1a2">changed naming of Python 3 Pelican executables</a> from
+<code>py3-&lt;command&gt;</code> to <code>&lt;command&gt;-3</code> so make sure to update to the latest Fedora
+Pelican packages and use the <code>&lt;command&gt;-3</code> syntax.</em></p>
+<p><em>Update (October 19, 2016):
+The <a href="http://tadej.ja.nez.si/publishing-to-github-pages.html">follow-up blog post</a> on
+publishing your site to GitHub Pages with a sleek Fabric task has been
+published.</em></p>
+
+
+<p>According to <a href="https://www.staticgen.com/">StaticGen</a>, <a href="http://getpelican.com/">Pelican</a> is the most popular static site generator written in
 <a href="https://www.python.org/">Python</a>. As of Oct 10, 2016 it has
 <a href="https://github.com/getpelican/pelican">6168 stars on GitHub</a>.</p>
 <p>In this blog post, I'll show you how to create your own Pelican site, track
@@ -90,13 +103,13 @@ cd my-site
 </pre></div>
 
 
-<p>To setup a Pelican skeleton for the site, run <code>py3-pelican-quickstart</code> and
+<p>To setup a Pelican skeleton for the site, run <code>pelican-quickstart-3</code> and
 answer the questions. If you are unsure, you can safely accept the default
 answer.</p>
 <p>Before initializing the git repository, clean up the generated skeleton.
 Remove the <code>Makefile</code> and edit <code>fabfile.py</code> to remove the unnecessary
 functionality and make it work with Python 3 version of Pelican.</p>
-<p>All <code>pelican</code> commands need to be replaced with <code>py3-pelican</code>. In addition,
+<p>All <code>pelican</code> commands need to be replaced with <code>pelican-3</code>. In addition,
 the <code>serve()</code> function needs to be rewritten since it tries to directly import
 the Python 2 version of <code>pelican.server</code> which is not available. You can also
 safely remove the parts connected with Rackspace Cloud Files, rsync publishing
@@ -122,7 +135,7 @@ for it in a follow-up blog post).</p>
 
 <span class="k">def</span> <span class="nf">build</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Build local version of site&quot;&quot;&quot;</span>
-    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;py3-pelican -s pelicanconf.py&#39;</span><span class="p">)</span>
+    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;pelican-3 -s pelicanconf.py&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">rebuild</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;`clean`, then `build`&quot;&quot;&quot;</span>
@@ -131,7 +144,7 @@ for it in a follow-up blog post).</p>
 
 <span class="k">def</span> <span class="nf">regenerate</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Automatically regenerate site upon file modification&quot;&quot;&quot;</span>
-    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;py3-pelican -r -s pelicanconf.py&#39;</span><span class="p">)</span>
+    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;pelican-3 -r -s pelicanconf.py&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">serve</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Serve site at http://localhost:PORT/&quot;&quot;&quot;</span>
@@ -145,7 +158,7 @@ for it in a follow-up blog post).</p>
 
 <span class="k">def</span> <span class="nf">preview</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Build production version of site&quot;&quot;&quot;</span>
-    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;py3-pelican -s publishconf.py&#39;</span><span class="p">)</span>
+    <span class="n">local</span><span class="p">(</span><span class="s1">&#39;pelican-3 -s publishconf.py&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -302,10 +315,6 @@ really serve its purpose if its only available on your local computer, does it?<
 site to <a href="https://pages.github.com/">GitHub Pages</a> with a sleek Fabric task to
 do it automatically. Stay tuned!</p>
 <p>Meanwhile, you can also browse the <a href="https://github.com/tjanez/site">source repo of my Pelican site</a>.</p>
-<p><em>Update (October 19, 2016):
-The <a href="http://tadej.ja.nez.si/publishing-to-github-pages.html">follow-up blog post</a> on
-publishing your site to GitHub Pages with a sleek Fabric task has been
-published.</em></p>
   </div>
   <div class="tag-cloud">
     <p>
