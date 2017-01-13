@@ -51,6 +51,28 @@
 
 <article>
   <header>
+    <h2><a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#dont-mix-yum-dnf-and-pip">Don't mix yum/dnf and pip for installation of system-wide Python packages</a></h2>
+    <p>
+      Posted on Fri 13 January 2017 in <a href="http://tadej.ja.nez.si/category/python.html">Python</a>
+      &#8226; Tagged with
+      <a href="http://tadej.ja.nez.si/tag/yum.html">yum</a>,      <a href="http://tadej.ja.nez.si/tag/dnf.html">dnf</a>,      <a href="http://tadej.ja.nez.si/tag/pip.html">pip</a>,      <a href="http://tadej.ja.nez.si/tag/python.html">python</a>,      <a href="http://tadej.ja.nez.si/tag/packaging.html">packaging</a>,      <a href="http://tadej.ja.nez.si/tag/virtualenv.html">virtualenv</a>,      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>,      <a href="http://tadej.ja.nez.si/tag/centos.html">centos</a>,      <a href="http://tadej.ja.nez.si/tag/rhel.html">rhel</a>    </p>
+  </header>
+  <div>
+      <p>Too many times I've seen people using a mix of <a href="http://yum.baseurl.org/">yum</a>/
+<a href="http://dnf.baseurl.org/">dnf</a> and <a href="https://pip.pypa.io/">pip</a> for
+installation of system-wide Python packages This causes <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip">all sorts of problems
+</a>.</p>
+<p><strong>TL; DR</strong> <em>Install system-wide Python packages with yum/dnf and only use pip
+inside a <a href="https://virtualenv.pypa.io/">virtual environment</a>. For an example,
+see my <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible snippet below
+</a>.</em></p>
+
+      <a class="btn" href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#dont-mix-yum-dnf-and-pip">Continue reading</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
     <h2><a href="http://tadej.ja.nez.si/publishing-to-github-pages.html#publishing-to-github-pages">Publishing a Pelican site to GitHub Pages using Fabric</a></h2>
     <p>
       Posted on Wed 19 October 2016 in <a href="http://tadej.ja.nez.si/category/site.html">Site</a>
@@ -93,7 +115,7 @@ finally, create a Hello World blog post.</p>
   </div>
 
     <footer>
-        <p>&copy; Tadej Janež 2016</p>
+        <p>&copy; Tadej Janež 2016-2017</p>
 <p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 

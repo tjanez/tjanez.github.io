@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
+
+    <link href="http://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Tadej Janež" />
+<meta name="description" content="Too many times I've seen people using a mix of yum/ dnf and pip for installation of system-wide Python packages This causes all sorts of problems . TL; DR Install system-wide Python packages with yum/dnf and only use pip inside a virtual environment. For an example, see my Ansible snippet below ." />
+<meta name="keywords" content="yum, dnf, pip, python, packaging, virtualenv, fedora, centos, rhel">
+<meta property="og:site_name" content="Tadej Janež"/>
+<meta property="og:title" content="Don't mix yum/dnf and pip for installation of system-wide Python packages"/>
+<meta property="og:description" content="Too many times I've seen people using a mix of yum/ dnf and pip for installation of system-wide Python packages This causes all sorts of problems . TL; DR Install system-wide Python packages with yum/dnf and only use pip inside a virtual environment. For an example, see my Ansible snippet below ."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-01-13 11:43:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://tadej.ja.nez.si/author/tadej-janez.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="yum"/>
+<meta property="article:tag" content="dnf"/>
+<meta property="article:tag" content="pip"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="packaging"/>
+<meta property="article:tag" content="virtualenv"/>
+<meta property="article:tag" content="fedora"/>
+<meta property="article:tag" content="centos"/>
+<meta property="article:tag" content="rhel"/>
+<meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+  <title>Tadej Janež &ndash; Don't mix yum/dnf and pip for installation of system-wide Python packages</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://tadej.ja.nez.si">
+        <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
+      </a>
+      <h1><a href="http://tadej.ja.nez.si">Tadej Janež</a></h1>
+<p>DevOps Engineer</p>      <ul class="social">
+        <li><a class="sc-github" href="https://github.com/tjanez" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/TadejJanez" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-rss" href="//tadej.ja.nez.si/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <h1 id="dont-mix-yum-dnf-and-pip">Don't mix yum/dnf and pip for installation of system-wide Python packages</h1>
+    <p>Posted on Fri 13 January 2017 in <a href="http://tadej.ja.nez.si/category/python.html">Python</a></p>
+  </header>
+  <div>
+    <p>Too many times I've seen people using a mix of <a href="http://yum.baseurl.org/">yum</a>/
+<a href="http://dnf.baseurl.org/">dnf</a> and <a href="https://pip.pypa.io/">pip</a> for
+installation of system-wide Python packages This causes <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip">all sorts of problems
+</a>.</p>
+<p><strong>TL; DR</strong> <em>Install system-wide Python packages with yum/dnf and only use pip
+inside a <a href="https://virtualenv.pypa.io/">virtual environment</a>. For an example,
+see my <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible snippet below
+</a>.</em></p>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I'll use <a href="https://www.centos.org/">CentOS</a> 7 for the examples, but the
+concepts apply to all current <a href="https://getfedora.org/">Fedora</a> and
+CentOS/<a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">RHEL</a>
+distributions.</p>
+</div>
+<h2 id="problems-with-mixing-yumdnf-and-pip">Problems with mixing yum/dnf and pip</h2>
+<p>People usually install the <code>python2-pip</code> package to boot-strap installation of
+pip on their systems:</p>
+<div class="highlight"><pre><span></span>sudo yum -y install epel-release
+sudo yum -y install python2-pip
+</pre></div>
+
+
+<p>At the time of writing, this will install pip 8.1.2 on the system, while the
+latest pip version is 9.0.1.
+A user will soon notice that on each run of the <code>pip</code> command the following
+message is shown:</p>
+<div class="highlight"><pre><span></span>You are using pip version 8.1.2, however version 9.0.1 is available.
+You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.
+</pre></div>
+
+
+<p>Naively, he will upgrade pip with:</p>
+<div class="highlight"><pre><span></span>sudo pip install --upgrade pip
+</pre></div>
+
+
+<p>which will replace the previous pip installation in system locations (e.g.
+<code>/usr/bin</code>, <code>/usr/lib/python2.7/site-packages/pip</code>, ...) with the new pip
+version.</p>
+<p>The problem is that this will leave <a href="http://rpm.org/">RPM</a> with no clue as to
+what is going on. If you run <code>rpm --verify python2-pip</code> it will show that
+everything is broken:</p>
+<div class="highlight"><pre><span></span>S.5....T.    /usr/bin/pip
+S.5....T.    /usr/bin/pip2
+S.5....T.    /usr/bin/pip2.7
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/PKG-INFO
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/SOURCES.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/dependency_links.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/entry_points.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/not-zip-safe
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/requires.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/top_level.txt
+S.5....T.    /usr/lib/python2.7/site-packages/pip/__init__.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/__init__.pyc
+missing     /usr/lib/python2.7/site-packages/pip/__init__.pyo
+.......T.    /usr/lib/python2.7/site-packages/pip/__main__.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/__main__.pyc
+missing     /usr/lib/python2.7/site-packages/pip/__main__.pyo
+
+<span class="o">[</span> ... output trimmed ... <span class="o">]</span>
+
+S.5....T.    /usr/lib/python2.7/site-packages/pip/vcs/subversion.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/vcs/subversion.pyc
+missing     /usr/lib/python2.7/site-packages/pip/vcs/subversion.pyo
+S.5....T.    /usr/lib/python2.7/site-packages/pip/wheel.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/wheel.pyc
+missing     /usr/lib/python2.7/site-packages/pip/wheel.pyo
+</pre></div>
+
+
+<p>Furthermore, when a new version of the <code>python2-pip</code> becomes available, yum
+upgrade will complain about not being able to find some files and directories.</p>
+<p>For example, on upgrade from <code>python-pip-7.1.0-1.el7</code> to
+<code>python2-pip-8.1.2-5.el7</code> when pip was upgraded with pip in-between, yum
+upgrade gives the following warnings:</p>
+<div class="highlight"><pre><span></span>warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyo: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyc: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.py: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyo: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyc: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.py: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/top_level.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/requires.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/pbr.json: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/not-zip-safe: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/entry_points.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/dependency_links.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/SOURCES.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/PKG-INFO: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info: remove failed: No such file or directory
+</pre></div>
+
+
+<h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf">Proper way to to use pip without mixing it with yum/dnf</h2>
+<p>The solution is to limit pip's use to installation of Python packages inside a
+Python virtual environment.</p>
+<p>First install the <code>python-virtualenv</code> package with yum/dnf:</p>
+<div class="highlight"><pre><span></span>sudo yum -y install python-virtualenv
+</pre></div>
+
+
+<p>Then use it to create and activate a new virtual environment:</p>
+<div class="highlight"><pre><span></span>virtualenv myvenv
+source myvenv/bin/activate
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At the time of writing, CentOS 7's system-installed virtualenv package is
+very old (1.10.1) and creates a virtual environment with very old pip
+(1.4.1) and setuptools (0.9.8) packages. Hence, it is recommended to update
+them separately, before installation of other things in the virtual
+environment with:</p>
+<div class="highlight"><pre><span></span>pip install -U pip setuptools
+</pre></div>
+
+
+</div>
+<p>Then install whichever Python package you want inside the Python virtual
+environment.</p>
+<h3 id="tip-dont-install-the-system-pip-package">Tip: Don't install the system pip package</h3>
+<p>To avoid mistakenly using pip outside a virtual environment, don't install
+the pip system package (e.g. <code>python2-pip</code>).</p>
+<p>This way, <code>pip</code> executable will only be available after you activate the chosen
+virtual environment, which limits mistakes with using the system-wide pip to
+the minimum.</p>
+<h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible playbook for installation of packages inside a virtual environment</h2>
+<p>If you need to automate installation of <code>python-virtualenv</code> system package and
+creation of a Python virtual environment for installation of project's
+requirements inside this virtual environment, you can use the following
+<a href="https://www.ansible.com/">Ansible</a> playbook:</p>
+<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Playbook for installation of packages inside a virtual environment</span>
+  <span class="l l-Scalar l-Scalar-Plain">hosts</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">all</span>
+  <span class="l l-Scalar l-Scalar-Plain">become</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">vars</span><span class="p p-Indicator">:</span>
+    <span class="c1"># adjust these variables to your project&#39;s needs</span>
+    <span class="l l-Scalar l-Scalar-Plain">venv_path</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/myvenv/</span>
+    <span class="l l-Scalar l-Scalar-Plain">requirements</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">requests</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">simplejson</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">six</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">tasks</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install python-virtualenv package</span>
+      <span class="l l-Scalar l-Scalar-Plain">package</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">name=python-virtualenv state=installed</span>
+
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Create virtual environment with up-to-date pip and setuptools</span>
+      <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
+        <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span>
+          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip</span>
+          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">setuptools</span>
+        <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project&#39;s requirements in virtual environement</span>
+      <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
+        <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">}}&quot;</span>
+        <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to a <a href="https://github.com/ansible/ansible-modules-core/issues/5347">bug in Ansible's <code>pip</code> module</a> which causes
+Ansible to use system-installed <code>pip2</code> executable and ignore the <code>pip</code>
+executable installed inside the virtual environment, you must use at least
+<a href="https://releases.ansible.com/ansible/ansible-2.2.1.0-0.3.rc3.tar.gz">version 2.2.1 RC3</a> which
+fixes the bug.</p>
+</div>
+<p>If your project's requirements are not pure Python packages, but also include
+packages with <a href="https://docs.python.org/3/extending/index.html">C/C++ extensions</a>, they'll need to be built as
+part of the installation process. Therefore, you'll need to have at least <code>gcc</code>
+and <code>python-devel</code> packages installed. You can use the following Ansible task
+to achieve that:</p>
+<div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project&#39;s building prerequisites</span>
+      <span class="l l-Scalar l-Scalar-Plain">package</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">name={{ item }} state=installed</span>
+      <span class="l l-Scalar l-Scalar-Plain">with_items</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gcc</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">python-devel</span>
+        <span class="c1"># add other packages required to build your project&#39;s requirements</span>
+</pre></div>
+
+
+<p>Put it before the <em>Install project's requirements in virtual environement</em>
+task.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://tadej.ja.nez.si/tag/yum.html">yum</a>
+      <a href="http://tadej.ja.nez.si/tag/dnf.html">dnf</a>
+      <a href="http://tadej.ja.nez.si/tag/pip.html">pip</a>
+      <a href="http://tadej.ja.nez.si/tag/python.html">python</a>
+      <a href="http://tadej.ja.nez.si/tag/packaging.html">packaging</a>
+      <a href="http://tadej.ja.nez.si/tag/virtualenv.html">virtualenv</a>
+      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>
+      <a href="http://tadej.ja.nez.si/tag/centos.html">centos</a>
+      <a href="http://tadej.ja.nez.si/tag/rhel.html">rhel</a>
+    </p>
+  </div>
+</article>
+
+    <footer>
+        <p>&copy; Tadej Janež 2016-2017</p>
+<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85987058-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Tadej Janež ",
+  "url" : "http://tadej.ja.nez.si",
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "description": ""
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "Don't mix yum/dnf and pip for installation of system-wide Python packages",
+  "headline": "Don't mix yum/dnf and pip for installation of system-wide Python packages",
+  "datePublished": "2017-01-13 11:43:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Tadej Janež",
+    "url": "http://tadej.ja.nez.si/author/tadej-janez.html"
+  },
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "url": "http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html",
+  "description": "Too many times I've seen people using a mix of yum/ dnf and pip for installation of system-wide Python packages This causes all sorts of problems . TL; DR Install system-wide Python packages with yum/dnf and only use pip inside a virtual environment. For an example, see my Ansible snippet below ."
+}
+</script></body>
+</html>

@@ -31,7 +31,7 @@
 <meta property="og:url" content="http://tadej.ja.nez.si"/>
 <meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
 
-  <title>Tadej Janež &ndash; Archives</title>
+  <title>Tadej Janež &ndash; Tag: centos</title>
 </head>
 <body>
   <aside>
@@ -51,21 +51,28 @@
 
 <article>
   <header>
-    <h1>Archives</h1>
+    <h2><a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#dont-mix-yum-dnf-and-pip">Don't mix yum/dnf and pip for installation of system-wide Python packages</a></h2>
+    <p>
+      Posted on Fri 13 January 2017 in <a href="http://tadej.ja.nez.si/category/python.html">Python</a>
+      &#8226; Tagged with
+      <a href="http://tadej.ja.nez.si/tag/yum.html">yum</a>,      <a href="http://tadej.ja.nez.si/tag/dnf.html">dnf</a>,      <a href="http://tadej.ja.nez.si/tag/pip.html">pip</a>,      <a href="http://tadej.ja.nez.si/tag/python.html">python</a>,      <a href="http://tadej.ja.nez.si/tag/packaging.html">packaging</a>,      <a href="http://tadej.ja.nez.si/tag/virtualenv.html">virtualenv</a>,      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>,      <a href="http://tadej.ja.nez.si/tag/centos.html">centos</a>,      <a href="http://tadej.ja.nez.si/tag/rhel.html">rhel</a>    </p>
   </header>
   <div>
-    <dl>
-      <dt>Fri 13 January 2017</dt>
-      <dd><a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html">Don't mix yum/dnf and pip for installation of system-wide Python packages</a></dd>
-      <dt>Wed 19 October 2016</dt>
-      <dd><a href="http://tadej.ja.nez.si/publishing-to-github-pages.html">Publishing a Pelican site to GitHub Pages using Fabric</a></dd>
-      <dt>Sat 08 October 2016</dt>
-      <dd><a href="http://tadej.ja.nez.si/setting-up-pelican-site.html">Setting up a Pelican site with Python 3 and Fabric on Fedora 24</a></dd>
-      <dt>Thu 06 October 2016</dt>
-      <dd><a href="http://tadej.ja.nez.si/hello-world.html">Hello, World!</a></dd>
-    </dl>
+      <p>Too many times I've seen people using a mix of <a href="http://yum.baseurl.org/">yum</a>/
+<a href="http://dnf.baseurl.org/">dnf</a> and <a href="https://pip.pypa.io/">pip</a> for
+installation of system-wide Python packages This causes <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip">all sorts of problems
+</a>.</p>
+<p><strong>TL; DR</strong> <em>Install system-wide Python packages with yum/dnf and only use pip
+inside a <a href="https://virtualenv.pypa.io/">virtual environment</a>. For an example,
+see my <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible snippet below
+</a>.</em></p>
+
+      <a class="btn" href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#dont-mix-yum-dnf-and-pip">Continue reading</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
 
     <footer>
         <p>&copy; Tadej Janež 2016-2017</p>

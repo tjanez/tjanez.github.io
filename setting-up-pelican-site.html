@@ -85,7 +85,7 @@ it in a <a href="https://git-scm.com/">git</a> repository, use <a href="http://w
 finally, create a Hello World blog post.</p>
 
 
-<h2>Installing prerequisites</h2>
+<h2 id="installing-prerequisites">Installing prerequisites</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This example uses a vanilla <a href="https://getfedora.org/en/cloud/">Fedora 24 Cloud</a> system.</p>
@@ -96,7 +96,7 @@ finally, create a Hello World blog post.</p>
 </pre></div>
 
 
-<h2>Creating a git repository for the site</h2>
+<h2 id="creating-a-git-repository-for-the-site">Creating a git repository for the site</h2>
 <p>Create a directory for the site:</p>
 <div class="highlight"><pre><span></span>mkdir my-site
 cd my-site
@@ -203,7 +203,7 @@ git commit -m &quot;Add .gitignore&quot;
 </pre></div>
 
 
-<h2>Administering the site with Fabric</h2>
+<h2 id="administering-the-site-with-fabric">Administering the site with Fabric</h2>
 <p>Fabric is a Python library and a command-line tool for automating deployment
 and system administration tasks. By default, it looks for a <code>fabfile.py</code> file
 where one can define Fabric's tasks. See the <code>fabfile.py</code> code listing above
@@ -233,7 +233,7 @@ fab serve
 </pre></div>
 
 
-<h2>Changing site's default theme</h2>
+<h2 id="changing-sites-default-theme">Changing site's default theme</h2>
 <p>Frankly speaking, the default Pelican theme looks dated nowadays, so you'll
 want to change it sooner rather than later.
 Take a look at the <a href="http://www.pelicanthemes.com/">Pelican Themes site</a> and
@@ -285,7 +285,7 @@ To use it for your own site, <a href="https://www.libravatar.org/account/new/">c
 </pre></div>
 
 
-<h2>Creating a Hello World blog post</h2>
+<h2 id="creating-a-hello-world-blog-post">Creating a Hello World blog post</h2>
 <p>To create your first blog post, create a Markdown file in the <code>content</code>
 directory with the following content:</p>
 <div class="highlight"><pre><span></span><span class="n">Title</span><span class="o">:</span> <span class="n">Hello</span><span class="o">,</span> <span class="n">World</span><span class="o">!</span>
@@ -308,7 +308,7 @@ git commit -m &quot;Add Hello World blog post&quot;
 </pre></div>
 
 
-<h2>Next steps</h2>
+<h2 id="next-steps">Next steps</h2>
 <p>You have successfully completed setting up a Pelican site. But the site doesn't
 really serve its purpose if its only available on your local computer, does it?</p>
 <p>I plan to write a follow-up blog post that will show you how to publish your
@@ -328,7 +328,7 @@ do it automatically. Stay tuned!</p>
 </article>
 
     <footer>
-        <p>&copy; Tadej Janež 2016</p>
+        <p>&copy; Tadej Janež 2016-2017</p>
 <p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 
