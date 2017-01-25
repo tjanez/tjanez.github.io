@@ -68,7 +68,14 @@
     <p>Posted on Fri 13 January 2017 in <a href="http://tadej.ja.nez.si/category/python.html">Python</a></p>
   </header>
   <div>
-    <p>Too many times I've seen people using a mix of <a href="http://yum.baseurl.org/">yum</a>/
+    <p><em>Update (January 25, 2017): Updated <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf">instructions on preparing the Python
+virtual environment to work with setuptools 34+ on CentOS/RHEL 7</a>.
+Also updated <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">the Ansible playbook</a>
+to skip seperately updating pip and setuptools upon creation of a new virtual
+environment on Fedora.</em></p>
+
+
+<p>Too many times I've seen people using a mix of <a href="http://yum.baseurl.org/">yum</a>/
 <a href="http://dnf.baseurl.org/">dnf</a> and <a href="https://pip.pypa.io/">pip</a> for
 installation of system-wide Python packages This causes <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip">all sorts of problems
 </a>.</p>
@@ -182,15 +189,23 @@ source myvenv/bin/activate
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>At the time of writing, CentOS 7's system-installed virtualenv package is
-very old (1.10.1) and creates a virtual environment with very old pip
-(1.4.1) and setuptools (0.9.8) packages. Hence, it is recommended to update
-them separately, before installation of other things in the virtual
-environment with:</p>
-<div class="highlight"><pre><span></span>pip install -U pip setuptools
+<p>At the time of writing, CentOS/RHEL 7's system-installed virtualenv package
+is very old (1.10.1) and creates a virtual environment with very old pip
+(1.4.1) and <a href="https://setuptools.readthedocs.io/">setuptools</a> (0.9.8)
+packages. Hence, it is recommended to update them separately, before
+installation of other things in the virtual environment.</p>
+<p>Since <a href="https://setuptools.readthedocs.io/en/latest/history.html#v34-0-0">setuptools version 34</a>,
+setuptools package no longer bundles its requirements and relies on
+installing whell distributions of its requirements. To install these
+wheels, it needs a newer version pip, hence pip needs to be updated
+separately before setuptools:</p>
+<div class="highlight"><pre><span></span>pip install -U pip
+pip install -U setuptools
 </pre></div>
 
 
+<p>A complete Ansible playbook for proper creation of a Python virtual
+environment is provided <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">later</a>.</p>
 </div>
 <p>Then install whichever Python package you want inside the Python virtual
 environment.</p>
@@ -221,13 +236,23 @@ requirements inside this virtual environment, you can use the following
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install python-virtualenv package</span>
       <span class="l l-Scalar l-Scalar-Plain">package</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">name=python-virtualenv state=installed</span>
 
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Create virtual environment with up-to-date pip and setuptools</span>
-      <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
-        <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
-        <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span>
-          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip</span>
-          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">setuptools</span>
-        <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">block</span><span class="p p-Indicator">:</span>
+
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Create virtual environment with up-to-date pip</span>
+        <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
+          <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
+          <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">pip</span>
+          <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Update virtual environment&#39;s setuptools</span>
+        <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
+          <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
+          <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">setuptools</span>
+          <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+
+      <span class="l l-Scalar l-Scalar-Plain">when</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ansible_distribution in [&quot;CentOS&quot;, &quot;RedHat&quot;]</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ansible_distribution_major_version | int == 7</span>
 
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project&#39;s requirements in virtual environement</span>
       <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
@@ -245,17 +270,25 @@ executable installed inside the virtual environment, you must use at least
 <a href="https://releases.ansible.com/ansible/ansible-2.2.1.0-0.3.rc3.tar.gz">version 2.2.1 RC3</a> which
 fixes the bug.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Fedora comes with <a href="https://apps.fedoraproject.org/packages/python-virtualenv">virtualenv 14.0.1+</a> which
+<a href="http://virtualenv.readthedocs.io/en/stable/changes/#id11">automatically downloads new releases of pip, setuptools, wheel and their
+requirements from PyPI</a>, therefore there
+is no need to update them separately before installing project's
+requirements in virtual environment.</p>
+</div>
 <p>If your project's requirements are not pure Python packages, but also include
 packages with <a href="https://docs.python.org/3/extending/index.html">C/C++ extensions</a>, they'll need to be built as
 part of the installation process. Therefore, you'll need to have at least <code>gcc</code>
 and <code>python-devel</code> packages installed. You can use the following Ansible task
 to achieve that:</p>
-<div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project&#39;s building prerequisites</span>
-      <span class="l l-Scalar l-Scalar-Plain">package</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">name={{ item }} state=installed</span>
-      <span class="l l-Scalar l-Scalar-Plain">with_items</span><span class="p p-Indicator">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gcc</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">python-devel</span>
-        <span class="c1"># add other packages required to build your project&#39;s requirements</span>
+<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project&#39;s building prerequisites</span>
+  <span class="l l-Scalar l-Scalar-Plain">package</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">name={{ item }} state=installed</span>
+  <span class="l l-Scalar l-Scalar-Plain">with_items</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gcc</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">python-devel</span>
+    <span class="c1"># add other packages required to build your project&#39;s requirements</span>
 </pre></div>
 
 
