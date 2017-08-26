@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - Android</title><link rel="alternate" href="http://tadej.ja.nez.si/"></link><link rel="self" href="http://tadej.ja.nez.si/feeds/category-android.atom.xml"></link><id>http://tadej.ja.nez.si/</id><updated>2017-07-30T12:28:00+02:00</updated><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="http://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html/</id><summary type="html">
+
+&lt;p&gt;Recently I had to clone my &lt;a href="https://en.wikipedia.org/wiki/Nexus_4"&gt;Nexus 4&lt;/a&gt; to
+another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
+&lt;p&gt;At first, the task seemed quite straight-forward. Install the latest version of
+&lt;a href="https://twrp.me/"&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;&lt;/a&gt;'s recovery on the phone, backup all partitions using
+&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;, transfer them to the other device and restore them.&lt;/p&gt;
+&lt;p&gt;But thing are never as easy as them seem, are they?&lt;/p&gt;
+</summary><category term="android"></category><category term="backup"></category><category term="twrp"></category><category term="adb"></category><category term="benchmark"></category></entry></feed>

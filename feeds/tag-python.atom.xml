@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - python</title><link rel="alternate" href="http://tadej.ja.nez.si/"></link><link rel="self" href="http://tadej.ja.nez.si/feeds/tag-python.atom.xml"></link><id>http://tadej.ja.nez.si/</id><updated>2017-01-13T11:43:00+01:00</updated><entry><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html" rel="alternate"></link><published>2017-01-13T11:43:00+01:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html/</id><summary type="html">
+
+&lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
+&lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
+installation of system-wide Python packages This causes &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
+&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TL; DR&lt;/strong&gt; &lt;em&gt;Install system-wide Python packages with yum/dnf and only use pip
+inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
+see my &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
+&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+</summary><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="http://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html/</id><summary type="html">&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
+it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
+</summary><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="http://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html/</id><summary type="html">
+
+&lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
+&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;. As of Oct 10, 2016 it has
+&lt;a href="https://github.com/getpelican/pelican"&gt;6168 stars on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this blog post, I'll show you how to create your own Pelican site, track
+it in a &lt;a href="https://git-scm.com/"&gt;git&lt;/a&gt; repository, use &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; to administer it, change site's default theme and
+finally, create a Hello World blog post.&lt;/p&gt;
+</summary><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry></feed>
