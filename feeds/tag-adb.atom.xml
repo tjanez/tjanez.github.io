@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - adb</title><link rel="alternate" href="http://tadej.ja.nez.si/"></link><link rel="self" href="http://tadej.ja.nez.si/feeds/tag-adb.atom.xml"></link><id>http://tadej.ja.nez.si/</id><updated>2017-07-30T12:28:00+02:00</updated><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="http://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html/</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - adb</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-adb.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-07-30T12:28:00+02:00</updated><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="http://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><updated>2017-07-30T12:28:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</id><summary type="html">
 
 &lt;p&gt;Recently I had to clone my &lt;a href="https://en.wikipedia.org/wiki/Nexus_4"&gt;Nexus 4&lt;/a&gt; to
 another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
@@ -7,4 +7,214 @@ another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
 &lt;a href="https://twrp.me/"&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;&lt;/a&gt;'s recovery on the phone, backup all partitions using
 &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;, transfer them to the other device and restore them.&lt;/p&gt;
 &lt;p&gt;But thing are never as easy as them seem, are they?&lt;/p&gt;
-</summary><category term="android"></category><category term="backup"></category><category term="twrp"></category><category term="adb"></category><category term="benchmark"></category></entry></feed>
+</summary><content type="html">
+
+&lt;p&gt;Recently I had to clone my &lt;a href="https://en.wikipedia.org/wiki/Nexus_4"&gt;Nexus 4&lt;/a&gt; to
+another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
+&lt;p&gt;At first, the task seemed quite straight-forward. Install the latest version of
+&lt;a href="https://twrp.me/"&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;&lt;/a&gt;'s recovery on the phone, backup all partitions using
+&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;, transfer them to the other device and restore them.&lt;/p&gt;
+&lt;p&gt;But thing are never as easy as them seem, are they?&lt;/p&gt;
+
+
+&lt;h2 id="problems-with-the-straight-forward-approach"&gt;Problems with the straight-forward approach&lt;/h2&gt;
+&lt;p&gt;It turns out that &lt;strong&gt;creating&lt;/strong&gt; a &lt;strong&gt;backup of&lt;/strong&gt; the &lt;strong&gt;user data partition&lt;/strong&gt;
+using &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; &lt;strong&gt;will NOT include &lt;code&gt;/data/media&lt;/code&gt;&lt;/strong&gt; (i.e. your &lt;strong&gt;internal storage&lt;/strong&gt;).
+That means if you save photos or data on the internal storage (some apps will
+save data there as well), they will be not included in a &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; backup.&lt;/p&gt;
+&lt;p&gt;This is &lt;a href="https://twrp.me/faq/backupexclusions.html"&gt;explained in &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;'s FAQ&lt;/a&gt;
+and &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;'s owner also &lt;a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/276#issuecomment-239172861"&gt;explained why they exclude &lt;code&gt;/data/media&lt;/code&gt; from the backup
+&lt;/a&gt;
+in a &lt;a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/276"&gt;heatedly debated GitHub issue on (not) excluding &lt;code&gt;/data/media&lt;/code&gt; from
+&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;'s backups&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There is even an &lt;a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/176"&gt;old open issue on GitHub&lt;/a&gt; that asks for
+an implementation of an option to backup &lt;code&gt;/data/media&lt;/code&gt; using &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;, but there has
+been no updates since Apr 15, 2015 (as of writing this blog post).&lt;/p&gt;
+&lt;h2 id="simple-command-line-solution-using-adb-and-tar"&gt;Simple command-line solution using &lt;code&gt;adb&lt;/code&gt; and &lt;code&gt;tar&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Browsing the internet for a solution, I found a &lt;a href="https://forum.xda-developers.com/android/software-hacking/how-to-backup-compressed-data-android-t3464777"&gt;nice thread on XDA-developers&lt;/a&gt;
+explaining how to backup data from an Android device booted into &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; to a
+computer.&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;trick&lt;/em&gt; is to use &lt;a href="https://android.googlesource.com/platform/system/core/+/5d9d434efadf1c535c7fea634d5306e18c68ef1f"&gt;&lt;code&gt;adb exec-out&lt;/code&gt; command&lt;/a&gt;
+, an undocumented &lt;a href="https://developer.android.com/studio/command-line/adb.html"&gt;&lt;code&gt;adb&lt;/code&gt; command&lt;/a&gt; that works like
+&lt;code&gt;adb shell&lt;/code&gt; but without creating a pseudoterminal (&lt;code&gt;pty&lt;/code&gt;), which would
+otherwise mangle binary data.&lt;/p&gt;
+&lt;p&gt;To backup &lt;code&gt;/data/media&lt;/code&gt; (i.e. internal storage), first reboot your phone into
+&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; recovery.&lt;/p&gt;
+&lt;p&gt;Then execute the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb exec-out &lt;span class="s1"&gt;&amp;#39;tar --create --exclude=data/media/0/TWRP \&lt;/span&gt;
+&lt;span class="s1"&gt;  data/media/0 2&amp;gt;/backup-errors.txt | \&lt;/span&gt;
+&lt;span class="s1"&gt;  gzip&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+dd &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;backup-name&amp;gt;-&lt;span class="k"&gt;$(&lt;/span&gt;date +%Y%m%d&lt;span class="k"&gt;)&lt;/span&gt;.tar.gz &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+adb shell cat /backup-errors.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;replacing &lt;code&gt;&amp;lt;backup-name&amp;gt;&lt;/code&gt; with your desired backup name, e.g.
+&lt;code&gt;tadej-nexus4-sdcard_backup&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="which-compression-algorithm-to-use"&gt;Which compression algorithm to use?&lt;/h2&gt;
+&lt;p&gt;A natural question that comes to mind is, which compression algorithm would
+perform best in an overall sense, i.e. with respect to compression ratio and
+the time it takes to create and transfer the archive.&lt;/p&gt;
+&lt;p&gt;Since we are just piping the (compressed) tar archive from the phone to the
+computer, we can easily swap between creating the compressed archive on the
+phone or on the computer. Compressing the archive on the computer would
+not help reducing backup time if the bandwidth is the limit, but it may help
+reducing the backup size.
+On the other hand, if compression on the phone is CPU-bound, then performing
+the compression on the computer will help reduce the backup time.&lt;/p&gt;
+&lt;p&gt;The variant of the command that compresses files on the computer is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb exec-out &lt;span class="s1"&gt;&amp;#39;tar --create --exclude=data/media/0/TWRP \&lt;/span&gt;
+&lt;span class="s1"&gt;  data/media/0 2&amp;gt;/backup-errors.txt&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&amp;lt;compression-command&amp;gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+dd &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;backup-name&amp;gt;-&lt;span class="k"&gt;$(&lt;/span&gt;date +%Y%m%d&lt;span class="k"&gt;)&lt;/span&gt;.tar.&amp;lt;compression-extension&amp;gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+adb shell cat /backup-errors.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;where &lt;code&gt;&amp;lt;compression-command&amp;gt;&lt;/code&gt; is one of &lt;code&gt;gzip&lt;/code&gt;, &lt;code&gt;bzip2&lt;/code&gt; and &lt;code&gt;xz&lt;/code&gt; (optionally,
+with extra arguments) and &lt;code&gt;&amp;lt;compression-extension&amp;gt;&lt;/code&gt; is the chosen compression
+tool's extension, i.e. &lt;code&gt;gz&lt;/code&gt;, &lt;code&gt;bz2&lt;/code&gt; or &lt;code&gt;xz&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The results of backing up my phone's internal storage with different
+compression commands and different execution places are the following (&lt;a href="#what-kind-of-data-was-being-compressed"&gt;read
+more details about the data being backed up in the next section
+&lt;/a&gt;):&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="left"&gt;Compression command&lt;/th&gt;
+&lt;th align="center"&gt;Compression execution&lt;/th&gt;
+&lt;th align="right"&gt;Backup size&lt;/th&gt;
+&lt;th align="right"&gt;Size compared to best&lt;/th&gt;
+&lt;th align="right"&gt;Backup time&lt;/th&gt;
+&lt;th align="right"&gt;Time compared to best&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;em&gt;without&lt;/em&gt;&lt;/td&gt;
+&lt;td align="center"&gt;&lt;em&gt;N/A&lt;/em&gt;&lt;/td&gt;
+&lt;td align="right"&gt;3558 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+4.8%&lt;/td&gt;
+&lt;td align="right"&gt;878 s&lt;/td&gt;
+&lt;td align="right"&gt;+61%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;gzip&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the phone&lt;/td&gt;
+&lt;td align="right"&gt;3428 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+1.0%&lt;/td&gt;
+&lt;td align="right"&gt;549 s&lt;/td&gt;
+&lt;td align="right"&gt;+1%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;gzip --best&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the phone&lt;/td&gt;
+&lt;td align="right"&gt;3428 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+1.0%&lt;/td&gt;
+&lt;td align="right"&gt;&lt;strong&gt;545 s&lt;/strong&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;em&gt;N/A&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;bzip2&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the phone&lt;/td&gt;
+&lt;td align="right"&gt;3411 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+0.5%&lt;/td&gt;
+&lt;td align="right"&gt;4236 s&lt;/td&gt;
+&lt;td align="right"&gt;+677%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;gzip&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the computer&lt;/td&gt;
+&lt;td align="right"&gt;3425 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+0.9%&lt;/td&gt;
+&lt;td align="right"&gt;982 s&lt;/td&gt;
+&lt;td align="right"&gt;+80%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;bzip2&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the computer&lt;/td&gt;
+&lt;td align="right"&gt;3411 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+0.5%&lt;/td&gt;
+&lt;td align="right"&gt;824 s&lt;/td&gt;
+&lt;td align="right"&gt;+51%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;xz&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the computer&lt;/td&gt;
+&lt;td align="right"&gt;3402 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+0.2%&lt;/td&gt;
+&lt;td align="right"&gt;1566 s&lt;/td&gt;
+&lt;td align="right"&gt;+187%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;xz --threads=0&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the computer&lt;/td&gt;
+&lt;td align="right"&gt;3404 MiB&lt;/td&gt;
+&lt;td align="right"&gt;+0.3%&lt;/td&gt;
+&lt;td align="right"&gt;811 s&lt;/td&gt;
+&lt;td align="right"&gt;+48%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;&lt;code&gt;xz --best --threads=0&lt;/code&gt;&lt;/td&gt;
+&lt;td align="center"&gt;on the computer&lt;/td&gt;
+&lt;td align="right"&gt;&lt;strong&gt;3395 MiB&lt;/strong&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;em&gt;N/A&lt;/em&gt;&lt;/td&gt;
+&lt;td align="right"&gt;895 s&lt;/td&gt;
+&lt;td align="right"&gt;+64%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The &lt;strong&gt;overall winner&lt;/strong&gt; is clearly &lt;strong&gt;using &lt;code&gt;gzip&lt;/code&gt;&lt;/strong&gt; and &lt;strong&gt;performing compression
+on the phone&lt;/strong&gt;. The time needed to perform the backup is the smallest by a
+large margin while the backup size is only 1% larger compared to the best
+compression achieved with &lt;code&gt;xz --best&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Benchmarks were conducted on my Nexus 4 running &lt;a href="https://eu.dl.twrp.me/mako/"&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; 3.1.1-0
+(twrp-3.1.1-0-mako.img)&lt;/a&gt; connected to my &lt;a href="https://en.wikipedia.org/wiki/HP_ZBook"&gt;HP
+ZBook 15 G2 workstation&lt;/a&gt; running
+&lt;a href="https://getfedora.org/en/workstation/"&gt;Fedora 25 Workstation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://twrp.me/site/update/2017/05/19/twrp-3.1.1-0-released.html"&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; 3.1.1-0&lt;/a&gt; is based
+on &lt;a href="https://omnirom.org/"&gt;OmniROM, a community developed Android derivative&lt;/a&gt;, 7.1, which in turn is based on &lt;a href="https://source.android.com/"&gt;&lt;abbr title="Android Open Source Project"&gt;AOSP&lt;/abbr&gt;&lt;/a&gt; 7.1.2.&lt;/p&gt;
+&lt;p&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; &lt;a href="https://github.com/omnirom/android_bootable_recovery/blob/56cf564/Android.mk#L508-L510"&gt;doesn't use the &lt;code&gt;gzip&lt;/code&gt; command provided by BusyBox&lt;/a&gt;.
+Rather, it uses the one provided by &lt;a href="https://github.com/omnirom/android_bootable_recovery/tree/b523650/pigz"&gt;&lt;code&gt;pigz&lt;/code&gt;, a parallel implementation of
+gzip&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;'s &lt;a href="https://github.com/omnirom/android_external_busybox/blob/android-7.1/busybox-full.links#L15"&gt;&lt;code&gt;bzip2&lt;/code&gt; and &lt;code&gt;xz&lt;/code&gt; commands are provided by Busybox&lt;/a&gt;.
+Note that &lt;a href="https://github.com/omnirom/android_external_busybox/tree/android-7.1"&gt;OmniROM still uses Busybox&lt;/a&gt;,
+while &lt;a href="https://lwn.net/Articles/629362/"&gt;&lt;abbr title="Android Open Source Project"&gt;AOSP&lt;/abbr&gt; switched to toybox at the end of 2014&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;xz&lt;/code&gt; command provided by this version of BusyBox, v1.22.1 bionic,
+doesn't support compression. Note that one can pass the &lt;code&gt;-J&lt;/code&gt; argument when
+creating an archive with the &lt;code&gt;tar&lt;/code&gt; command but it will &lt;em&gt;silently&lt;/em&gt; create an
+uncompressed tar archive.&lt;/p&gt;
+&lt;p&gt;Running &lt;code&gt;xz --best --threads=0&lt;/code&gt; &lt;strong&gt;requires lots of RAM&lt;/strong&gt;. More precisely,
+it requires &lt;strong&gt;674 MiB per thread&lt;/strong&gt;. For example, on my quad-core CPU with
+hyperthreading enabled, it requires 5.3 GiB of RAM.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="what-kind-of-data-was-being-compressed"&gt;What kind of data was being compressed?&lt;/h2&gt;
+&lt;p&gt;To be fair and transparent when comparing different compression algorithms, it
+is necessary to also tell something about the data being compressed.&lt;/p&gt;
+&lt;p&gt;The data being compressed is what I accumulated in my phone's user data
+partition (i.e. internal storage) over the course of 4 years. Of course, I also
+deleted data regularly, otherwise I would run of free space.&lt;/p&gt;
+&lt;p&gt;This is what makes up the 3558 MiBs of my phone's internal storage:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="My phone's internal storage usage by file type" src="http://tadej.ja.nez.si/images/android-internal-storage-backup-usage.svg"&gt;&lt;/p&gt;
+&lt;p&gt;The largest portion is used by JPEG images (mostly pictures taken with the
+phone), followed by MP4 videos (also mostly videos taken with the phone),
+followed by MPEG and Ogg audio files (my music collection). The rest only
+occupies 10 % of the phone's internal storage.
+In my opinion, this can serve as a good real-life benchmark of backing up a
+phone's internal stoarge.&lt;/p&gt;
+&lt;p&gt;This also explains why there were so &lt;a href="#which-compression-algorithm-to-use"&gt;little differences between different
+compression algorithms in the resulting backup size
+&lt;/a&gt; (tar archive without compression was
+only 4.8 % larger that the smallest tar archive compressed with &lt;code&gt;xz --best&lt;/code&gt;).
+JPEG, MP4, MPEG audio, i.e. MP3, and Ogg Vorbis are all file formats that use
+special-purpose compression techniques to reduce the size of files so they
+cannot be further compressed to any significant extent.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;To analyse my phone's internal storage usage by file type I used
+&lt;a href="https://github.com/lemonsqueeze/disk_usage_by_file_type"&gt;lemonsqueeze's &lt;code&gt;disk_usage_by_file_type&lt;/code&gt; Bash script&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To draw the pie chart, I used &lt;a href="https://matplotlib.org/"&gt;matplotlib&lt;/a&gt;
+(&lt;a href="http://tadej.ja.nez.si/scripts/android-internal-storage-backup-usage.py"&gt;source&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;</content><category term="android"></category><category term="backup"></category><category term="twrp"></category><category term="adb"></category><category term="benchmark"></category></entry></feed>

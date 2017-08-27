@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - rhel</title><link rel="alternate" href="http://tadej.ja.nez.si/"></link><link rel="self" href="http://tadej.ja.nez.si/feeds/tag-rhel.atom.xml"></link><id>http://tadej.ja.nez.si/</id><updated>2017-01-13T11:43:00+01:00</updated><entry><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html" rel="alternate"></link><published>2017-01-13T11:43:00+01:00</published><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html/</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - rhel</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-rhel.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-01-13T11:43:00+01:00</updated><entry><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html" rel="alternate"></link><published>2017-01-13T11:43:00+01:00</published><updated>2017-01-13T11:43:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html</id><summary type="html">
 
 &lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
 &lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
@@ -9,4 +9,229 @@ installation of system-wide Python packages This causes &lt;a href="http://tadej
 inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
 see my &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
 &lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
-</summary><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry></feed>
+</summary><content type="html">&lt;p&gt;&lt;em&gt;Update (January 25, 2017): Updated &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;instructions on preparing the Python
+virtual environment to work with setuptools 34+ on CentOS/RHEL 7&lt;/a&gt;.
+Also updated &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;the Ansible playbook&lt;/a&gt;
+to skip seperately updating pip and setuptools upon creation of a new virtual
+environment on Fedora.&lt;/em&gt;&lt;/p&gt;
+
+
+&lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
+&lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
+installation of system-wide Python packages This causes &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
+&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TL; DR&lt;/strong&gt; &lt;em&gt;Install system-wide Python packages with yum/dnf and only use pip
+inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
+see my &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
+&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;I'll use &lt;a href="https://www.centos.org/"&gt;CentOS&lt;/a&gt; 7 for the examples, but the
+concepts apply to all current &lt;a href="https://getfedora.org/"&gt;Fedora&lt;/a&gt; and
+CentOS/&lt;a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux"&gt;RHEL&lt;/a&gt;
+distributions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="problems-with-mixing-yumdnf-and-pip"&gt;Problems with mixing yum/dnf and pip&lt;/h2&gt;
+&lt;p&gt;People usually install the &lt;code&gt;python2-pip&lt;/code&gt; package to boot-strap installation of
+pip on their systems:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo yum -y install epel-release
+sudo yum -y install python2-pip
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;At the time of writing, this will install pip 8.1.2 on the system, while the
+latest pip version is 9.0.1.
+A user will soon notice that on each run of the &lt;code&gt;pip&lt;/code&gt; command the following
+message is shown:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;You are using pip version 8.1.2, however version 9.0.1 is available.
+You should consider upgrading via the &amp;#39;pip install --upgrade pip&amp;#39; command.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Naively, he will upgrade pip with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo pip install --upgrade pip
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which will replace the previous pip installation in system locations (e.g.
+&lt;code&gt;/usr/bin&lt;/code&gt;, &lt;code&gt;/usr/lib/python2.7/site-packages/pip&lt;/code&gt;, ...) with the new pip
+version.&lt;/p&gt;
+&lt;p&gt;The problem is that this will leave &lt;a href="http://rpm.org/"&gt;RPM&lt;/a&gt; with no clue as to
+what is going on. If you run &lt;code&gt;rpm --verify python2-pip&lt;/code&gt; it will show that
+everything is broken:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;S.5....T.    /usr/bin/pip
+S.5....T.    /usr/bin/pip2
+S.5....T.    /usr/bin/pip2.7
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/PKG-INFO
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/SOURCES.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/dependency_links.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/entry_points.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/not-zip-safe
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/requires.txt
+missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/top_level.txt
+S.5....T.    /usr/lib/python2.7/site-packages/pip/__init__.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/__init__.pyc
+missing     /usr/lib/python2.7/site-packages/pip/__init__.pyo
+.......T.    /usr/lib/python2.7/site-packages/pip/__main__.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/__main__.pyc
+missing     /usr/lib/python2.7/site-packages/pip/__main__.pyo
+
+&lt;span class="o"&gt;[&lt;/span&gt; ... output trimmed ... &lt;span class="o"&gt;]&lt;/span&gt;
+
+S.5....T.    /usr/lib/python2.7/site-packages/pip/vcs/subversion.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/vcs/subversion.pyc
+missing     /usr/lib/python2.7/site-packages/pip/vcs/subversion.pyo
+S.5....T.    /usr/lib/python2.7/site-packages/pip/wheel.py
+S.5....T.    /usr/lib/python2.7/site-packages/pip/wheel.pyc
+missing     /usr/lib/python2.7/site-packages/pip/wheel.pyo
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Furthermore, when a new version of the &lt;code&gt;python2-pip&lt;/code&gt; becomes available, yum
+upgrade will complain about not being able to find some files and directories.&lt;/p&gt;
+&lt;p&gt;For example, on upgrade from &lt;code&gt;python-pip-7.1.0-1.el7&lt;/code&gt; to
+&lt;code&gt;python2-pip-8.1.2-5.el7&lt;/code&gt; when pip was upgraded with pip in-between, yum
+upgrade gives the following warnings:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyo: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyc: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.py: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyo: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyc: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.py: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/top_level.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/requires.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/pbr.json: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/not-zip-safe: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/entry_points.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/dependency_links.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/SOURCES.txt: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/PKG-INFO: remove failed: No such file or directory
+warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info: remove failed: No such file or directory
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;Proper way to to use pip without mixing it with yum/dnf&lt;/h2&gt;
+&lt;p&gt;The solution is to limit pip's use to installation of Python packages inside a
+Python virtual environment.&lt;/p&gt;
+&lt;p&gt;First install the &lt;code&gt;python-virtualenv&lt;/code&gt; package with yum/dnf:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo yum -y install python-virtualenv
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then use it to create and activate a new virtual environment:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;virtualenv myvenv
+source myvenv/bin/activate
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;At the time of writing, CentOS/RHEL 7's system-installed virtualenv package
+is very old (1.10.1) and creates a virtual environment with very old pip
+(1.4.1) and &lt;a href="https://setuptools.readthedocs.io/"&gt;setuptools&lt;/a&gt; (0.9.8)
+packages. Hence, it is recommended to update them separately, before
+installation of other things in the virtual environment.&lt;/p&gt;
+&lt;p&gt;Since &lt;a href="https://setuptools.readthedocs.io/en/latest/history.html#v34-0-0"&gt;setuptools version 34&lt;/a&gt;,
+setuptools package no longer bundles its requirements and relies on
+installing whell distributions of its requirements. To install these
+wheels, it needs a newer version pip, hence pip needs to be updated
+separately before setuptools:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install -U pip
+pip install -U setuptools
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A complete Ansible playbook for proper creation of a Python virtual
+environment is provided &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;later&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Then install whichever Python package you want inside the Python virtual
+environment.&lt;/p&gt;
+&lt;h3 id="tip-dont-install-the-system-pip-package"&gt;Tip: Don't install the system pip package&lt;/h3&gt;
+&lt;p&gt;To avoid mistakenly using pip outside a virtual environment, don't install
+the pip system package (e.g. &lt;code&gt;python2-pip&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;This way, &lt;code&gt;pip&lt;/code&gt; executable will only be available after you activate the chosen
+virtual environment, which limits mistakes with using the system-wide pip to
+the minimum.&lt;/p&gt;
+&lt;h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible playbook for installation of packages inside a virtual environment&lt;/h2&gt;
+&lt;p&gt;If you need to automate installation of &lt;code&gt;python-virtualenv&lt;/code&gt; system package and
+creation of a Python virtual environment for installation of project's
+requirements inside this virtual environment, you can use the following
+&lt;a href="https://www.ansible.com/"&gt;Ansible&lt;/a&gt; playbook:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Playbook for installation of packages inside a virtual environment&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;hosts&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;all&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;become&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;true&lt;/span&gt;
+
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;vars&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# adjust these variables to your project&amp;#39;s needs&lt;/span&gt;
+    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;venv_path&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;/opt/myvenv/&lt;/span&gt;
+    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;requirements&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;requests&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;simplejson&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;six&lt;/span&gt;
+
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;tasks&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Install python-virtualenv package&lt;/span&gt;
+      &lt;span class="l l-Scalar l-Scalar-Plain"&gt;package&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name=python-virtualenv state=installed&lt;/span&gt;
+
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;block&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Create virtual environment with up-to-date pip&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pip&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;virtualenv&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;{{&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;venv_path&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;}}&amp;quot;&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pip&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;state&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;latest&lt;/span&gt;
+
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Update virtual environment&amp;#39;s setuptools&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pip&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;virtualenv&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;{{&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;venv_path&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;}}&amp;quot;&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;setuptools&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;state&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;latest&lt;/span&gt;
+
+      &lt;span class="l l-Scalar l-Scalar-Plain"&gt;when&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+        &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ansible_distribution in [&amp;quot;CentOS&amp;quot;, &amp;quot;RedHat&amp;quot;]&lt;/span&gt;
+        &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ansible_distribution_major_version | int == 7&lt;/span&gt;
+
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Install project&amp;#39;s requirements in virtual environement&lt;/span&gt;
+      &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pip&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;virtualenv&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;{{&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;venv_path&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;}}&amp;quot;&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;{{&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;requirements&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;}}&amp;quot;&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;state&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;latest&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Due to a &lt;a href="https://github.com/ansible/ansible-modules-core/issues/5347"&gt;bug in Ansible's &lt;code&gt;pip&lt;/code&gt; module&lt;/a&gt; which causes
+Ansible to use system-installed &lt;code&gt;pip2&lt;/code&gt; executable and ignore the &lt;code&gt;pip&lt;/code&gt;
+executable installed inside the virtual environment, you must use at least
+&lt;a href="https://releases.ansible.com/ansible/ansible-2.2.1.0-0.3.rc3.tar.gz"&gt;version 2.2.1 RC3&lt;/a&gt; which
+fixes the bug.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Fedora comes with &lt;a href="https://apps.fedoraproject.org/packages/python-virtualenv"&gt;virtualenv 14.0.1+&lt;/a&gt; which
+&lt;a href="http://virtualenv.readthedocs.io/en/stable/changes/#id11"&gt;automatically downloads new releases of pip, setuptools, wheel and their
+requirements from PyPI&lt;/a&gt;, therefore there
+is no need to update them separately before installing project's
+requirements in virtual environment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;If your project's requirements are not pure Python packages, but also include
+packages with &lt;a href="https://docs.python.org/3/extending/index.html"&gt;C/C++ extensions&lt;/a&gt;, they'll need to be built as
+part of the installation process. Therefore, you'll need to have at least &lt;code&gt;gcc&lt;/code&gt;
+and &lt;code&gt;python-devel&lt;/code&gt; packages installed. You can use the following Ansible task
+to achieve that:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Install project&amp;#39;s building prerequisites&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;package&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;name={{ item }} state=installed&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;with_items&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;gcc&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;python-devel&lt;/span&gt;
+    &lt;span class="c1"&gt;# add other packages required to build your project&amp;#39;s requirements&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Put it before the &lt;em&gt;Install project's requirements in virtual environement&lt;/em&gt;
+task.&lt;/p&gt;</content><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry></feed>
