@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - dell</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-dell.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-09-04T09:35:00+02:00</updated><entry><title>Running Fedora 26 on Dell XPS 15 9560</title><link href="http://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html" rel="alternate"></link><published>2017-09-04T09:35:00+02:00</published><updated>2017-09-04T09:35:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</id><summary type="html">
+
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
+they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
+&lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
+they didn't last long since I wiped the hard drive and installed &lt;a href="https://fedoramagazine.org/fedora-26-is-here/"&gt;Fedora 26&lt;/a&gt; on it.&lt;/p&gt;
+&lt;p&gt;Let me briefly describe my experience and guide you through some trickier parts
+of the setup.&lt;/p&gt;
+</summary><content type="html">
+
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
+they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
+&lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
+they didn't last long since I wiped the hard drive and installed &lt;a href="https://fedoramagazine.org/fedora-26-is-here/"&gt;Fedora 26&lt;/a&gt; on it.&lt;/p&gt;
+&lt;p&gt;Let me briefly describe my experience and guide you through some trickier parts
+of the setup.&lt;/p&gt;
+
+
+&lt;h2 id="configuring-uefi-to-work-with-fedora-26"&gt;Configuring &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt; to work with Fedora 26&lt;/h2&gt;
+&lt;p&gt;Before installing Fedora 26 on the system, it is necessary to modify some &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt;
+settings. &lt;a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#UEFI"&gt;They are nicely summed up in the ArchWiki page for this laptop&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Change the &lt;em&gt;SATA Mode&lt;/em&gt; from the default &lt;em&gt;RAID&lt;/em&gt; to &lt;em&gt;AHCI&lt;/em&gt;. This will allow
+  Linux to detect the &lt;abbr title="Non-volatile memory (NVM) Express"&gt;NVMe&lt;/abbr&gt; &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt;.&lt;/li&gt;
+&lt;li&gt;Change &lt;em&gt;Fastboot&lt;/em&gt; to &lt;em&gt;Thorough&lt;/em&gt; in &lt;em&gt;POST Behaviour&lt;/em&gt;. This will prevent
+  intermittent boot failures.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;If you intend to run the proprietary NVIDIA graphics drivers, you must also
+disable secure boot.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="booting-fedora-26-from-a-live-usb"&gt;Booting Fedora 26 from a live USB&lt;/h2&gt;
+&lt;p&gt;The naive approach to just boot the computer from a live USB with Fedora 26
+Workstation image and wait for the live &lt;a href="https://www.gnome.org/"&gt;GNOME&lt;/a&gt; session
+to appear didn't work. Fedora hangs after the &lt;em&gt;Started User Manager for UID
+1000&lt;/em&gt; &lt;a href="https://www.freedesktop.org/software/systemd/man/systemd.unit.html"&gt;systemd unit&lt;/a&gt; starts.&lt;/p&gt;
+&lt;p&gt;Fortunately, &lt;a href="https://ask.fedoraproject.org/en/question/107784/f26-hanging-on-install-dell-xps-9560/?answer=107824#post-id-107824"&gt;Ask Fedora has an answer to this problem&lt;/a&gt;,
+which is to select &lt;em&gt;Troubleshooting&lt;/em&gt; from &lt;a href="https://www.gnu.org/software/grub/"&gt;GRUB&lt;/a&gt;'s boot menu and then choose &lt;em&gt;Start in basic
+graphics mode&lt;/em&gt;. The live GNOME session should work fine after that.&lt;/p&gt;
+&lt;h2 id="installing-fedora-26-to-the-hard-drive"&gt;Installing Fedora 26 to the hard drive&lt;/h2&gt;
+&lt;p&gt;This works smoothly. Just select &lt;em&gt;Install to Hard Drive&lt;/em&gt; option to start
+&lt;a href="https://fedoraproject.org/wiki/Anaconda"&gt;Anaconda&lt;/a&gt;, Fedora's installer, and
+follow its instructions.&lt;/p&gt;
+&lt;p&gt;After installation, make sure to update all packages to get the latest
+kernel (4.12 at the time of writing) and other important updates which will
+make Fedora run smoother on this laptop.&lt;/p&gt;
+&lt;h2 id="preventing-hangs-on-boot-and-soft-kernel-lockups"&gt;Preventing hangs on boot and soft kernel lockups&lt;/h2&gt;
+&lt;p&gt;The laptop comes with a discrete graphics card, a &lt;a href="https://en.wikipedia.org/wiki/GeForce_10_series#GeForce_10_.2810xx.29_series_for_notebooks"&gt;NVIDIA GeForce GTX 1050
+Mobile(GP107M)&lt;/a&gt;,
+which unfortunately doesn't work well with the &lt;a href="https://nouveau.freedesktop.org/wiki/"&gt;Nouveau drivers&lt;/a&gt; yet (as of kernel 4.12).&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Initial support for NVIDIA's GP107 devices &lt;a href="https://git.kernel.org/linus/b2c4ef70790cee37f243af2b303727394edae1d5"&gt;has&lt;/a&gt;
+&lt;a href="https://git.kernel.org/linus/2ebd42bc28525da52162425ecd7472846b78584d"&gt;been&lt;/a&gt;
+&lt;a href="https://git.kernel.org/linus/5429f82f341524deb9f66193892a69dea2f862a3"&gt;merged&lt;/a&gt; into
+kernel 4.12.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Practically, this means that the system will fail to boot (similarly as
+&lt;a href="#booting-fedora-26-from-a-live-usb"&gt;described above&lt;/a&gt;) if one doesn't disable
+Nouveau's power management by passing the &lt;code&gt;nouveau.runpm=0&lt;/code&gt; parameter to the
+kernel at boot. More information in &lt;a href="https://bugzilla.redhat.com/show_bug.cgi?id=1447677"&gt;Red Hat's Bugzilla #1447677&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Unfortunately, that's not enough. After successfully booting the system into
+a graphical session, I soon started encountering soft kernel lockups due to
+Nouveau driver. The logs showed the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;NMI watchdog: BUG: soft lockup - CPU#1 stuck for 22s! [plymouthd:423]
+
+[ ... output trimmed ... ]
+
+CPU: 1 PID: 423 Comm: plymouthd Not tainted 4.12.9-300.fc26.x86_64 #1
+Hardware name: Dell Inc. XPS 15 9560/05FFDN, BIOS 1.3.4 06/08/2017
+task: ffff92a115bea640 task.stack: ffffa79943d7c000
+
+[ ... output trimmed ... ]
+
+Call Trace:
+ ? nv04_timer_read+0x48/0x60 [nouveau]
+ nvkm_timer_read+0xf/0x20 [nouveau]
+ nvkm_pmu_reset+0x71/0x170 [nouveau]
+ nvkm_pmu_preinit+0x12/0x20 [nouveau]
+ nvkm_subdev_preinit+0x34/0x110 [nouveau]
+ nvkm_device_init+0x60/0x270 [nouveau]
+ nvkm_udevice_init+0x48/0x60 [nouveau]
+ nvkm_object_init+0x3f/0x190 [nouveau]
+ nvkm_object_init+0xa3/0x190 [nouveau]
+ nvkm_client_resume+0xe/0x10 [nouveau]
+ nvif_client_resume+0x17/0x20 [nouveau]
+ nouveau_do_resume+0x40/0xe0 [nouveau]
+ nouveau_pmops_runtime_resume+0x91/0x150 [nouveau]
+
+[ ... output trimmed ... ]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Looking through &lt;a href="https://fedoramagazine.org/systemd-using-journal/"&gt;systemd journal&lt;/a&gt; soon revealed other kernel
+tracebacks related to the Nouveau driver:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt; &lt;span class="mo"&gt;0000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;00.0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;bus&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;MMIO&lt;/span&gt; &lt;span class="n"&gt;read&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="mo"&gt;00000000&lt;/span&gt; &lt;span class="n"&gt;FAULT&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="mi"&gt;409800&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;TIMEOUT&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nl"&gt;drm&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;i915_gem_idle_work_handler&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i915&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;Timeout&lt;/span&gt; &lt;span class="n"&gt;waiting&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;engines&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;idle&lt;/span&gt;
+&lt;span class="n"&gt;nouveau&lt;/span&gt; &lt;span class="mo"&gt;0000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;00.0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;timeout&lt;/span&gt;
+&lt;span class="o"&gt;------------&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;cut&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;------------&lt;/span&gt;
+&lt;span class="nl"&gt;WARNING&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;CPU&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="nl"&gt;PID&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;4100&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;drivers&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gpu&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nvkm&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;engine&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gf100&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nl"&gt;c&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1501&lt;/span&gt; &lt;span class="n"&gt;gf100_gr_init_ctxctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x81f&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x9a0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="n"&gt;trimmed&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;Hardware&lt;/span&gt; &lt;span class="nl"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Dell&lt;/span&gt; &lt;span class="n"&gt;Inc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;XPS&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt; &lt;span class="mi"&gt;9560&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;05FF&lt;/span&gt;&lt;span class="n"&gt;DN&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;BIOS&lt;/span&gt; &lt;span class="mf"&gt;1.3.4&lt;/span&gt; &lt;span class="mo"&gt;06&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2017&lt;/span&gt;
+&lt;span class="nl"&gt;task&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ffff8d8261e00000&lt;/span&gt; &lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nl"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ffffa5c91190c000&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="n"&gt;trimmed&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;Call&lt;/span&gt; &lt;span class="nl"&gt;Trace&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+ &lt;span class="n"&gt;gp100_gr_init&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x6f0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x720&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;gf100_gr_init_&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x55&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x60&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_gr_init&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x17&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x20&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_engine_init&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x68&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x1f0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_subdev_init&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0xb0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x200&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_engine_ref&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x4f&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x70&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_ioctl_new&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x2b4&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x300&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="n"&gt;nvkm_fifo_chan_dtor&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0xe0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0xe0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="n"&gt;gf100_gr_init_fw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isra&lt;/span&gt;&lt;span class="mf"&gt;.8&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x50&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x50&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x118&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x280&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_client_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x12&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x20&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvif_client_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x26&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x30&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;usif_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x637&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x750&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nouveau_drm_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0xaf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0xc0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="n"&gt;trimmed&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt; &lt;span class="n"&gt;trace&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;ee905135b51d0af&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;
+&lt;span class="n"&gt;nouveau&lt;/span&gt; &lt;span class="mo"&gt;0000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;00.0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;gr&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;init&lt;/span&gt; &lt;span class="n"&gt;failed&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;
+&lt;span class="n"&gt;nouveau&lt;/span&gt; &lt;span class="mo"&gt;0000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;00.0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;timeout&lt;/span&gt;
+&lt;span class="o"&gt;------------&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;cut&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;------------&lt;/span&gt;
+&lt;span class="nl"&gt;WARNING&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;CPU&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nl"&gt;PID&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;4100&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;drivers&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gpu&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nvkm&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;subdev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmu&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gf100&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nl"&gt;c&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;190&lt;/span&gt; &lt;span class="n"&gt;gf100_vm_flush&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x1ab&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x1c0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="n"&gt;trimmed&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;Hardware&lt;/span&gt; &lt;span class="nl"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Dell&lt;/span&gt; &lt;span class="n"&gt;Inc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;XPS&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt; &lt;span class="mi"&gt;9560&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;05FF&lt;/span&gt;&lt;span class="n"&gt;DN&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;BIOS&lt;/span&gt; &lt;span class="mf"&gt;1.3.4&lt;/span&gt; &lt;span class="mo"&gt;06&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2017&lt;/span&gt;
+&lt;span class="nl"&gt;task&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ffff8d8261e00000&lt;/span&gt; &lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nl"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ffffa5c91190c000&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="n"&gt;trimmed&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;Call&lt;/span&gt; &lt;span class="nl"&gt;Trace&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_vm_unmap_at&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0xbc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x100&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nvkm_vm_unmap&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x1b&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x20&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;nouveau_gem_object_close&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x1aa&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x1c0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;drm_gem_object_release_handle&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x4b&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x90&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;drm_gem_handle_delete&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x58&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x80&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;drm_gem_close_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x20&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x30&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="n"&gt;drm_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x213&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x4d0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="n"&gt;drm_gem_handle_create&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x40&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x40&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+ &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="n"&gt;sock_write_iter&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x8c&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0xf0&lt;/span&gt;
+ &lt;span class="n"&gt;nouveau_drm_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x72&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0xc0&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt; &lt;span class="n"&gt;trace&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;ee905135b51d0b0&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Rhys Kidd, a Nouveau developer, wrote the following in &lt;a href="https://bugs.freedesktop.org/show_bug.cgi?id=102275#c1"&gt;an answer to a bug
+report for a similar issue on freedesktop.org's Bugzilla&lt;/a&gt; on Aug 17, 2017:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Nouveau has difficulties with the GTX 1050 Mobile (GP107/NV137) around power
+state up/down. I'd suggest you continue to follow &lt;a href="https://bugs.freedesktop.org/show_bug.cgi?id=100228"&gt;that bug report&lt;/a&gt; for further updates.&lt;/p&gt;
+&lt;p&gt;Whilst &lt;code&gt;nouveau.runpm=0&lt;/code&gt; assists a little bit, for now, to improve the
+experience on the XPS 9560 you should use &lt;code&gt;nouveau.modeset=0&lt;/code&gt; (although that
+does mean the Nvidia GPU is unavailable for use). This suggestion might
+change with future kernel releases.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;To follow his suggestion and permanently add &lt;code&gt;nouveau.modeset=0&lt;/code&gt; to the
+kernel's command line options, edit &lt;code&gt;/etc/default/grub.conf&lt;/code&gt; and append
+&lt;code&gt;nouveau.modeset=0&lt;/code&gt; to the contents of the &lt;code&gt;GRUB_CMDLINE_LINUX&lt;/code&gt; variable.&lt;/p&gt;
+&lt;p&gt;Afterwards, run &lt;code&gt;sudo grub2-mkconfig -o /etc/grub2-efi.cfg&lt;/code&gt; to regenerate
+GRUB's configuration.&lt;/p&gt;
+&lt;h2 id="updating-firmware-to-version-134"&gt;Updating firmware to version 1.3.4+&lt;/h2&gt;
+&lt;p&gt;It is important to upgrade the laptop's firmware to (at least) &lt;a href="https://www.notebookcheck.net/XPS-15-9560-gets-BIOS-update-fixing-Skylake-Kaby-Lake-microcode-bug.232054.0.html"&gt;version 1.3.4&lt;/a&gt;
+since it fixes &lt;a href="https://lwn.net/Articles/726496/"&gt;a serious issue with Intel's Skylake and Kaby Lake
+architectures where the CPU could dangerously misbehave when hyper-threading is
+enabled&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Fortunately, Dell has put Linux users in the prime seat and offers seamless
+firmware updates on Linux via &lt;a href="https://blogs.gnome.org/hughsie/"&gt;Richard Hughes&lt;/a&gt;'s excellent &lt;a href="http://www.fwupd.org/"&gt;fwupd tool&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To update the firmware using command line, simply run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fwupdmgr get-updates
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to see the list of available updates. To download the available update and
+install it after reboot, run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fwupdmgr update
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Alternatively, you can also update the firmware using GNOME's &lt;a href="https://wiki.gnome.org/Apps/Software"&gt;Software app&lt;/a&gt;.&lt;/p&gt;
+&lt;h1 id="issues-with-wireless-performance-on-kernel-412"&gt;Issues with wireless performance on kernel 4.12&lt;/h1&gt;
+&lt;p&gt;I've experienced &lt;a href="https://bodhi.fedoraproject.org/updates/kernel-4.12.5-300.fc26#comment-645648"&gt;an order of magnitude wireless performance drop after
+upgrading from &lt;code&gt;kernel-4.11.11-300.fc26.x86_64&lt;/code&gt; to &lt;code&gt;kernel-4.12.5-300.fc26&lt;/code&gt;&lt;/a&gt;
+with the Qualcomm Atheros QCA6174 802.11ac wireless network adapter that is
+installed in the laptop.
+The reported wireless link speed is in 1 - 6 Mbps range, which is very low.&lt;/p&gt;
+&lt;p&gt;I haven't had time to investigate this further yet.&lt;/p&gt;
+&lt;h1 id="conclusion"&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;Overall, my experience (minus the problems with NVIDIA's graphics card and
+its open-source drivers and the wireless performance issue) has been quite
+positive.&lt;/p&gt;
+&lt;p&gt;Sadly, getting all the features of a new laptop to work seamlessly after it
+launches is &lt;em&gt;not there yet&lt;/em&gt; and one still has to be quite knowledgable to make
+the most out of the system.&lt;/p&gt;
+&lt;p&gt;However, I'm optimistic and I think it's getting better. For example, I was
+pleasantly surprised how GNOME seamlessly re-scales the interface after
+connecting/disconnecting a non-HiDPI monitor. Suspend also works without a
+hitch!&lt;/p&gt;</content><category term="fedora"></category><category term="dell"></category><category term="hardware"></category><category term="laptop"></category></entry></feed>

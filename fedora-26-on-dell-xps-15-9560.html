@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
+
+    <link href="http://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Tadej Janež" />
+<meta name="description" content="Recently, I got a new laptop, a Dell XPS 15 9560 with 4k display, 32 GiBs of RAM and 1 TiB M.2 SSD drive. Quite nice specs, aren't they ? Unfortunately, I wasn't able to purchase it without Windows pre-installed. But they didn't last long since I wiped the hard drive and installed Fedora 26 on it. Let me briefly describe my experience and guide you through some trickier parts of the setup." />
+<meta name="keywords" content="fedora, dell, hardware, laptop">
+<meta property="og:site_name" content="Tadej Janež"/>
+<meta property="og:title" content="Running Fedora 26 on Dell XPS 15 9560"/>
+<meta property="og:description" content="Recently, I got a new laptop, a Dell XPS 15 9560 with 4k display, 32 GiBs of RAM and 1 TiB M.2 SSD drive. Quite nice specs, aren't they ? Unfortunately, I wasn't able to purchase it without Windows pre-installed. But they didn't last long since I wiped the hard drive and installed Fedora 26 on it. Let me briefly describe my experience and guide you through some trickier parts of the setup."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-09-04 09:35:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://tadej.ja.nez.si/author/tadej-janez.html">
+<meta property="article:section" content="Hardware"/>
+<meta property="article:tag" content="fedora"/>
+<meta property="article:tag" content="dell"/>
+<meta property="article:tag" content="hardware"/>
+<meta property="article:tag" content="laptop"/>
+<meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+  <title>Tadej Janež &ndash; Running Fedora 26 on Dell XPS 15 9560</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://tadej.ja.nez.si">
+        <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
+      </a>
+      <h1><a href="http://tadej.ja.nez.si">Tadej Janež</a></h1>
+<p>DevOps Engineer</p>      <ul class="social">
+        <li><a class="sc-github" href="https://github.com/tjanez" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/TadejJanez" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-rss" href="//tadej.ja.nez.si/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <h1 id="fedora-26-on-dell-xps-15-9560">Running Fedora 26 on Dell XPS 15 9560</h1>
+    <p>Posted on Mon 04 September 2017 in <a href="http://tadej.ja.nez.si/category/hardware.html">Hardware</a></p>
+  </header>
+  <div>
+    
+
+<p>Recently, I got a new laptop, a <a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop">Dell XPS 15 9560</a> with
+4k display, 32 GiBs of RAM and 1 TiB M.2 <abbr title="Solid-state drive">SSD</abbr> drive. Quite nice specs, aren't
+they <img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f609.svg" title=":wink:" width="20px">?</p>
+<p>Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
+they didn't last long since I wiped the hard drive and installed <a href="https://fedoramagazine.org/fedora-26-is-here/">Fedora 26</a> on it.</p>
+<p>Let me briefly describe my experience and guide you through some trickier parts
+of the setup.</p>
+
+
+<h2 id="configuring-uefi-to-work-with-fedora-26">Configuring <abbr title="Unified Extensible Firmware Interface">UEFI</abbr> to work with Fedora 26</h2>
+<p>Before installing Fedora 26 on the system, it is necessary to modify some <abbr title="Unified Extensible Firmware Interface">UEFI</abbr>
+settings. <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#UEFI">They are nicely summed up in the ArchWiki page for this laptop</a>:</p>
+<ul>
+<li>Change the <em>SATA Mode</em> from the default <em>RAID</em> to <em>AHCI</em>. This will allow
+  Linux to detect the <abbr title="Non-volatile memory (NVM) Express">NVMe</abbr> <abbr title="Solid-state drive">SSD</abbr>.</li>
+<li>Change <em>Fastboot</em> to <em>Thorough</em> in <em>POST Behaviour</em>. This will prevent
+  intermittent boot failures.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you intend to run the proprietary NVIDIA graphics drivers, you must also
+disable secure boot.</p>
+</div>
+<h2 id="booting-fedora-26-from-a-live-usb">Booting Fedora 26 from a live USB</h2>
+<p>The naive approach to just boot the computer from a live USB with Fedora 26
+Workstation image and wait for the live <a href="https://www.gnome.org/">GNOME</a> session
+to appear didn't work. Fedora hangs after the <em>Started User Manager for UID
+1000</em> <a href="https://www.freedesktop.org/software/systemd/man/systemd.unit.html">systemd unit</a> starts.</p>
+<p>Fortunately, <a href="https://ask.fedoraproject.org/en/question/107784/f26-hanging-on-install-dell-xps-9560/?answer=107824#post-id-107824">Ask Fedora has an answer to this problem</a>,
+which is to select <em>Troubleshooting</em> from <a href="https://www.gnu.org/software/grub/">GRUB</a>'s boot menu and then choose <em>Start in basic
+graphics mode</em>. The live GNOME session should work fine after that.</p>
+<h2 id="installing-fedora-26-to-the-hard-drive">Installing Fedora 26 to the hard drive</h2>
+<p>This works smoothly. Just select <em>Install to Hard Drive</em> option to start
+<a href="https://fedoraproject.org/wiki/Anaconda">Anaconda</a>, Fedora's installer, and
+follow its instructions.</p>
+<p>After installation, make sure to update all packages to get the latest
+kernel (4.12 at the time of writing) and other important updates which will
+make Fedora run smoother on this laptop.</p>
+<h2 id="preventing-hangs-on-boot-and-soft-kernel-lockups">Preventing hangs on boot and soft kernel lockups</h2>
+<p>The laptop comes with a discrete graphics card, a <a href="https://en.wikipedia.org/wiki/GeForce_10_series#GeForce_10_.2810xx.29_series_for_notebooks">NVIDIA GeForce GTX 1050
+Mobile(GP107M)</a>,
+which unfortunately doesn't work well with the <a href="https://nouveau.freedesktop.org/wiki/">Nouveau drivers</a> yet (as of kernel 4.12).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Initial support for NVIDIA's GP107 devices <a href="https://git.kernel.org/linus/b2c4ef70790cee37f243af2b303727394edae1d5">has</a>
+<a href="https://git.kernel.org/linus/2ebd42bc28525da52162425ecd7472846b78584d">been</a>
+<a href="https://git.kernel.org/linus/5429f82f341524deb9f66193892a69dea2f862a3">merged</a> into
+kernel 4.12.</p>
+</div>
+<p>Practically, this means that the system will fail to boot (similarly as
+<a href="#booting-fedora-26-from-a-live-usb">described above</a>) if one doesn't disable
+Nouveau's power management by passing the <code>nouveau.runpm=0</code> parameter to the
+kernel at boot. More information in <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1447677">Red Hat's Bugzilla #1447677</a>.</p>
+<p>Unfortunately, that's not enough. After successfully booting the system into
+a graphical session, I soon started encountering soft kernel lockups due to
+Nouveau driver. The logs showed the following:</p>
+<div class="highlight"><pre><span></span>NMI watchdog: BUG: soft lockup - CPU#1 stuck for 22s! [plymouthd:423]
+
+[ ... output trimmed ... ]
+
+CPU: 1 PID: 423 Comm: plymouthd Not tainted 4.12.9-300.fc26.x86_64 #1
+Hardware name: Dell Inc. XPS 15 9560/05FFDN, BIOS 1.3.4 06/08/2017
+task: ffff92a115bea640 task.stack: ffffa79943d7c000
+
+[ ... output trimmed ... ]
+
+Call Trace:
+ ? nv04_timer_read+0x48/0x60 [nouveau]
+ nvkm_timer_read+0xf/0x20 [nouveau]
+ nvkm_pmu_reset+0x71/0x170 [nouveau]
+ nvkm_pmu_preinit+0x12/0x20 [nouveau]
+ nvkm_subdev_preinit+0x34/0x110 [nouveau]
+ nvkm_device_init+0x60/0x270 [nouveau]
+ nvkm_udevice_init+0x48/0x60 [nouveau]
+ nvkm_object_init+0x3f/0x190 [nouveau]
+ nvkm_object_init+0xa3/0x190 [nouveau]
+ nvkm_client_resume+0xe/0x10 [nouveau]
+ nvif_client_resume+0x17/0x20 [nouveau]
+ nouveau_do_resume+0x40/0xe0 [nouveau]
+ nouveau_pmops_runtime_resume+0x91/0x150 [nouveau]
+
+[ ... output trimmed ... ]
+</pre></div>
+
+
+<p>Looking through <a href="https://fedoramagazine.org/systemd-using-journal/">systemd journal</a> soon revealed other kernel
+tracebacks related to the Nouveau driver:</p>
+<div class="highlight"><pre><span></span><span class="n">nouveau</span> <span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="o">:</span> <span class="nl">bus</span><span class="p">:</span> <span class="n">MMIO</span> <span class="n">read</span> <span class="n">of</span> <span class="mo">00000000</span> <span class="n">FAULT</span> <span class="n">at</span> <span class="mi">409800</span> <span class="p">[</span> <span class="n">TIMEOUT</span> <span class="p">]</span>
+<span class="p">[</span><span class="nl">drm</span><span class="p">:</span><span class="n">i915_gem_idle_work_handler</span> <span class="p">[</span><span class="n">i915</span><span class="p">]]</span> <span class="o">*</span><span class="n">ERROR</span><span class="o">*</span> <span class="n">Timeout</span> <span class="n">waiting</span> <span class="k">for</span> <span class="n">engines</span> <span class="n">to</span> <span class="n">idle</span>
+<span class="n">nouveau</span> <span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="o">:</span> <span class="n">timeout</span>
+<span class="o">------------</span><span class="p">[</span> <span class="n">cut</span> <span class="n">here</span> <span class="p">]</span><span class="o">------------</span>
+<span class="nl">WARNING</span><span class="p">:</span> <span class="nl">CPU</span><span class="p">:</span> <span class="mi">1</span> <span class="nl">PID</span><span class="p">:</span> <span class="mi">4100</span> <span class="n">at</span> <span class="n">drivers</span><span class="o">/</span><span class="n">gpu</span><span class="o">/</span><span class="n">drm</span><span class="o">/</span><span class="n">nouveau</span><span class="o">/</span><span class="n">nvkm</span><span class="o">/</span><span class="n">engine</span><span class="o">/</span><span class="n">gr</span><span class="o">/</span><span class="n">gf100</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">1501</span> <span class="n">gf100_gr_init_ctxctl</span><span class="o">+</span><span class="mh">0x81f</span><span class="o">/</span><span class="mh">0x9a0</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+
+<span class="p">[</span> <span class="p">...</span> <span class="n">output</span> <span class="n">trimmed</span> <span class="p">...</span> <span class="p">]</span>
+
+<span class="n">Hardware</span> <span class="nl">name</span><span class="p">:</span> <span class="n">Dell</span> <span class="n">Inc</span><span class="p">.</span> <span class="n">XPS</span> <span class="mi">15</span> <span class="mi">9560</span><span class="o">/</span><span class="mf">05FF</span><span class="n">DN</span><span class="p">,</span> <span class="n">BIOS</span> <span class="mf">1.3.4</span> <span class="mo">06</span><span class="o">/</span><span class="mi">08</span><span class="o">/</span><span class="mi">2017</span>
+<span class="nl">task</span><span class="p">:</span> <span class="n">ffff8d8261e00000</span> <span class="n">task</span><span class="p">.</span><span class="nl">stack</span><span class="p">:</span> <span class="n">ffffa5c91190c000</span>
+
+<span class="p">[</span> <span class="p">...</span> <span class="n">output</span> <span class="n">trimmed</span> <span class="p">...</span> <span class="p">]</span>
+
+<span class="n">Call</span> <span class="nl">Trace</span><span class="p">:</span>
+ <span class="n">gp100_gr_init</span><span class="o">+</span><span class="mh">0x6f0</span><span class="o">/</span><span class="mh">0x720</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">gf100_gr_init_</span><span class="o">+</span><span class="mh">0x55</span><span class="o">/</span><span class="mh">0x60</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_gr_init</span><span class="o">+</span><span class="mh">0x17</span><span class="o">/</span><span class="mh">0x20</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_engine_init</span><span class="o">+</span><span class="mh">0x68</span><span class="o">/</span><span class="mh">0x1f0</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_subdev_init</span><span class="o">+</span><span class="mh">0xb0</span><span class="o">/</span><span class="mh">0x200</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_engine_ref</span><span class="o">+</span><span class="mh">0x4f</span><span class="o">/</span><span class="mh">0x70</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_ioctl_new</span><span class="o">+</span><span class="mh">0x2b4</span><span class="o">/</span><span class="mh">0x300</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="o">?</span> <span class="n">nvkm_fifo_chan_dtor</span><span class="o">+</span><span class="mh">0xe0</span><span class="o">/</span><span class="mh">0xe0</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="o">?</span> <span class="n">gf100_gr_init_fw</span><span class="p">.</span><span class="n">isra</span><span class="mf">.8</span><span class="o">+</span><span class="mh">0x50</span><span class="o">/</span><span class="mh">0x50</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_ioctl</span><span class="o">+</span><span class="mh">0x118</span><span class="o">/</span><span class="mh">0x280</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_client_ioctl</span><span class="o">+</span><span class="mh">0x12</span><span class="o">/</span><span class="mh">0x20</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvif_client_ioctl</span><span class="o">+</span><span class="mh">0x26</span><span class="o">/</span><span class="mh">0x30</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">usif_ioctl</span><span class="o">+</span><span class="mh">0x637</span><span class="o">/</span><span class="mh">0x750</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nouveau_drm_ioctl</span><span class="o">+</span><span class="mh">0xaf</span><span class="o">/</span><span class="mh">0xc0</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+
+<span class="p">[</span> <span class="p">...</span> <span class="n">output</span> <span class="n">trimmed</span> <span class="p">...</span> <span class="p">]</span>
+
+<span class="o">---</span><span class="p">[</span> <span class="n">end</span> <span class="n">trace</span> <span class="mi">1</span><span class="n">ee905135b51d0af</span> <span class="p">]</span><span class="o">---</span>
+<span class="n">nouveau</span> <span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="o">:</span> <span class="nl">gr</span><span class="p">:</span> <span class="n">init</span> <span class="n">failed</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span>
+<span class="n">nouveau</span> <span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="o">:</span> <span class="n">timeout</span>
+<span class="o">------------</span><span class="p">[</span> <span class="n">cut</span> <span class="n">here</span> <span class="p">]</span><span class="o">------------</span>
+<span class="nl">WARNING</span><span class="p">:</span> <span class="nl">CPU</span><span class="p">:</span> <span class="mi">2</span> <span class="nl">PID</span><span class="p">:</span> <span class="mi">4100</span> <span class="n">at</span> <span class="n">drivers</span><span class="o">/</span><span class="n">gpu</span><span class="o">/</span><span class="n">drm</span><span class="o">/</span><span class="n">nouveau</span><span class="o">/</span><span class="n">nvkm</span><span class="o">/</span><span class="n">subdev</span><span class="o">/</span><span class="n">mmu</span><span class="o">/</span><span class="n">gf100</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">190</span> <span class="n">gf100_vm_flush</span><span class="o">+</span><span class="mh">0x1ab</span><span class="o">/</span><span class="mh">0x1c0</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+
+<span class="p">[</span> <span class="p">...</span> <span class="n">output</span> <span class="n">trimmed</span> <span class="p">...</span> <span class="p">]</span>
+
+<span class="n">Hardware</span> <span class="nl">name</span><span class="p">:</span> <span class="n">Dell</span> <span class="n">Inc</span><span class="p">.</span> <span class="n">XPS</span> <span class="mi">15</span> <span class="mi">9560</span><span class="o">/</span><span class="mf">05FF</span><span class="n">DN</span><span class="p">,</span> <span class="n">BIOS</span> <span class="mf">1.3.4</span> <span class="mo">06</span><span class="o">/</span><span class="mi">08</span><span class="o">/</span><span class="mi">2017</span>
+<span class="nl">task</span><span class="p">:</span> <span class="n">ffff8d8261e00000</span> <span class="n">task</span><span class="p">.</span><span class="nl">stack</span><span class="p">:</span> <span class="n">ffffa5c91190c000</span>
+
+<span class="p">[</span> <span class="p">...</span> <span class="n">output</span> <span class="n">trimmed</span> <span class="p">...</span> <span class="p">]</span>
+
+<span class="n">Call</span> <span class="nl">Trace</span><span class="p">:</span>
+ <span class="n">nvkm_vm_unmap_at</span><span class="o">+</span><span class="mh">0xbc</span><span class="o">/</span><span class="mh">0x100</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nvkm_vm_unmap</span><span class="o">+</span><span class="mh">0x1b</span><span class="o">/</span><span class="mh">0x20</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">nouveau_gem_object_close</span><span class="o">+</span><span class="mh">0x1aa</span><span class="o">/</span><span class="mh">0x1c0</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+ <span class="n">drm_gem_object_release_handle</span><span class="o">+</span><span class="mh">0x4b</span><span class="o">/</span><span class="mh">0x90</span> <span class="p">[</span><span class="n">drm</span><span class="p">]</span>
+ <span class="n">drm_gem_handle_delete</span><span class="o">+</span><span class="mh">0x58</span><span class="o">/</span><span class="mh">0x80</span> <span class="p">[</span><span class="n">drm</span><span class="p">]</span>
+ <span class="n">drm_gem_close_ioctl</span><span class="o">+</span><span class="mh">0x20</span><span class="o">/</span><span class="mh">0x30</span> <span class="p">[</span><span class="n">drm</span><span class="p">]</span>
+ <span class="n">drm_ioctl</span><span class="o">+</span><span class="mh">0x213</span><span class="o">/</span><span class="mh">0x4d0</span> <span class="p">[</span><span class="n">drm</span><span class="p">]</span>
+ <span class="o">?</span> <span class="n">drm_gem_handle_create</span><span class="o">+</span><span class="mh">0x40</span><span class="o">/</span><span class="mh">0x40</span> <span class="p">[</span><span class="n">drm</span><span class="p">]</span>
+ <span class="o">?</span> <span class="n">sock_write_iter</span><span class="o">+</span><span class="mh">0x8c</span><span class="o">/</span><span class="mh">0xf0</span>
+ <span class="n">nouveau_drm_ioctl</span><span class="o">+</span><span class="mh">0x72</span><span class="o">/</span><span class="mh">0xc0</span> <span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
+<span class="o">---</span><span class="p">[</span> <span class="n">end</span> <span class="n">trace</span> <span class="mi">1</span><span class="n">ee905135b51d0b0</span> <span class="p">]</span><span class="o">---</span>
+</pre></div>
+
+
+<p>Rhys Kidd, a Nouveau developer, wrote the following in <a href="https://bugs.freedesktop.org/show_bug.cgi?id=102275#c1">an answer to a bug
+report for a similar issue on freedesktop.org's Bugzilla</a> on Aug 17, 2017:</p>
+<blockquote>
+<p>Nouveau has difficulties with the GTX 1050 Mobile (GP107/NV137) around power
+state up/down. I'd suggest you continue to follow <a href="https://bugs.freedesktop.org/show_bug.cgi?id=100228">that bug report</a> for further updates.</p>
+<p>Whilst <code>nouveau.runpm=0</code> assists a little bit, for now, to improve the
+experience on the XPS 9560 you should use <code>nouveau.modeset=0</code> (although that
+does mean the Nvidia GPU is unavailable for use). This suggestion might
+change with future kernel releases.</p>
+</blockquote>
+<p>To follow his suggestion and permanently add <code>nouveau.modeset=0</code> to the
+kernel's command line options, edit <code>/etc/default/grub.conf</code> and append
+<code>nouveau.modeset=0</code> to the contents of the <code>GRUB_CMDLINE_LINUX</code> variable.</p>
+<p>Afterwards, run <code>sudo grub2-mkconfig -o /etc/grub2-efi.cfg</code> to regenerate
+GRUB's configuration.</p>
+<h2 id="updating-firmware-to-version-134">Updating firmware to version 1.3.4+</h2>
+<p>It is important to upgrade the laptop's firmware to (at least) <a href="https://www.notebookcheck.net/XPS-15-9560-gets-BIOS-update-fixing-Skylake-Kaby-Lake-microcode-bug.232054.0.html">version 1.3.4</a>
+since it fixes <a href="https://lwn.net/Articles/726496/">a serious issue with Intel's Skylake and Kaby Lake
+architectures where the CPU could dangerously misbehave when hyper-threading is
+enabled</a>.</p>
+<p>Fortunately, Dell has put Linux users in the prime seat and offers seamless
+firmware updates on Linux via <a href="https://blogs.gnome.org/hughsie/">Richard Hughes</a>'s excellent <a href="http://www.fwupd.org/">fwupd tool</a>.</p>
+<p>To update the firmware using command line, simply run:</p>
+<div class="highlight"><pre><span></span>fwupdmgr get-updates
+</pre></div>
+
+
+<p>to see the list of available updates. To download the available update and
+install it after reboot, run:</p>
+<div class="highlight"><pre><span></span>fwupdmgr update
+</pre></div>
+
+
+<p>Alternatively, you can also update the firmware using GNOME's <a href="https://wiki.gnome.org/Apps/Software">Software app</a>.</p>
+<h1 id="issues-with-wireless-performance-on-kernel-412">Issues with wireless performance on kernel 4.12</h1>
+<p>I've experienced <a href="https://bodhi.fedoraproject.org/updates/kernel-4.12.5-300.fc26#comment-645648">an order of magnitude wireless performance drop after
+upgrading from <code>kernel-4.11.11-300.fc26.x86_64</code> to <code>kernel-4.12.5-300.fc26</code></a>
+with the Qualcomm Atheros QCA6174 802.11ac wireless network adapter that is
+installed in the laptop.
+The reported wireless link speed is in 1 - 6 Mbps range, which is very low.</p>
+<p>I haven't had time to investigate this further yet.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Overall, my experience (minus the problems with NVIDIA's graphics card and
+its open-source drivers and the wireless performance issue) has been quite
+positive.</p>
+<p>Sadly, getting all the features of a new laptop to work seamlessly after it
+launches is <em>not there yet</em> and one still has to be quite knowledgable to make
+the most out of the system.</p>
+<p>However, I'm optimistic and I think it's getting better. For example, I was
+pleasantly surprised how GNOME seamlessly re-scales the interface after
+connecting/disconnecting a non-HiDPI monitor. Suspend also works without a
+hitch!</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>
+      <a href="http://tadej.ja.nez.si/tag/dell.html">dell</a>
+      <a href="http://tadej.ja.nez.si/tag/hardware.html">hardware</a>
+      <a href="http://tadej.ja.nez.si/tag/laptop.html">laptop</a>
+    </p>
+  </div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'tadejjanez';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</article>
+
+    <footer>
+        <p>&copy; Tadej Janež 2016-2017</p>
+<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85987058-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Tadej Janež ",
+  "url" : "http://tadej.ja.nez.si",
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "description": ""
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "Running Fedora 26 on Dell XPS 15 9560",
+  "headline": "Running Fedora 26 on Dell XPS 15 9560",
+  "datePublished": "2017-09-04 09:35:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Tadej Janež",
+    "url": "http://tadej.ja.nez.si/author/tadej-janez.html"
+  },
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "url": "http://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html",
+  "description": "Recently, I got a new laptop, a Dell XPS 15 9560 with 4k display, 32 GiBs of RAM and 1 TiB M.2 SSD drive. Quite nice specs, aren't they ? Unfortunately, I wasn't able to purchase it without Windows pre-installed. But they didn't last long since I wiped the hard drive and installed Fedora 26 on it. Let me briefly describe my experience and guide you through some trickier parts of the setup."
+}
+</script></body>
+</html>
