@@ -167,7 +167,7 @@ does mean the Nvidia GPU is unavailable for use). This suggestion might
 change with future kernel releases.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;To follow his suggestion and permanently add &lt;code&gt;nouveau.modeset=0&lt;/code&gt; to the
-kernel's command line options, edit &lt;code&gt;/etc/default/grub.conf&lt;/code&gt; and append
+kernel's command line options, edit &lt;code&gt;/etc/default/grub&lt;/code&gt; and append
 &lt;code&gt;nouveau.modeset=0&lt;/code&gt; to the contents of the &lt;code&gt;GRUB_CMDLINE_LINUX&lt;/code&gt; variable.&lt;/p&gt;
 &lt;p&gt;Afterwards, run &lt;code&gt;sudo grub2-mkconfig -o /etc/grub2-efi.cfg&lt;/code&gt; to regenerate
 GRUB's configuration.&lt;/p&gt;
@@ -179,7 +179,8 @@ enabled&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Fortunately, Dell has put Linux users in the prime seat and offers seamless
 firmware updates on Linux via &lt;a href="https://blogs.gnome.org/hughsie/"&gt;Richard Hughes&lt;/a&gt;'s excellent &lt;a href="http://www.fwupd.org/"&gt;fwupd tool&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To update the firmware using command line, simply run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fwupdmgr get-updates
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fwupdmgr refresh
+fwupdmgr get-updates
 &lt;/pre&gt;&lt;/div&gt;
 
 

@@ -222,7 +222,7 @@ does mean the Nvidia GPU is unavailable for use). This suggestion might
 change with future kernel releases.</p>
 </blockquote>
 <p>To follow his suggestion and permanently add <code>nouveau.modeset=0</code> to the
-kernel's command line options, edit <code>/etc/default/grub.conf</code> and append
+kernel's command line options, edit <code>/etc/default/grub</code> and append
 <code>nouveau.modeset=0</code> to the contents of the <code>GRUB_CMDLINE_LINUX</code> variable.</p>
 <p>Afterwards, run <code>sudo grub2-mkconfig -o /etc/grub2-efi.cfg</code> to regenerate
 GRUB's configuration.</p>
@@ -234,7 +234,8 @@ enabled</a>.</p>
 <p>Fortunately, Dell has put Linux users in the prime seat and offers seamless
 firmware updates on Linux via <a href="https://blogs.gnome.org/hughsie/">Richard Hughes</a>'s excellent <a href="http://www.fwupd.org/">fwupd tool</a>.</p>
 <p>To update the firmware using command line, simply run:</p>
-<div class="highlight"><pre><span></span>fwupdmgr get-updates
+<div class="highlight"><pre><span></span>fwupdmgr refresh
+fwupdmgr get-updates
 </pre></div>
 
 
