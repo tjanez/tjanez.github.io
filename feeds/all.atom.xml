@@ -8,7 +8,13 @@ they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="ht
 they didn't last long since I wiped the hard drive and installed &lt;a href="https://fedoramagazine.org/fedora-26-is-here/"&gt;Fedora 26&lt;/a&gt; on it.&lt;/p&gt;
 &lt;p&gt;Let me briefly describe my experience and guide you through some trickier parts
 of the setup.&lt;/p&gt;
-</summary><content type="html">
+</summary><content type="html">&lt;p&gt;&lt;em&gt;Update (November 18, 2017): After receiving lots of feedback about issues with
+setting up the graphics to an adequate level, I rewrote &lt;a href="#setting-up-graphics"&gt;that part of the blog
+post&lt;/a&gt;. I've also added instructions on actually &lt;a href="#enabling-the-use-of-normal-graphics-drivers"&gt;enabling
+the use of &lt;em&gt;normal&lt;/em&gt; graphics drivers
+&lt;/a&gt; since many people unknowingly
+used Mesa's software rasterizer, which causes all sorts of issues.&lt;/em&gt;&lt;/p&gt;
+
 
 &lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
@@ -48,10 +54,40 @@ follow its instructions.&lt;/p&gt;
 &lt;p&gt;After installation, make sure to update all packages to get the latest
 kernel (4.12 at the time of writing) and other important updates which will
 make Fedora run smoother on this laptop.&lt;/p&gt;
-&lt;h2 id="preventing-hangs-on-boot-and-soft-kernel-lockups"&gt;Preventing hangs on boot and soft kernel lockups&lt;/h2&gt;
-&lt;p&gt;The laptop comes with a discrete graphics card, a &lt;a href="https://en.wikipedia.org/wiki/GeForce_10_series#GeForce_10_.2810xx.29_series_for_notebooks"&gt;NVIDIA GeForce GTX 1050
-Mobile(GP107M)&lt;/a&gt;,
-which unfortunately doesn't work well with the &lt;a href="https://nouveau.freedesktop.org/wiki/"&gt;Nouveau drivers&lt;/a&gt; yet (as of kernel 4.12).&lt;/p&gt;
+&lt;h2 id="setting-up-graphics"&gt;Setting up graphics&lt;/h2&gt;
+&lt;p&gt;The laptop comes with a discrete &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;, the &lt;a href="https://en.wikipedia.org/wiki/GeForce_10_series#GeForce_10_.2810xx.29_series_for_notebooks"&gt;NVIDIA GeForce GTX 1050
+Mobile (GP107M)&lt;/a&gt;,
+and an integrated &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;, the &lt;a href="https://en.wikipedia.org/wiki/Intel_HD_and_Iris_Graphics#Kaby_Lake"&gt;Intel HD Graphics 630 (Kaby Lake GT2)&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="enabling-the-use-of-normal-graphics-drivers"&gt;Enabling the use of &lt;em&gt;normal&lt;/em&gt; graphics drivers&lt;/h3&gt;
+&lt;p&gt;Since we needed to use the &lt;em&gt;basic graphics mode&lt;/em&gt; when &lt;a href="#booting-fedora-26-from-a-live-usb"&gt;booting Fedora 26 from
+a live USB&lt;/a&gt;, the installer "baked" this
+information into the newly installed system. While this is a safe choice, i.e.
+the system is guaranteed to successfully boot into graphics mode, it also means
+that no advanced graphics features will work.
+When I used the system in this mode, GNOME didn't detect that it runs on a
+HiDPI screen and hence everything on the screen was too small. Connecting an
+external monitor also didn't work and moving around the UI elements was slow
+and sluggish.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;If you want to check if you are running in the &lt;em&gt;basic graphics mode&lt;/em&gt;, go to
+GNOME's Settings and open the &lt;em&gt;Details&lt;/em&gt; dialog. If you see &lt;code&gt;Gallium 0.4 on
+llvmpipe (...)&lt;/code&gt; or similar under &lt;em&gt;Graphics&lt;/em&gt;, this means the system is
+running in the &lt;em&gt;basic graphics mode&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;The reason for this is that the installer added the &lt;code&gt;nomodeset&lt;/code&gt; kernel command
+line option to GRUB's settings. Passing the &lt;code&gt;nomodeset&lt;/code&gt; option to the kernel
+disables &lt;a href="https://fedoraproject.org/wiki/Features/KernelModesetting"&gt;Kernel Mode setting (KMS)&lt;/a&gt; which in turn forces
+the system to fallback to using &lt;a href="https://www.mesa3d.org/llvmpipe.html"&gt;Mesa's Gallium llvmpipe driver&lt;/a&gt; which is a software rasterizer that runs
+on the &lt;abbr title="Central processing unit"&gt;CPU&lt;/abbr&gt;.&lt;/p&gt;
+&lt;p&gt;To enable &lt;em&gt;normal&lt;/em&gt; graphics drivers, edit &lt;code&gt;/etc/default/grub&lt;/code&gt; and remove
+&lt;code&gt;nomodeset&lt;/code&gt; from the contents of the &lt;code&gt;GRUB_CMDLINE_LINUX&lt;/code&gt; variable.&lt;/p&gt;
+&lt;p&gt;Afterwards, run &lt;code&gt;sudo grub2-mkconfig -o /etc/grub2-efi.cfg&lt;/code&gt; to regenerate
+GRUB's configuration and reboot the system.&lt;/p&gt;
+&lt;h3 id="a-rocky-road-when-trying-to-use-nvidia-discrete-gpu-with-nouveau-drivers"&gt;A rocky road when trying to use NVIDIA discrete &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt; with Nouveau drivers&lt;/h3&gt;
+&lt;p&gt;Unfortunately, NVIDIA GeForce GTX 1050 Mobile (GP107M) doesn't work well with
+the &lt;a href="https://nouveau.freedesktop.org/wiki/"&gt;Nouveau drivers&lt;/a&gt; yet (as of kernel
+4.12).&lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
 &lt;p&gt;Initial support for NVIDIA's GP107 devices &lt;a href="https://git.kernel.org/linus/b2c4ef70790cee37f243af2b303727394edae1d5"&gt;has&lt;/a&gt;
@@ -156,25 +192,51 @@ tracebacks related to the Nouveau driver:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Rhys Kidd, a Nouveau developer, wrote the following in &lt;a href="https://bugs.freedesktop.org/show_bug.cgi?id=102275#c1"&gt;an answer to a bug
-report for a similar issue on freedesktop.org's Bugzilla&lt;/a&gt; on Aug 17, 2017:&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;I've also dipped my toes into setting up a hybrid graphics setup that would
+use &lt;a href="http://www.nvidia.com/download/driverResults.aspx/126185/en-us"&gt;Nvidia's proprietary driver&lt;/a&gt; as
+&lt;a href="https://negativo17.org/nvidia-driver/"&gt;packaged by negativo17&lt;/a&gt; in
+combination with the open source driver for Intel's integrated &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;.&lt;/p&gt;
+&lt;p&gt;I haven't been successful in the limited time I devoted this, but if you
+want to try this out I suggest you read &lt;a href="https://blogs.gnome.org/uraeus/"&gt;Christian Schaller's (manager of
+Red Hat's Desktop team)&lt;/a&gt; blog post on
+&lt;a href="https://blogs.gnome.org/uraeus/2017/07/13/fedora-workstation-26-is-out/"&gt;Fedora Workstation 26&lt;/a&gt;.
+The post describes the advancements the Red Hat Desktop team has made in
+making the hybrid graphics setups easy to use, even if one uses the
+proprietary Nvidia driver.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3 id="flying-high-after-starting-to-use-intels-integrated-gpu"&gt;Flying high after starting to use Intel's integrated &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;&lt;/h3&gt;
+&lt;p&gt;After encountering a Nouveau developer's (Rhys Kidd) &lt;a href="https://bugs.freedesktop.org/show_bug.cgi?id=102275#c1"&gt;answer to a bug report
+for a similar issue that I described above on freedesktop.org's Bugzilla&lt;/a&gt; on Aug 17, 2017:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Nouveau has difficulties with the GTX 1050 Mobile (GP107/NV137) around power
 state up/down. I'd suggest you continue to follow &lt;a href="https://bugs.freedesktop.org/show_bug.cgi?id=100228"&gt;that bug report&lt;/a&gt; for further updates.&lt;/p&gt;
 &lt;p&gt;Whilst &lt;code&gt;nouveau.runpm=0&lt;/code&gt; assists a little bit, for now, to improve the
 experience on the XPS 9560 you should use &lt;code&gt;nouveau.modeset=0&lt;/code&gt; (although that
-does mean the Nvidia GPU is unavailable for use). This suggestion might
+does mean the Nvidia &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt; is unavailable for use). This suggestion might
 change with future kernel releases.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;To follow his suggestion and permanently add &lt;code&gt;nouveau.modeset=0&lt;/code&gt; to the
-kernel's command line options, edit &lt;code&gt;/etc/default/grub&lt;/code&gt; and append
-&lt;code&gt;nouveau.modeset=0&lt;/code&gt; to the contents of the &lt;code&gt;GRUB_CMDLINE_LINUX&lt;/code&gt; variable.&lt;/p&gt;
+&lt;p&gt;I decided to follow his suggestion and disable the Nouveau driver by adding
+&lt;code&gt;nouveau.modeset=0&lt;/code&gt; to the kernel's command line options. In my observations so
+far, everything is working smootly:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;automatic scaling of GNOME's interface (it even works if you use laptop's
+    built-in HiDPI display in combination with an external non-HiDPI display),&lt;/li&gt;
+&lt;li&gt;fast day to day work (i.e. no sluggishness),&lt;/li&gt;
+&lt;li&gt;suspend and resume (works even after many suspend and resume cycles or if
+    you resume the laptop with/without an external display),&lt;/li&gt;
+&lt;li&gt;battery life is great (I haven't done any proper benchmarks, but it easily
+    lasts around 4 hours of my ordinary programming work).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To make this permament, edit &lt;code&gt;/etc/default/grub&lt;/code&gt; and append &lt;code&gt;nouveau.modeset=0&lt;/code&gt;
+to the contents of the &lt;code&gt;GRUB_CMDLINE_LINUX&lt;/code&gt; variable.&lt;/p&gt;
 &lt;p&gt;Afterwards, run &lt;code&gt;sudo grub2-mkconfig -o /etc/grub2-efi.cfg&lt;/code&gt; to regenerate
 GRUB's configuration.&lt;/p&gt;
 &lt;h2 id="updating-firmware-to-version-134"&gt;Updating firmware to version 1.3.4+&lt;/h2&gt;
 &lt;p&gt;It is important to upgrade the laptop's firmware to (at least) &lt;a href="https://www.notebookcheck.net/XPS-15-9560-gets-BIOS-update-fixing-Skylake-Kaby-Lake-microcode-bug.232054.0.html"&gt;version 1.3.4&lt;/a&gt;
 since it fixes &lt;a href="https://lwn.net/Articles/726496/"&gt;a serious issue with Intel's Skylake and Kaby Lake
-architectures where the CPU could dangerously misbehave when hyper-threading is
+architectures where the &lt;abbr title="Central processing unit"&gt;CPU&lt;/abbr&gt; could dangerously misbehave when hyper-threading is
 enabled&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Fortunately, Dell has put Linux users in the prime seat and offers seamless
 firmware updates on Linux via &lt;a href="https://blogs.gnome.org/hughsie/"&gt;Richard Hughes&lt;/a&gt;'s excellent &lt;a href="http://www.fwupd.org/"&gt;fwupd tool&lt;/a&gt;.&lt;/p&gt;
