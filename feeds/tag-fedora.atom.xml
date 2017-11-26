@@ -1,5 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - fedora</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-fedora.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-09-04T09:35:00+02:00</updated><entry><title>Running Fedora 26 on Dell XPS 15 9560</title><link href="http://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html" rel="alternate"></link><published>2017-09-04T09:35:00+02:00</published><updated>2017-09-04T09:35:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - fedora</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-fedora.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-11-26T22:13:00+01:00</updated><entry><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link href="http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html" rel="alternate"></link><published>2017-11-26T22:13:00+01:00</published><updated>2017-11-26T22:13:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-11-26:/enabling-testing-repos-in-copr.html</id><summary type="html">
+
+&lt;p&gt;When creating a Copr project, one can specify which chroots, i.e. which
+distribution version and architecture combinations, to enable. Examples of
+chroots are &lt;code&gt;fedora-27-x86_64&lt;/code&gt;, &lt;code&gt;epel-7-ppc64le&lt;/code&gt;, &lt;code&gt;fedora-rawhide-i386&lt;/code&gt; etc.&lt;/p&gt;
+&lt;p&gt;However, there is no easy to use option to enable testing repositories, e.g.
+the &lt;a href="https://fedoraproject.org/wiki/Repositories#updates-testing"&gt;&lt;code&gt;updates-testing&lt;/code&gt; repository&lt;/a&gt; for Fedora
+Branched and stable releases, when specifying the chroots.
+Let me show you how you can easily achieve that by specifying an extra
+repository with a parameterized URL.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&lt;a href="https://copr.fedorainfracloud.org"&gt;Copr&lt;/a&gt; is a really useful &lt;a href="https://getfedora.org/"&gt;Fedora&lt;/a&gt; community build service which also hosts
+&lt;a href="http://dnf.readthedocs.io"&gt;dnf&lt;/a&gt;/&lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt; repositories of
+the built packages.&lt;/p&gt;
+
+
+&lt;p&gt;When creating a Copr project, one can specify which chroots, i.e. which
+distribution version and architecture combinations, to enable. Examples of
+chroots are &lt;code&gt;fedora-27-x86_64&lt;/code&gt;, &lt;code&gt;epel-7-ppc64le&lt;/code&gt;, &lt;code&gt;fedora-rawhide-i386&lt;/code&gt; etc.&lt;/p&gt;
+&lt;p&gt;However, there is no easy to use option to enable testing repositories, e.g.
+the &lt;a href="https://fedoraproject.org/wiki/Repositories#updates-testing"&gt;&lt;code&gt;updates-testing&lt;/code&gt; repository&lt;/a&gt; for Fedora
+Branched and stable releases, when specifying the chroots.
+Let me show you how you can easily achieve that by specifying an extra
+repository with a parameterized URL.&lt;/p&gt;
+
+
+&lt;p&gt;When setting up a Copr project, one can also specify extra repositories to
+enable (in the web UI, they are referred to as &lt;em&gt;External repositories&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;A nice feature of Copr is that the URLs of these extra repositories can be
+parameterized with variables representing the name of the distribution
+(&lt;code&gt;$distname&lt;/code&gt;), release version (&lt;code&gt;$releasever&lt;/code&gt;) and base architecture
+(&lt;code&gt;$basearch&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Using that, we can easily specify an extra repository that will correspond to
+the appropriate testing repository of any given chroot.&lt;/p&gt;
+&lt;p&gt;Unfortunately, Fedora and &lt;a href="https://fedoraproject.org/wiki/EPEL"&gt;&lt;abbr title="Extra Packages for Enterprise Linux"&gt;EPEL&lt;/abbr&gt;&lt;/a&gt; don't use
+the same directory structure, so one can't use the same parameterized extra
+repository URL.&lt;/p&gt;
+&lt;p&gt;If you want to enable the &lt;code&gt;updates-testing&lt;/code&gt; repository in a Fedora chroot,
+add the following extra repository URL to your Copr project:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;http://download.fedoraproject.org/pub/$distname/linux/updates/testing/$releasever/$basearch/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you want to enable the &lt;a href="https://fedoraproject.org/wiki/EPEL/testing"&gt;&lt;code&gt;epel-testing&lt;/code&gt; repository&lt;/a&gt; in an &lt;abbr title="Extra Packages for Enterprise Linux"&gt;EPEL&lt;/abbr&gt; chroot, add the
+following extra repository URL to your Copr project:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;http://download.fedoraproject.org/pub/$distname/testing/$releasever/$basearch/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To do this using &lt;a href="https://developer.fedoraproject.org/deployment/copr/copr-cli.html"&gt;Copr command line interface&lt;/a&gt;, run the
+following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;copr-cli modify --repo &lt;span class="s1"&gt;&amp;#39;&amp;lt;parameterized-extra-repository-URL&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;For example, to enable the &lt;code&gt;updates-testing&lt;/code&gt; repository in a Fedora chroot,
+run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;copr-cli modify --repo &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;http://download.fedoraproject.org/pub/$distname/linux/updates/testing/$releasever/$basearch/&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;You must put the parameterized extra repository URL in single quotes,
+otherwise Bash will evaluate the variables (e.g. &lt;code&gt;$distname&lt;/code&gt;) in the
+current context, where they are not defined, and silently substitute them
+with empty strings.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;If your Copr project includes a Fedora and an &lt;abbr title="Extra Packages for Enterprise Linux"&gt;EPEL&lt;/abbr&gt; chroot, just add both,
+the &lt;code&gt;updates-testing&lt;/code&gt; and the &lt;code&gt;epel-testing&lt;/code&gt; repository, as extra
+repositories.&lt;/p&gt;
+&lt;p&gt;A build of the Copr project in a Fedora chroot will fail to fetch the
+information about the (non-existent) &lt;code&gt;epel-testing&lt;/code&gt; repository, but it will
+successfully continue. The same goes for a build in an &lt;abbr title="Extra Packages for Enterprise Linux"&gt;EPEL&lt;/abbr&gt; chroot or a &lt;a href="https://fedoraproject.org/wiki/Repositories#The_rawhide_repository"&gt;Fedora
+rawhide&lt;/a&gt;
+chroot, which don't have a corresponding &lt;code&gt;updates-testing&lt;/code&gt; repository.&lt;/p&gt;</content><category term="copr"></category><category term="fedora"></category><category term="epel"></category></entry><entry><title>Running Fedora 26 on Dell XPS 15 9560</title><link href="http://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html" rel="alternate"></link><published>2017-09-04T09:35:00+02:00</published><updated>2017-09-04T09:35:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</id><summary type="html">
 
 &lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't

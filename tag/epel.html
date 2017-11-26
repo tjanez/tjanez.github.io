@@ -31,7 +31,7 @@
 <meta property="og:url" content="http://tadej.ja.nez.si"/>
 <meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
 
-  <title>Tadej Janež &ndash; Archives</title>
+  <title>Tadej Janež &ndash; Tag: epel</title>
 </head>
 <body>
   <aside>
@@ -51,29 +51,31 @@
 
 <article>
   <header>
-    <h1>Archives</h1>
+    <h2><a href="http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html#enabling-testing-repos-in-copr">Enabling updates-testing and epel-testing repositories when using Copr</a></h2>
+    <p>
+      Posted on Sun 26 November 2017 in <a href="http://tadej.ja.nez.si/category/fedora.html">Fedora</a>
+      &#8226; Tagged with
+      <a href="http://tadej.ja.nez.si/tag/copr.html">copr</a>,      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>,      <a href="http://tadej.ja.nez.si/tag/epel.html">epel</a>      &#8226; <a href="http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html#disqus_thread">Leave a comment</a>
+    </p>
   </header>
   <div>
-    <dl>
-      <dt>Sun 26 November 2017</dt>
-      <dd><a href="http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html">Enabling updates-testing and epel-testing repositories when using Copr</a></dd>
-      <dt>Mon 04 September 2017</dt>
-      <dd><a href="http://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html">Running Fedora 26 on Dell XPS 15 9560</a></dd>
-      <dt>Sun 27 August 2017</dt>
-      <dd><a href="http://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html">Fedora EuroPython 2017 Attendee badge</a></dd>
-      <dt>Sun 30 July 2017</dt>
-      <dd><a href="http://tadej.ja.nez.si/android-internal-storage-backup.html">Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</a></dd>
-      <dt>Fri 13 January 2017</dt>
-      <dd><a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html">Don't mix yum/dnf and pip for installation of system-wide Python packages</a></dd>
-      <dt>Wed 19 October 2016</dt>
-      <dd><a href="http://tadej.ja.nez.si/publishing-to-github-pages.html">Publishing a Pelican site to GitHub Pages using Fabric</a></dd>
-      <dt>Sat 08 October 2016</dt>
-      <dd><a href="http://tadej.ja.nez.si/setting-up-pelican-site.html">Setting up a Pelican site with Python 3 and Fabric on Fedora 24</a></dd>
-      <dt>Thu 06 October 2016</dt>
-      <dd><a href="http://tadej.ja.nez.si/hello-world.html">Hello, World!</a></dd>
-    </dl>
+      
+
+<p>When creating a Copr project, one can specify which chroots, i.e. which
+distribution version and architecture combinations, to enable. Examples of
+chroots are <code>fedora-27-x86_64</code>, <code>epel-7-ppc64le</code>, <code>fedora-rawhide-i386</code> etc.</p>
+<p>However, there is no easy to use option to enable testing repositories, e.g.
+the <a href="https://fedoraproject.org/wiki/Repositories#updates-testing"><code>updates-testing</code> repository</a> for Fedora
+Branched and stable releases, when specifying the chroots.
+Let me show you how you can easily achieve that by specifying an extra
+repository with a parameterized URL.</p>
+
+      <a class="btn" href="http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html#enabling-testing-repos-in-copr">Continue reading</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
 
     <footer>
         <p>&copy; Tadej Janež 2016-2017</p>
@@ -103,6 +105,15 @@
   "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
   "description": ""
 }
+</script>
+<script type="text/javascript">
+    var disqus_shortname = 'tadejjanez';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
 </script>
 </body>
 </html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="http://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
+
+    <link href="http://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Tadej Janež" />
+<meta name="description" content="When creating a Copr project, one can specify which chroots, i.e. which distribution version and architecture combinations, to enable. Examples of chroots are fedora-27-x86_64, epel-7-ppc64le, fedora-rawhide-i386 etc. However, there is no easy to use option to enable testing repositories, e.g. the updates-testing repository for Fedora Branched and stable releases, when specifying the chroots. Let me show you how you can easily achieve that by specifying an extra repository with a parameterized URL." />
+<meta name="keywords" content="copr, fedora, epel">
+<meta property="og:site_name" content="Tadej Janež"/>
+<meta property="og:title" content="Enabling updates-testing and epel-testing repositories when using Copr"/>
+<meta property="og:description" content="When creating a Copr project, one can specify which chroots, i.e. which distribution version and architecture combinations, to enable. Examples of chroots are fedora-27-x86_64, epel-7-ppc64le, fedora-rawhide-i386 etc. However, there is no easy to use option to enable testing repositories, e.g. the updates-testing repository for Fedora Branched and stable releases, when specifying the chroots. Let me show you how you can easily achieve that by specifying an extra repository with a parameterized URL."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-11-26 22:13:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://tadej.ja.nez.si/author/tadej-janez.html">
+<meta property="article:section" content="Fedora"/>
+<meta property="article:tag" content="copr"/>
+<meta property="article:tag" content="fedora"/>
+<meta property="article:tag" content="epel"/>
+<meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+  <title>Tadej Janež &ndash; Enabling updates-testing and epel-testing repositories when using Copr</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://tadej.ja.nez.si">
+        <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
+      </a>
+      <h1><a href="http://tadej.ja.nez.si">Tadej Janež</a></h1>
+<p>DevOps Engineer</p>      <ul class="social">
+        <li><a class="sc-github" href="https://github.com/tjanez" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/TadejJanez" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-rss" href="//tadej.ja.nez.si/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <h1 id="enabling-testing-repos-in-copr">Enabling updates-testing and epel-testing repositories when using Copr</h1>
+    <p>Posted on Sun 26 November 2017 in <a href="http://tadej.ja.nez.si/category/fedora.html">Fedora</a></p>
+  </header>
+  <div>
+    <p><a href="https://copr.fedorainfracloud.org">Copr</a> is a really useful <a href="https://getfedora.org/">Fedora</a> community build service which also hosts
+<a href="http://dnf.readthedocs.io">dnf</a>/<a href="http://yum.baseurl.org/">yum</a> repositories of
+the built packages.</p>
+
+
+<p>When creating a Copr project, one can specify which chroots, i.e. which
+distribution version and architecture combinations, to enable. Examples of
+chroots are <code>fedora-27-x86_64</code>, <code>epel-7-ppc64le</code>, <code>fedora-rawhide-i386</code> etc.</p>
+<p>However, there is no easy to use option to enable testing repositories, e.g.
+the <a href="https://fedoraproject.org/wiki/Repositories#updates-testing"><code>updates-testing</code> repository</a> for Fedora
+Branched and stable releases, when specifying the chroots.
+Let me show you how you can easily achieve that by specifying an extra
+repository with a parameterized URL.</p>
+
+
+<p>When setting up a Copr project, one can also specify extra repositories to
+enable (in the web UI, they are referred to as <em>External repositories</em>).</p>
+<p>A nice feature of Copr is that the URLs of these extra repositories can be
+parameterized with variables representing the name of the distribution
+(<code>$distname</code>), release version (<code>$releasever</code>) and base architecture
+(<code>$basearch</code>).</p>
+<p>Using that, we can easily specify an extra repository that will correspond to
+the appropriate testing repository of any given chroot.</p>
+<p>Unfortunately, Fedora and <a href="https://fedoraproject.org/wiki/EPEL"><abbr title="Extra Packages for Enterprise Linux">EPEL</abbr></a> don't use
+the same directory structure, so one can't use the same parameterized extra
+repository URL.</p>
+<p>If you want to enable the <code>updates-testing</code> repository in a Fedora chroot,
+add the following extra repository URL to your Copr project:</p>
+<div class="highlight"><pre><span></span>http://download.fedoraproject.org/pub/$distname/linux/updates/testing/$releasever/$basearch/
+</pre></div>
+
+
+<p>If you want to enable the <a href="https://fedoraproject.org/wiki/EPEL/testing"><code>epel-testing</code> repository</a> in an <abbr title="Extra Packages for Enterprise Linux">EPEL</abbr> chroot, add the
+following extra repository URL to your Copr project:</p>
+<div class="highlight"><pre><span></span>http://download.fedoraproject.org/pub/$distname/testing/$releasever/$basearch/
+</pre></div>
+
+
+<p>To do this using <a href="https://developer.fedoraproject.org/deployment/copr/copr-cli.html">Copr command line interface</a>, run the
+following:</p>
+<div class="highlight"><pre><span></span>copr-cli modify --repo <span class="s1">&#39;&lt;parameterized-extra-repository-URL&gt;&#39;</span>
+</pre></div>
+
+
+<p>For example, to enable the <code>updates-testing</code> repository in a Fedora chroot,
+run:</p>
+<div class="highlight"><pre><span></span>copr-cli modify --repo <span class="se">\</span>
+    <span class="s1">&#39;http://download.fedoraproject.org/pub/$distname/linux/updates/testing/$releasever/$basearch/&#39;</span>
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You must put the parameterized extra repository URL in single quotes,
+otherwise Bash will evaluate the variables (e.g. <code>$distname</code>) in the
+current context, where they are not defined, and silently substitute them
+with empty strings.</p>
+</div>
+<p>If your Copr project includes a Fedora and an <abbr title="Extra Packages for Enterprise Linux">EPEL</abbr> chroot, just add both,
+the <code>updates-testing</code> and the <code>epel-testing</code> repository, as extra
+repositories.</p>
+<p>A build of the Copr project in a Fedora chroot will fail to fetch the
+information about the (non-existent) <code>epel-testing</code> repository, but it will
+successfully continue. The same goes for a build in an <abbr title="Extra Packages for Enterprise Linux">EPEL</abbr> chroot or a <a href="https://fedoraproject.org/wiki/Repositories#The_rawhide_repository">Fedora
+rawhide</a>
+chroot, which don't have a corresponding <code>updates-testing</code> repository.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://tadej.ja.nez.si/tag/copr.html">copr</a>
+      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>
+      <a href="http://tadej.ja.nez.si/tag/epel.html">epel</a>
+    </p>
+  </div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'tadejjanez';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</article>
+
+    <footer>
+        <p>&copy; Tadej Janež 2016-2017</p>
+<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85987058-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Tadej Janež ",
+  "url" : "http://tadej.ja.nez.si",
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "description": ""
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "Enabling updates-testing and epel-testing repositories when using Copr",
+  "headline": "Enabling updates-testing and epel-testing repositories when using Copr",
+  "datePublished": "2017-11-26 22:13:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Tadej Janež",
+    "url": "http://tadej.ja.nez.si/author/tadej-janez.html"
+  },
+  "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
+  "url": "http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html",
+  "description": "When creating a Copr project, one can specify which chroots, i.e. which distribution version and architecture combinations, to enable. Examples of chroots are fedora-27-x86_64, epel-7-ppc64le, fedora-rawhide-i386 etc. However, there is no easy to use option to enable testing repositories, e.g. the updates-testing repository for Fedora Branched and stable releases, when specifying the chroots. Let me show you how you can easily achieve that by specifying an extra repository with a parameterized URL."
+}
+</script></body>
+</html>
