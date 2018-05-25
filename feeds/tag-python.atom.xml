@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - python</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-python.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-08-27T15:51:00+02:00</updated><entry><title>Fedora EuroPython 2017 Attendee badge</title><link href="http://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html" rel="alternate"></link><published>2017-08-27T15:51:00+02:00</published><updated>2017-08-27T15:51:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-08-27:/fedora-europython2017-attendee-badge.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - python</title><link href="https://tadej.ja.nez.si/" rel="alternate"></link><link href="https://tadej.ja.nez.si/feeds/tag-python.atom.xml" rel="self"></link><id>https://tadej.ja.nez.si/</id><updated>2017-08-27T15:51:00+02:00</updated><entry><title>Fedora EuroPython 2017 Attendee badge</title><link href="https://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html" rel="alternate"></link><published>2017-08-27T15:51:00+02:00</published><updated>2017-08-27T15:51:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-08-27:/fedora-europython2017-attendee-badge.html</id><summary type="html">
 
 &lt;p&gt;A little late, but no less cool, &lt;a href="https://badges.fedoraproject.org/badge/europython-2017-attendee"&gt;Fedora EuroPython 2017 Attendee badge&lt;/a&gt; is available
 &lt;img align="absmiddle" alt="🎉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f389.svg" title=":tada:" width="20px"&gt;!&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="http://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="https://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
 </summary><content type="html">
 
 &lt;p&gt;A little late, but no less cool, &lt;a href="https://badges.fedoraproject.org/badge/europython-2017-attendee"&gt;Fedora EuroPython 2017 Attendee badge&lt;/a&gt; is available
 &lt;img align="absmiddle" alt="🎉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f389.svg" title=":tada:" width="20px"&gt;!&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="http://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="https://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
 
 
 &lt;p&gt;I've just been given the rights to award the badge, so if you attended &lt;a href="https://ep2017.europython.eu/en/"&gt;this
@@ -21,31 +21,31 @@ have this badge, please contact me and I'll be happy to award it to you.&lt;/p&g
 a photo of your conference badge, a link to your talk, ...).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For example, here is a photo of me and my pimped up conference badge &lt;img align="absmiddle" alt="😃" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f603.svg" title=":smiley:" width="20px"&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Me holding my EuroPython 2017 badge" src="http://tadej.ja.nez.si/images/europyhon2017-photo.jpg"&gt;&lt;/p&gt;
-&lt;p&gt;And please share this information with other EuroPython 2017 attendees!&lt;/p&gt;</content><category term="fedora"></category><category term="python"></category><category term="badge"></category></entry><entry><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html" rel="alternate"></link><published>2017-01-13T11:43:00+01:00</published><updated>2017-01-13T11:43:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html</id><summary type="html">
+&lt;p&gt;&lt;img alt="Me holding my EuroPython 2017 badge" src="https://tadej.ja.nez.si/images/europyhon2017-photo.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;And please share this information with other EuroPython 2017 attendees!&lt;/p&gt;</content><category term="fedora"></category><category term="python"></category><category term="badge"></category></entry><entry><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html" rel="alternate"></link><published>2017-01-13T11:43:00+01:00</published><updated>2017-01-13T11:43:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html</id><summary type="html">
 
 &lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
 &lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
-installation of system-wide Python packages This causes &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
+installation of system-wide Python packages This causes &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
 &lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;TL; DR&lt;/strong&gt; &lt;em&gt;Install system-wide Python packages with yum/dnf and only use pip
 inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
-see my &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
+see my &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
 &lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;&lt;em&gt;Update (January 25, 2017): Updated &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;instructions on preparing the Python
+</summary><content type="html">&lt;p&gt;&lt;em&gt;Update (January 25, 2017): Updated &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;instructions on preparing the Python
 virtual environment to work with setuptools 34+ on CentOS/RHEL 7&lt;/a&gt;.
-Also updated &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;the Ansible playbook&lt;/a&gt;
+Also updated &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;the Ansible playbook&lt;/a&gt;
 to skip seperately updating pip and setuptools upon creation of a new virtual
 environment on Fedora.&lt;/em&gt;&lt;/p&gt;
 
 
 &lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
 &lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
-installation of system-wide Python packages This causes &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
+installation of system-wide Python packages This causes &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
 &lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;TL; DR&lt;/strong&gt; &lt;em&gt;Install system-wide Python packages with yum/dnf and only use pip
 inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
-see my &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
+see my &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
 &lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 
@@ -169,7 +169,7 @@ pip install -U setuptools
 
 
 &lt;p&gt;A complete Ansible playbook for proper creation of a Python virtual
-environment is provided &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;later&lt;/a&gt;.&lt;/p&gt;
+environment is provided &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;later&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Then install whichever Python package you want inside the Python virtual
 environment.&lt;/p&gt;
@@ -257,11 +257,11 @@ to achieve that:&lt;/p&gt;
 
 
 &lt;p&gt;Put it before the &lt;em&gt;Install project's requirements in virtual environement&lt;/em&gt;
-task.&lt;/p&gt;</content><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="http://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+task.&lt;/p&gt;</content><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="https://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+</summary><content type="html">&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
@@ -480,7 +480,7 @@ via GitHub Pages. For more information, see the &lt;a href="https://github.com/i
 lengthy discussion&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;To see this implemented in practice, browse the
-&lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="http://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><updated>2016-10-08T10:16:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</id><summary type="html">
+&lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="https://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><updated>2016-10-08T10:16:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</id><summary type="html">
 
 &lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
 &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;. As of Oct 10, 2016 it has
@@ -496,7 +496,7 @@ finally, create a Hello World blog post.&lt;/p&gt;
 &lt;code&gt;py3-&amp;lt;command&amp;gt;&lt;/code&gt; to &lt;code&gt;&amp;lt;command&amp;gt;-3&lt;/code&gt; so make sure to update to the latest Fedora
 Pelican packages and use the &lt;code&gt;&amp;lt;command&amp;gt;-3&lt;/code&gt; syntax.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Update (October 19, 2016):
-The &lt;a href="http://tadej.ja.nez.si/publishing-to-github-pages.html"&gt;follow-up blog post&lt;/a&gt; on
+The &lt;a href="https://tadej.ja.nez.si/publishing-to-github-pages.html"&gt;follow-up blog post&lt;/a&gt; on
 publishing your site to GitHub Pages with a sleek Fabric task has been
 published.&lt;/em&gt;&lt;/p&gt;
 

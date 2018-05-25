@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - Site</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/category-site.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2016-10-19T19:05:00+02:00</updated><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="http://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - Site</title><link href="https://tadej.ja.nez.si/" rel="alternate"></link><link href="https://tadej.ja.nez.si/feeds/category-site.atom.xml" rel="self"></link><id>https://tadej.ja.nez.si/</id><updated>2016-10-19T19:05:00+02:00</updated><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="https://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+</summary><content type="html">&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
@@ -222,7 +222,7 @@ via GitHub Pages. For more information, see the &lt;a href="https://github.com/i
 lengthy discussion&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;To see this implemented in practice, browse the
-&lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="http://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><updated>2016-10-08T10:16:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</id><summary type="html">
+&lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="https://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><updated>2016-10-08T10:16:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</id><summary type="html">
 
 &lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
 &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;. As of Oct 10, 2016 it has
@@ -238,7 +238,7 @@ finally, create a Hello World blog post.&lt;/p&gt;
 &lt;code&gt;py3-&amp;lt;command&amp;gt;&lt;/code&gt; to &lt;code&gt;&amp;lt;command&amp;gt;-3&lt;/code&gt; so make sure to update to the latest Fedora
 Pelican packages and use the &lt;code&gt;&amp;lt;command&amp;gt;-3&lt;/code&gt; syntax.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Update (October 19, 2016):
-The &lt;a href="http://tadej.ja.nez.si/publishing-to-github-pages.html"&gt;follow-up blog post&lt;/a&gt; on
+The &lt;a href="https://tadej.ja.nez.si/publishing-to-github-pages.html"&gt;follow-up blog post&lt;/a&gt; on
 publishing your site to GitHub Pages with a sleek Fabric task has been
 published.&lt;/em&gt;&lt;/p&gt;
 
@@ -480,7 +480,7 @@ really serve its purpose if its only available on your local computer, does it?&
 &lt;p&gt;I plan to write a follow-up blog post that will show you how to publish your
 site to &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; with a sleek Fabric task to
 do it automatically. Stay tuned!&lt;/p&gt;
-&lt;p&gt;Meanwhile, you can also browse the &lt;a href="https://github.com/tjanez/site"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry><entry><title>Hello, World!</title><link href="http://tadej.ja.nez.si/hello-world.html" rel="alternate"></link><published>2016-10-06T10:52:00+02:00</published><updated>2016-10-06T10:52:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-06:/hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
+&lt;p&gt;Meanwhile, you can also browse the &lt;a href="https://github.com/tjanez/site"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry><entry><title>Hello, World!</title><link href="https://tadej.ja.nez.si/hello-world.html" rel="alternate"></link><published>2016-10-06T10:52:00+02:00</published><updated>2016-10-06T10:52:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-06:/hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
 and Alexandre Vicenzi's great &lt;a href="https://github.com/alexandrevicenzi/Flex/"&gt;Flex&lt;/a&gt;
 theme :)!&lt;/p&gt;
 &lt;p&gt;Stay tuned for a follow-up blog post, where I'll describe how to setup a
