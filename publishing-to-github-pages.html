@@ -64,7 +64,13 @@
     <p>Posted on Wed 19 October 2016 in <a href="https://tadej.ja.nez.si/category/site.html">Site</a></p>
   </header>
   <div>
-    <p>In the <a href="https://tadej.ja.nez.si/setting-up-pelican-site.html">previous blog post</a> we looked at
+    <p><em>Update (May 25, 2018): Starting with May 1, 2018, <a href="https://blog.github.com/2018-05-01-github-pages-custom-domains-https/">GitHub Pages gained support
+for serving custom domains over HTTPS</a>.
+I've updated the <a href="#setting-up-a-custom-domain">Setting up a custom domain</a>
+section of this blog post to advise users to use this functionality.</em></p>
+
+
+<p>In the <a href="https://tadej.ja.nez.si/setting-up-pelican-site.html">previous blog post</a> we looked at
 setting up a <a href="http://getpelican.com/">Pelican</a> site with <a href="https://www.python.org/">Python 3</a> and <a href="http://www.fabfile.org/">Fabric</a> on <a href="https://getfedora.org/">Fedora 24</a>.</p>
 <p>Now that we have a Pelican site up and running, I will show you how to publish
 it on <a href="https://pages.github.com/">GitHub Pages</a> using a sleek Fabric task.</p>
@@ -243,7 +249,7 @@ site's static paths:</p>
 <p>Finally, change the value of <code>SITEURL</code> variable in <code>publishconf.py</code> to the
 custom domain's name and commit the changes:</p>
 <div class="highlight"><pre><span></span>git add content/extra/CNAME
-git commit -a -m &quot;Change site&#39;s URL to http://blog.mysite.com&quot;
+git commit -a -m &quot;Change site&#39;s URL to https://blog.mysite.com&quot;
 </pre></div>
 
 
@@ -278,9 +284,15 @@ with:</p>
 <p>Visit the page at your custom domain!</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Currently, it is not possible to set up a custom domain with SSL support
-via GitHub Pages. For more information, see the <a href="https://github.com/isaacs/github/issues/156">issue report with a
-lengthy discussion</a>.</p>
+<p>Starting with May 1, 2018, <a href="https://blog.github.com/2018-05-01-github-pages-custom-domains-https/">GitHub Pages gained support for serving custom
+domains over HTTPS</a>.</p>
+<p>You are advised to take advantage of this functionality and server your
+site over HTTPS. If you've used a <code>CNAME</code> record with your DNS provider,
+then you should be all set.</p>
+<p>After ensuring your site loads correctly over HTTPS, browse to
+https://github.com/<em>username</em>/<em>username</em>.github.io/settings and
+enable the <em>Enforce HTTPS</em> option under the <em>GitHub Pages</em> section. This
+will transparently redirect any HTTP requests to your site to HTTPS.</p>
 </div>
 <p>To see this implemented in practice, browse the
 <a href="https://github.com/tjanez/site/tree/5012f31">source repo of my Pelican site</a>.</p>

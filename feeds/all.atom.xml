@@ -821,11 +821,19 @@ to achieve that:&lt;/p&gt;
 
 
 &lt;p&gt;Put it before the &lt;em&gt;Install project's requirements in virtual environement&lt;/em&gt;
-task.&lt;/p&gt;</content><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="https://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+task.&lt;/p&gt;</content><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="https://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">
+
+&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+</summary><content type="html">&lt;p&gt;&lt;em&gt;Update (May 25, 2018): Starting with May 1, 2018, &lt;a href="https://blog.github.com/2018-05-01-github-pages-custom-domains-https/"&gt;GitHub Pages gained support
+for serving custom domains over HTTPS&lt;/a&gt;.
+I've updated the &lt;a href="#setting-up-a-custom-domain"&gt;Setting up a custom domain&lt;/a&gt;
+section of this blog post to advise users to use this functionality.&lt;/em&gt;&lt;/p&gt;
+
+
+&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
@@ -1004,7 +1012,7 @@ site's static paths:&lt;/p&gt;
 &lt;p&gt;Finally, change the value of &lt;code&gt;SITEURL&lt;/code&gt; variable in &lt;code&gt;publishconf.py&lt;/code&gt; to the
 custom domain's name and commit the changes:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git add content/extra/CNAME
-git commit -a -m &amp;quot;Change site&amp;#39;s URL to http://blog.mysite.com&amp;quot;
+git commit -a -m &amp;quot;Change site&amp;#39;s URL to https://blog.mysite.com&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1039,9 +1047,15 @@ with:&lt;/p&gt;
 &lt;p&gt;Visit the page at your custom domain!&lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
-&lt;p&gt;Currently, it is not possible to set up a custom domain with SSL support
-via GitHub Pages. For more information, see the &lt;a href="https://github.com/isaacs/github/issues/156"&gt;issue report with a
-lengthy discussion&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Starting with May 1, 2018, &lt;a href="https://blog.github.com/2018-05-01-github-pages-custom-domains-https/"&gt;GitHub Pages gained support for serving custom
+domains over HTTPS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You are advised to take advantage of this functionality and server your
+site over HTTPS. If you've used a &lt;code&gt;CNAME&lt;/code&gt; record with your DNS provider,
+then you should be all set.&lt;/p&gt;
+&lt;p&gt;After ensuring your site loads correctly over HTTPS, browse to
+https://github.com/&lt;em&gt;username&lt;/em&gt;/&lt;em&gt;username&lt;/em&gt;.github.io/settings and
+enable the &lt;em&gt;Enforce HTTPS&lt;/em&gt; option under the &lt;em&gt;GitHub Pages&lt;/em&gt; section. This
+will transparently redirect any HTTP requests to your site to HTTPS.&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;To see this implemented in practice, browse the
 &lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="https://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><updated>2016-10-08T10:16:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</id><summary type="html">
