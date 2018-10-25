@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="https://tadej.ja.nez.si/" rel="alternate"></link><link href="https://tadej.ja.nez.si/feeds/all.atom.xml" rel="self"></link><id>https://tadej.ja.nez.si/</id><updated>2017-11-26T22:13:00+01:00</updated><entry><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link href="https://tadej.ja.nez.si/enabling-testing-repos-in-copr.html" rel="alternate"></link><published>2017-11-26T22:13:00+01:00</published><updated>2017-11-26T22:13:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-11-26:/enabling-testing-repos-in-copr.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/all.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-11-26T22:13:00+01:00</updated><entry><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link href="http://tadej.ja.nez.si/enabling-testing-repos-in-copr.html" rel="alternate"></link><published>2017-11-26T22:13:00+01:00</published><updated>2017-11-26T22:13:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-11-26:/enabling-testing-repos-in-copr.html</id><summary type="html">
 
 &lt;p&gt;When creating a Copr project, one can specify which chroots, i.e. which
 distribution version and architecture combinations, to enable. Examples of
@@ -74,7 +74,7 @@ repositories.&lt;/p&gt;
 information about the (non-existent) &lt;code&gt;epel-testing&lt;/code&gt; repository, but it will
 successfully continue. The same goes for a build in an &lt;abbr title="Extra Packages for Enterprise Linux"&gt;EPEL&lt;/abbr&gt; chroot or a &lt;a href="https://fedoraproject.org/wiki/Repositories#The_rawhide_repository"&gt;Fedora
 rawhide&lt;/a&gt;
-chroot, which don't have a corresponding &lt;code&gt;updates-testing&lt;/code&gt; repository.&lt;/p&gt;</content><category term="copr"></category><category term="fedora"></category><category term="epel"></category></entry><entry><title>Running Fedora 26 on Dell XPS 15 9560</title><link href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html" rel="alternate"></link><published>2017-09-04T09:35:00+02:00</published><updated>2017-09-04T09:35:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</id><summary type="html">
+chroot, which don't have a corresponding &lt;code&gt;updates-testing&lt;/code&gt; repository.&lt;/p&gt;</content><category term="copr"></category><category term="fedora"></category><category term="epel"></category></entry><entry><title>Running Fedora 26 on Dell XPS 15 9560</title><link href="http://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html" rel="alternate"></link><published>2017-09-04T09:35:00+02:00</published><updated>2017-09-04T09:35:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</id><summary type="html">
 
 &lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
@@ -345,16 +345,16 @@ the most out of the system.&lt;/p&gt;
 &lt;p&gt;However, I'm optimistic and I think it's getting better. For example, I was
 pleasantly surprised how GNOME seamlessly re-scales the interface after
 connecting/disconnecting a non-HiDPI monitor. Suspend also works without a
-hitch!&lt;/p&gt;</content><category term="fedora"></category><category term="dell"></category><category term="hardware"></category><category term="laptop"></category></entry><entry><title>Fedora EuroPython 2017 Attendee badge</title><link href="https://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html" rel="alternate"></link><published>2017-08-27T15:51:00+02:00</published><updated>2017-08-27T15:51:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-08-27:/fedora-europython2017-attendee-badge.html</id><summary type="html">
+hitch!&lt;/p&gt;</content><category term="fedora"></category><category term="dell"></category><category term="hardware"></category><category term="laptop"></category></entry><entry><title>Fedora EuroPython 2017 Attendee badge</title><link href="http://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html" rel="alternate"></link><published>2017-08-27T15:51:00+02:00</published><updated>2017-08-27T15:51:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-08-27:/fedora-europython2017-attendee-badge.html</id><summary type="html">
 
 &lt;p&gt;A little late, but no less cool, &lt;a href="https://badges.fedoraproject.org/badge/europython-2017-attendee"&gt;Fedora EuroPython 2017 Attendee badge&lt;/a&gt; is available
 &lt;img align="absmiddle" alt="🎉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f389.svg" title=":tada:" width="20px"&gt;!&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="https://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="http://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
 </summary><content type="html">
 
 &lt;p&gt;A little late, but no less cool, &lt;a href="https://badges.fedoraproject.org/badge/europython-2017-attendee"&gt;Fedora EuroPython 2017 Attendee badge&lt;/a&gt; is available
 &lt;img align="absmiddle" alt="🎉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f389.svg" title=":tada:" width="20px"&gt;!&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="https://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="http://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
 
 
 &lt;p&gt;I've just been given the rights to award the badge, so if you attended &lt;a href="https://ep2017.europython.eu/en/"&gt;this
@@ -367,8 +367,8 @@ have this badge, please contact me and I'll be happy to award it to you.&lt;/p&g
 a photo of your conference badge, a link to your talk, ...).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For example, here is a photo of me and my pimped up conference badge &lt;img align="absmiddle" alt="😃" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f603.svg" title=":smiley:" width="20px"&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Me holding my EuroPython 2017 badge" src="https://tadej.ja.nez.si/images/europyhon2017-photo.jpg"&gt;&lt;/p&gt;
-&lt;p&gt;And please share this information with other EuroPython 2017 attendees!&lt;/p&gt;</content><category term="fedora"></category><category term="python"></category><category term="badge"></category></entry><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="https://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><updated>2017-07-30T12:28:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</id><summary type="html">
+&lt;p&gt;&lt;img alt="Me holding my EuroPython 2017 badge" src="http://tadej.ja.nez.si/images/europyhon2017-photo.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;And please share this information with other EuroPython 2017 attendees!&lt;/p&gt;</content><category term="fedora"></category><category term="python"></category><category term="badge"></category></entry><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="http://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><updated>2017-07-30T12:28:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</id><summary type="html">
 
 &lt;p&gt;Recently I had to clone my &lt;a href="https://en.wikipedia.org/wiki/Nexus_4"&gt;Nexus 4&lt;/a&gt; to
 another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
@@ -566,7 +566,7 @@ is necessary to also tell something about the data being compressed.&lt;/p&gt;
 partition (i.e. internal storage) over the course of 4 years. Of course, I also
 deleted data regularly, otherwise I would run of free space.&lt;/p&gt;
 &lt;p&gt;This is what makes up the 3558 MiBs of my phone's internal storage:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="My phone's internal storage usage by file type" src="https://tadej.ja.nez.si/images/android-internal-storage-backup-usage.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="My phone's internal storage usage by file type" src="http://tadej.ja.nez.si/images/android-internal-storage-backup-usage.svg"&gt;&lt;/p&gt;
 &lt;p&gt;The largest portion is used by JPEG images (mostly pictures taken with the
 phone), followed by MP4 videos (also mostly videos taken with the phone),
 followed by MPEG and Ogg audio files (my music collection). The rest only
@@ -585,31 +585,31 @@ cannot be further compressed to any significant extent.&lt;/p&gt;
 &lt;p&gt;To analyse my phone's internal storage usage by file type I used
 &lt;a href="https://github.com/lemonsqueeze/disk_usage_by_file_type"&gt;lemonsqueeze's &lt;code&gt;disk_usage_by_file_type&lt;/code&gt; Bash script&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To draw the pie chart, I used &lt;a href="https://matplotlib.org/"&gt;matplotlib&lt;/a&gt;
-(&lt;a href="https://tadej.ja.nez.si/scripts/android-internal-storage-backup-usage.py"&gt;source&lt;/a&gt;).&lt;/p&gt;
-&lt;/div&gt;</content><category term="android"></category><category term="backup"></category><category term="twrp"></category><category term="adb"></category><category term="benchmark"></category></entry><entry><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html" rel="alternate"></link><published>2017-01-13T11:43:00+01:00</published><updated>2017-01-13T11:43:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html</id><summary type="html">
+(&lt;a href="http://tadej.ja.nez.si/scripts/android-internal-storage-backup-usage.py"&gt;source&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;</content><category term="android"></category><category term="backup"></category><category term="twrp"></category><category term="adb"></category><category term="benchmark"></category></entry><entry><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html" rel="alternate"></link><published>2017-01-13T11:43:00+01:00</published><updated>2017-01-13T11:43:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html</id><summary type="html">
 
 &lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
 &lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
-installation of system-wide Python packages This causes &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
+installation of system-wide Python packages This causes &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
 &lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;TL; DR&lt;/strong&gt; &lt;em&gt;Install system-wide Python packages with yum/dnf and only use pip
 inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
-see my &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
+see my &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
 &lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;&lt;em&gt;Update (January 25, 2017): Updated &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;instructions on preparing the Python
+</summary><content type="html">&lt;p&gt;&lt;em&gt;Update (January 25, 2017): Updated &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;instructions on preparing the Python
 virtual environment to work with setuptools 34+ on CentOS/RHEL 7&lt;/a&gt;.
-Also updated &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;the Ansible playbook&lt;/a&gt;
+Also updated &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;the Ansible playbook&lt;/a&gt;
 to skip seperately updating pip and setuptools upon creation of a new virtual
 environment on Fedora.&lt;/em&gt;&lt;/p&gt;
 
 
 &lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
 &lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
-installation of system-wide Python packages This causes &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
+installation of system-wide Python packages This causes &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
 &lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;TL; DR&lt;/strong&gt; &lt;em&gt;Install system-wide Python packages with yum/dnf and only use pip
 inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
-see my &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
+see my &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
 &lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 
@@ -733,7 +733,7 @@ pip install -U setuptools
 
 
 &lt;p&gt;A complete Ansible playbook for proper creation of a Python virtual
-environment is provided &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;later&lt;/a&gt;.&lt;/p&gt;
+environment is provided &lt;a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;later&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Then install whichever Python package you want inside the Python virtual
 environment.&lt;/p&gt;
@@ -821,9 +821,9 @@ to achieve that:&lt;/p&gt;
 
 
 &lt;p&gt;Put it before the &lt;em&gt;Install project's requirements in virtual environement&lt;/em&gt;
-task.&lt;/p&gt;</content><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="https://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">
+task.&lt;/p&gt;</content><category term="yum"></category><category term="dnf"></category><category term="pip"></category><category term="python"></category><category term="packaging"></category><category term="virtualenv"></category><category term="fedora"></category><category term="centos"></category><category term="rhel"></category></entry><entry><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link href="http://tadej.ja.nez.si/publishing-to-github-pages.html" rel="alternate"></link><published>2016-10-19T19:05:00+02:00</published><updated>2016-10-19T19:05:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</id><summary type="html">
 
-&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
@@ -833,7 +833,7 @@ I've updated the &lt;a href="#setting-up-a-custom-domain"&gt;Setting up a custom
 section of this blog post to advise users to use this functionality.&lt;/em&gt;&lt;/p&gt;
 
 
-&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+&lt;p&gt;In the &lt;a href="http://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
 setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
@@ -1058,7 +1058,7 @@ enable the &lt;em&gt;Enforce HTTPS&lt;/em&gt; option under the &lt;em&gt;GitHub 
 will transparently redirect any HTTP requests to your site to HTTPS.&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;To see this implemented in practice, browse the
-&lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="https://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><updated>2016-10-08T10:16:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</id><summary type="html">
+&lt;a href="https://github.com/tjanez/site/tree/5012f31"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="fabric"></category><category term="github"></category><category term="site"></category></entry><entry><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link href="http://tadej.ja.nez.si/setting-up-pelican-site.html" rel="alternate"></link><published>2016-10-08T10:16:00+02:00</published><updated>2016-10-08T10:16:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</id><summary type="html">
 
 &lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
 &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;. As of Oct 10, 2016 it has
@@ -1074,7 +1074,7 @@ finally, create a Hello World blog post.&lt;/p&gt;
 &lt;code&gt;py3-&amp;lt;command&amp;gt;&lt;/code&gt; to &lt;code&gt;&amp;lt;command&amp;gt;-3&lt;/code&gt; so make sure to update to the latest Fedora
 Pelican packages and use the &lt;code&gt;&amp;lt;command&amp;gt;-3&lt;/code&gt; syntax.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Update (October 19, 2016):
-The &lt;a href="https://tadej.ja.nez.si/publishing-to-github-pages.html"&gt;follow-up blog post&lt;/a&gt; on
+The &lt;a href="http://tadej.ja.nez.si/publishing-to-github-pages.html"&gt;follow-up blog post&lt;/a&gt; on
 publishing your site to GitHub Pages with a sleek Fabric task has been
 published.&lt;/em&gt;&lt;/p&gt;
 
@@ -1183,8 +1183,8 @@ git commit -m &amp;quot;Initial site created with pelican-quickstart&amp;quot;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
 &lt;p&gt;If you use git for the first time, you must configure your git email and
 user name with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git config --global user.email &lt;span class="s2"&gt;&amp;quot;&amp;lt;your-email-address&amp;gt;&amp;quot;&lt;/span&gt;
-git config --global user.name &lt;span class="s2"&gt;&amp;quot;&amp;lt;your-name&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git config --global user.email &lt;span class="s2"&gt;&amp;quot;&amp;amp;lt;your-email-address&amp;amp;gt;&amp;quot;&lt;/span&gt;
+git config --global user.name &lt;span class="s2"&gt;&amp;quot;&amp;amp;lt;your-name&amp;amp;gt;&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1316,7 +1316,7 @@ really serve its purpose if its only available on your local computer, does it?&
 &lt;p&gt;I plan to write a follow-up blog post that will show you how to publish your
 site to &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; with a sleek Fabric task to
 do it automatically. Stay tuned!&lt;/p&gt;
-&lt;p&gt;Meanwhile, you can also browse the &lt;a href="https://github.com/tjanez/site"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry><entry><title>Hello, World!</title><link href="https://tadej.ja.nez.si/hello-world.html" rel="alternate"></link><published>2016-10-06T10:52:00+02:00</published><updated>2016-10-06T10:52:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-06:/hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
+&lt;p&gt;Meanwhile, you can also browse the &lt;a href="https://github.com/tjanez/site"&gt;source repo of my Pelican site&lt;/a&gt;.&lt;/p&gt;</content><category term="pelican"></category><category term="fedora"></category><category term="python"></category><category term="fabric"></category><category term="site"></category></entry><entry><title>Hello, World!</title><link href="http://tadej.ja.nez.si/hello-world.html" rel="alternate"></link><published>2016-10-06T10:52:00+02:00</published><updated>2016-10-06T10:52:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2016-10-06:/hello-world.html</id><summary type="html">&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
 and Alexandre Vicenzi's great &lt;a href="https://github.com/alexandrevicenzi/Flex/"&gt;Flex&lt;/a&gt;
 theme :)!&lt;/p&gt;
 &lt;p&gt;Stay tuned for a follow-up blog post, where I'll describe how to setup a

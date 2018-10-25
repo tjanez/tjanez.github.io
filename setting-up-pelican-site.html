@@ -3,14 +3,14 @@
 <head>
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/stylesheet/style.min.css">
+    <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
-  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
 
-    <link href="https://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
+    <link href="http://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
 
-    <link href="https://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+    <link href="http://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
 
 
 
@@ -28,11 +28,11 @@
 <meta property="og:title" content="Setting up a Pelican site with Python 3 and Fabric on Fedora 24"/>
 <meta property="og:description" content="According to StaticGen, Pelican is the most popular static site generator written in Python. As of Oct 10, 2016 it has 6168 stars on GitHub. In this blog post, I'll show you how to create your own Pelican site, track it in a git repository, use Fabric to administer it, change site's default theme and finally, create a Hello World blog post."/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://tadej.ja.nez.si/setting-up-pelican-site.html"/>
+<meta property="og:url" content="http://tadej.ja.nez.si/setting-up-pelican-site.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2016-10-08 10:16:00+02:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="https://tadej.ja.nez.si/author/tadej-janez.html">
+<meta property="article:author" content="http://tadej.ja.nez.si/author/tadej-janez.html">
 <meta property="article:section" content="Site"/>
 <meta property="article:tag" content="pelican"/>
 <meta property="article:tag" content="fedora"/>
@@ -45,10 +45,10 @@
 <body>
   <aside>
     <div>
-      <a href="https://tadej.ja.nez.si">
+      <a href="http://tadej.ja.nez.si">
         <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
       </a>
-      <h1><a href="https://tadej.ja.nez.si">Tadej Janež</a></h1>
+      <h1><a href="http://tadej.ja.nez.si">Tadej Janež</a></h1>
 <p>DevOps Engineer</p>      <ul class="social">
         <li><a class="sc-github" href="https://github.com/tjanez" target="_blank"><i class="fa fa-github"></i></a></li>
         <li><a class="sc-twitter" href="https://twitter.com/TadejJanez" target="_blank"><i class="fa fa-twitter"></i></a></li>
@@ -61,7 +61,7 @@
 <article>
   <header>
     <h1 id="setting-up-pelican-site">Setting up a Pelican site with Python 3 and Fabric on Fedora 24</h1>
-    <p>Posted on Sat 08 October 2016 in <a href="https://tadej.ja.nez.si/category/site.html">Site</a></p>
+    <p>Posted on Sat 08 October 2016 in <a href="http://tadej.ja.nez.si/category/site.html">Site</a></p>
   </header>
   <div>
     <p><em>Update (December 6, 2016): Newer Fedora Pelican packages (
@@ -72,7 +72,7 @@
 <code>py3-&lt;command&gt;</code> to <code>&lt;command&gt;-3</code> so make sure to update to the latest Fedora
 Pelican packages and use the <code>&lt;command&gt;-3</code> syntax.</em></p>
 <p><em>Update (October 19, 2016):
-The <a href="https://tadej.ja.nez.si/publishing-to-github-pages.html">follow-up blog post</a> on
+The <a href="http://tadej.ja.nez.si/publishing-to-github-pages.html">follow-up blog post</a> on
 publishing your site to GitHub Pages with a sleek Fabric task has been
 published.</em></p>
 
@@ -181,8 +181,8 @@ git commit -m &quot;Initial site created with pelican-quickstart&quot;
 <p class="admonition-title">Note</p>
 <p>If you use git for the first time, you must configure your git email and
 user name with:</p>
-<div class="highlight"><pre><span></span>git config --global user.email <span class="s2">&quot;&lt;your-email-address&gt;&quot;</span>
-git config --global user.name <span class="s2">&quot;&lt;your-name&gt;&quot;</span>
+<div class="highlight"><pre><span></span>git config --global user.email <span class="s2">&quot;&amp;lt;your-email-address&amp;gt;&quot;</span>
+git config --global user.name <span class="s2">&quot;&amp;lt;your-name&amp;gt;&quot;</span>
 </pre></div>
 
 
@@ -318,11 +318,11 @@ do it automatically. Stay tuned!</p>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="https://tadej.ja.nez.si/tag/pelican.html">pelican</a>
-      <a href="https://tadej.ja.nez.si/tag/fedora.html">fedora</a>
-      <a href="https://tadej.ja.nez.si/tag/python.html">python</a>
-      <a href="https://tadej.ja.nez.si/tag/fabric.html">fabric</a>
-      <a href="https://tadej.ja.nez.si/tag/site.html">site</a>
+      <a href="http://tadej.ja.nez.si/tag/pelican.html">pelican</a>
+      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>
+      <a href="http://tadej.ja.nez.si/tag/python.html">python</a>
+      <a href="http://tadej.ja.nez.si/tag/fabric.html">fabric</a>
+      <a href="http://tadej.ja.nez.si/tag/site.html">site</a>
     </p>
   </div>
 <div id="disqus_thread"></div>
@@ -361,7 +361,7 @@ do it automatically. Stay tuned!</p>
   "@context" : "http://schema.org",
   "@type" : "Blog",
   "name": " Tadej Janež ",
-  "url" : "https://tadej.ja.nez.si",
+  "url" : "http://tadej.ja.nez.si",
   "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
   "description": ""
 }
@@ -377,10 +377,10 @@ do it automatically. Stay tuned!</p>
   "author": {
     "@type": "Person",
     "name": "Tadej Janež",
-    "url": "https://tadej.ja.nez.si/author/tadej-janez.html"
+    "url": "http://tadej.ja.nez.si/author/tadej-janez.html"
   },
   "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
-  "url": "https://tadej.ja.nez.si/setting-up-pelican-site.html",
+  "url": "http://tadej.ja.nez.si/setting-up-pelican-site.html",
   "description": "According to StaticGen, Pelican is the most popular static site generator written in Python. As of Oct 10, 2016 it has 6168 stars on GitHub. In this blog post, I'll show you how to create your own Pelican site, track it in a git repository, use Fabric to administer it, change site's default theme and finally, create a Hello World blog post."
 }
 </script></body>

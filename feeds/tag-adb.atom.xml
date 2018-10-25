@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - adb</title><link href="https://tadej.ja.nez.si/" rel="alternate"></link><link href="https://tadej.ja.nez.si/feeds/tag-adb.atom.xml" rel="self"></link><id>https://tadej.ja.nez.si/</id><updated>2017-07-30T12:28:00+02:00</updated><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="https://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><updated>2017-07-30T12:28:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - adb</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-adb.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-07-30T12:28:00+02:00</updated><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="http://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><updated>2017-07-30T12:28:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</id><summary type="html">
 
 &lt;p&gt;Recently I had to clone my &lt;a href="https://en.wikipedia.org/wiki/Nexus_4"&gt;Nexus 4&lt;/a&gt; to
 another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
@@ -197,7 +197,7 @@ is necessary to also tell something about the data being compressed.&lt;/p&gt;
 partition (i.e. internal storage) over the course of 4 years. Of course, I also
 deleted data regularly, otherwise I would run of free space.&lt;/p&gt;
 &lt;p&gt;This is what makes up the 3558 MiBs of my phone's internal storage:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="My phone's internal storage usage by file type" src="https://tadej.ja.nez.si/images/android-internal-storage-backup-usage.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="My phone's internal storage usage by file type" src="http://tadej.ja.nez.si/images/android-internal-storage-backup-usage.svg"&gt;&lt;/p&gt;
 &lt;p&gt;The largest portion is used by JPEG images (mostly pictures taken with the
 phone), followed by MP4 videos (also mostly videos taken with the phone),
 followed by MPEG and Ogg audio files (my music collection). The rest only
@@ -216,5 +216,5 @@ cannot be further compressed to any significant extent.&lt;/p&gt;
 &lt;p&gt;To analyse my phone's internal storage usage by file type I used
 &lt;a href="https://github.com/lemonsqueeze/disk_usage_by_file_type"&gt;lemonsqueeze's &lt;code&gt;disk_usage_by_file_type&lt;/code&gt; Bash script&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To draw the pie chart, I used &lt;a href="https://matplotlib.org/"&gt;matplotlib&lt;/a&gt;
-(&lt;a href="https://tadej.ja.nez.si/scripts/android-internal-storage-backup-usage.py"&gt;source&lt;/a&gt;).&lt;/p&gt;
+(&lt;a href="http://tadej.ja.nez.si/scripts/android-internal-storage-backup-usage.py"&gt;source&lt;/a&gt;).&lt;/p&gt;
 &lt;/div&gt;</content><category term="android"></category><category term="backup"></category><category term="twrp"></category><category term="adb"></category><category term="benchmark"></category></entry></feed>
