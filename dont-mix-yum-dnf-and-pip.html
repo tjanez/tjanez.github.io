@@ -3,14 +3,14 @@
 <head>
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/stylesheet/style.min.css">
+    <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/pygments/native.min.css">
-  <link rel="stylesheet" type="text/css" href="http://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
 
-    <link href="http://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
+    <link href="https://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
 
-    <link href="http://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+    <link href="https://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
 
 
 
@@ -28,11 +28,11 @@
 <meta property="og:title" content="Don't mix yum/dnf and pip for installation of system-wide Python packages"/>
 <meta property="og:description" content="Too many times I've seen people using a mix of yum/ dnf and pip for installation of system-wide Python packages This causes all sorts of problems . TL; DR Install system-wide Python packages with yum/dnf and only use pip inside a virtual environment. For an example, see my Ansible snippet below ."/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html"/>
+<meta property="og:url" content="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2017-01-13 11:43:00+01:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="http://tadej.ja.nez.si/author/tadej-janez.html">
+<meta property="article:author" content="https://tadej.ja.nez.si/author/tadej-janez.html">
 <meta property="article:section" content="Python"/>
 <meta property="article:tag" content="yum"/>
 <meta property="article:tag" content="dnf"/>
@@ -49,10 +49,10 @@
 <body>
   <aside>
     <div>
-      <a href="http://tadej.ja.nez.si">
+      <a href="https://tadej.ja.nez.si">
         <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
       </a>
-      <h1><a href="http://tadej.ja.nez.si">Tadej Janež</a></h1>
+      <h1><a href="https://tadej.ja.nez.si">Tadej Janež</a></h1>
 <p>Passionate about DevOps, Python and OSS</p>      <ul class="social">
         <li><a class="sc-github" href="https://github.com/tjanez" target="_blank"><i class="fa fa-github"></i></a></li>
         <li><a class="sc-twitter" href="https://twitter.com/TadejJanez" target="_blank"><i class="fa fa-twitter"></i></a></li>
@@ -65,23 +65,23 @@
 <article>
   <header>
     <h1 id="dont-mix-yum-dnf-and-pip">Don't mix yum/dnf and pip for installation of system-wide Python packages</h1>
-    <p>Posted on Fri 13 January 2017 in <a href="http://tadej.ja.nez.si/category/python.html">Python</a></p>
+    <p>Posted on Fri 13 January 2017 in <a href="https://tadej.ja.nez.si/category/python.html">Python</a></p>
   </header>
   <div>
-    <p><em>Update (January 25, 2017): Updated <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf">instructions on preparing the Python
+    <p><em>Update (January 25, 2017): Updated <a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf">instructions on preparing the Python
 virtual environment to work with setuptools 34+ on CentOS/RHEL 7</a>.
-Also updated <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">the Ansible playbook</a>
+Also updated <a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">the Ansible playbook</a>
 to skip seperately updating pip and setuptools upon creation of a new virtual
 environment on Fedora.</em></p>
 
 
 <p>Too many times I've seen people using a mix of <a href="http://yum.baseurl.org/">yum</a>/
 <a href="http://dnf.baseurl.org/">dnf</a> and <a href="https://pip.pypa.io/">pip</a> for
-installation of system-wide Python packages This causes <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip">all sorts of problems
+installation of system-wide Python packages This causes <a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip">all sorts of problems
 </a>.</p>
 <p><strong>TL; DR</strong> <em>Install system-wide Python packages with yum/dnf and only use pip
 inside a <a href="https://virtualenv.pypa.io/">virtual environment</a>. For an example,
-see my <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible snippet below
+see my <a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible snippet below
 </a>.</em></p>
 
 
@@ -205,7 +205,7 @@ pip install -U setuptools
 
 
 <p>A complete Ansible playbook for proper creation of a Python virtual
-environment is provided <a href="http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">later</a>.</p>
+environment is provided <a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">later</a>.</p>
 </div>
 <p>Then install whichever Python package you want inside the Python virtual
 environment.</p>
@@ -297,15 +297,15 @@ task.</p>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="http://tadej.ja.nez.si/tag/yum.html">yum</a>
-      <a href="http://tadej.ja.nez.si/tag/dnf.html">dnf</a>
-      <a href="http://tadej.ja.nez.si/tag/pip.html">pip</a>
-      <a href="http://tadej.ja.nez.si/tag/python.html">python</a>
-      <a href="http://tadej.ja.nez.si/tag/packaging.html">packaging</a>
-      <a href="http://tadej.ja.nez.si/tag/virtualenv.html">virtualenv</a>
-      <a href="http://tadej.ja.nez.si/tag/fedora.html">fedora</a>
-      <a href="http://tadej.ja.nez.si/tag/centos.html">centos</a>
-      <a href="http://tadej.ja.nez.si/tag/rhel.html">rhel</a>
+      <a href="https://tadej.ja.nez.si/tag/yum.html">yum</a>
+      <a href="https://tadej.ja.nez.si/tag/dnf.html">dnf</a>
+      <a href="https://tadej.ja.nez.si/tag/pip.html">pip</a>
+      <a href="https://tadej.ja.nez.si/tag/python.html">python</a>
+      <a href="https://tadej.ja.nez.si/tag/packaging.html">packaging</a>
+      <a href="https://tadej.ja.nez.si/tag/virtualenv.html">virtualenv</a>
+      <a href="https://tadej.ja.nez.si/tag/fedora.html">fedora</a>
+      <a href="https://tadej.ja.nez.si/tag/centos.html">centos</a>
+      <a href="https://tadej.ja.nez.si/tag/rhel.html">rhel</a>
     </p>
   </div>
 <div id="disqus_thread"></div>
@@ -344,7 +344,7 @@ task.</p>
   "@context" : "http://schema.org",
   "@type" : "Blog",
   "name": " Tadej Janež ",
-  "url" : "http://tadej.ja.nez.si",
+  "url" : "https://tadej.ja.nez.si",
   "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
   "description": ""
 }
@@ -360,10 +360,10 @@ task.</p>
   "author": {
     "@type": "Person",
     "name": "Tadej Janež",
-    "url": "http://tadej.ja.nez.si/author/tadej-janez.html"
+    "url": "https://tadej.ja.nez.si/author/tadej-janez.html"
   },
   "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
-  "url": "http://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html",
+  "url": "https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html",
   "description": "Too many times I've seen people using a mix of yum/ dnf and pip for installation of system-wide Python packages This causes all sorts of problems . TL; DR Install system-wide Python packages with yum/dnf and only use pip inside a virtual environment. For an example, see my Ansible snippet below ."
 }
 </script></body>

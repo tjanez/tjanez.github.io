@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - badge</title><link href="http://tadej.ja.nez.si/" rel="alternate"></link><link href="http://tadej.ja.nez.si/feeds/tag-badge.atom.xml" rel="self"></link><id>http://tadej.ja.nez.si/</id><updated>2017-08-27T15:51:00+02:00</updated><entry><title>Fedora EuroPython 2017 Attendee badge</title><link href="http://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html" rel="alternate"></link><published>2017-08-27T15:51:00+02:00</published><updated>2017-08-27T15:51:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-08-27:/fedora-europython2017-attendee-badge.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - badge</title><link href="https://tadej.ja.nez.si/" rel="alternate"></link><link href="https://tadej.ja.nez.si/feeds/tag-badge.atom.xml" rel="self"></link><id>https://tadej.ja.nez.si/</id><updated>2017-08-27T15:51:00+02:00</updated><entry><title>Fedora EuroPython 2017 Attendee badge</title><link href="https://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html" rel="alternate"></link><published>2017-08-27T15:51:00+02:00</published><updated>2017-08-27T15:51:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-08-27:/fedora-europython2017-attendee-badge.html</id><summary type="html">
 
 &lt;p&gt;A little late, but no less cool, &lt;a href="https://badges.fedoraproject.org/badge/europython-2017-attendee"&gt;Fedora EuroPython 2017 Attendee badge&lt;/a&gt; is available
 &lt;img align="absmiddle" alt="🎉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f389.svg" title=":tada:" width="20px"&gt;!&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="http://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="https://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
 </summary><content type="html">
 
 &lt;p&gt;A little late, but no less cool, &lt;a href="https://badges.fedoraproject.org/badge/europython-2017-attendee"&gt;Fedora EuroPython 2017 Attendee badge&lt;/a&gt; is available
 &lt;img align="absmiddle" alt="🎉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f389.svg" title=":tada:" width="20px"&gt;!&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="http://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="https://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
 
 
 &lt;p&gt;I've just been given the rights to award the badge, so if you attended &lt;a href="https://ep2017.europython.eu/en/"&gt;this
@@ -21,5 +21,5 @@ have this badge, please contact me and I'll be happy to award it to you.&lt;/p&g
 a photo of your conference badge, a link to your talk, ...).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For example, here is a photo of me and my pimped up conference badge &lt;img align="absmiddle" alt="😃" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f603.svg" title=":smiley:" width="20px"&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Me holding my EuroPython 2017 badge" src="http://tadej.ja.nez.si/images/europyhon2017-photo.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Me holding my EuroPython 2017 badge" src="https://tadej.ja.nez.si/images/europyhon2017-photo.jpg"&gt;&lt;/p&gt;
 &lt;p&gt;And please share this information with other EuroPython 2017 attendees!&lt;/p&gt;</content><category term="fedora"></category><category term="python"></category><category term="badge"></category></entry></feed>
