@@ -116,10 +116,10 @@ safely remove the parts connected with Rackspace Cloud Files, rsync publishing
 and <a href="https://pages.github.com/">GitHub Pages</a> (I'll describe how to add support
 for it in a follow-up blog post).</p>
 <p>The cleaned-up version of <code>fabfile.py</code> should look something like:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">fabric.contrib.project</span> <span class="kn">as</span> <span class="nn">project</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fabric.api</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fabric.contrib.project</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">project</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
 <span class="c1"># Local path configuration (can be absolute or relative to fabfile)</span>
 <span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
@@ -127,37 +127,37 @@ for it in a follow-up blog post).</p>
 <span class="c1"># Port for `serve`</span>
 <span class="n">PORT</span> <span class="o">=</span> <span class="mi">8000</span>
 
-<span class="k">def</span> <span class="nf">clean</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Remove generated files&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove generated files&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
         <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">)</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">build</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Build local version of site&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build local version of site&quot;&quot;&quot;</span>
     <span class="n">local</span><span class="p">(</span><span class="s1">&#39;pelican-3 -s pelicanconf.py&#39;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">rebuild</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;`clean`, then `build`&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rebuild</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`clean`, then `build`&quot;&quot;&quot;</span>
     <span class="n">clean</span><span class="p">()</span>
     <span class="n">build</span><span class="p">()</span>
 
-<span class="k">def</span> <span class="nf">regenerate</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Automatically regenerate site upon file modification&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">regenerate</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Automatically regenerate site upon file modification&quot;&quot;&quot;</span>
     <span class="n">local</span><span class="p">(</span><span class="s1">&#39;pelican-3 -r -s pelicanconf.py&#39;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">serve</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Serve site at http://localhost:PORT/&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">serve</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serve site at http://localhost:PORT/&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
-        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;python3 -m pelican.server {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PORT</span><span class="p">))</span>
+        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;python3 -m pelican.server </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PORT</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">reserve</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;`build`, then `serve`&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reserve</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`build`, then `serve`&quot;&quot;&quot;</span>
     <span class="n">build</span><span class="p">()</span>
     <span class="n">serve</span><span class="p">()</span>
 
-<span class="k">def</span> <span class="nf">preview</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Build production version of site&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">preview</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build production version of site&quot;&quot;&quot;</span>
     <span class="n">local</span><span class="p">(</span><span class="s1">&#39;pelican-3 -s publishconf.py&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -165,7 +165,7 @@ for it in a follow-up blog post).</p>
 <p>Since we are using the Python 3 version of Pelican, we can remove the Python 2
 compatibility headers from <code>pelicanconf.py</code> and <code>publishconf.py</code>:</p>
 <div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*- #</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">unicode_literals</span>
 </pre></div>
 
 
@@ -181,18 +181,18 @@ git commit -m &quot;Initial site created with pelican-quickstart&quot;
 <p class="admonition-title">Note</p>
 <p>If you use git for the first time, you must configure your git email and
 user name with:</p>
-<div class="highlight"><pre><span></span>git config --global user.email <span class="s2">&quot;&amp;lt;your-email-address&amp;gt;&quot;</span>
-git config --global user.name <span class="s2">&quot;&amp;lt;your-name&amp;gt;&quot;</span>
+<div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;&amp;lt;your-email-address&amp;gt;&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;&amp;lt;your-name&amp;gt;&quot;</span>
 </pre></div>
 
 
 </div>
 <p>To instruct git to ignore the generated Python byte-code and the generated
 site, create <code>.gitignore</code> file with the following contents:</p>
-<div class="highlight"><pre><span></span># ignore Python byte-code
+<div class="highlight"><pre><span></span><span class="gh">#</span> ignore Python byte-code
 *.pyc
 
-# ignore generated site
+<span class="gh">#</span> ignore generated site
 /output/
 </pre></div>
 
@@ -228,8 +228,8 @@ administering a site.</p>
 
 <p>To automatically regenerate the site upon file modification and serve it
 locally, run the following commands in two separate terminals:</p>
-<div class="highlight"><pre><span></span>fab regenerate
-fab serve
+<div class="highlight"><pre><span></span><span class="n">fab</span><span class="w"> </span><span class="n">regenerate</span>
+<span class="n">fab</span><span class="w"> </span><span class="n">serve</span>
 </pre></div>
 
 
@@ -252,8 +252,8 @@ for my Pelican site), add it to your git repo as a submodule:</p>
 documentation on what you can configure.</p>
 </div>
 <p>Here is an example configuration for the Flex theme:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">hashlib</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 
 <span class="o">...</span> <span class="n">other</span> <span class="n">configuration</span> <span class="o">...</span>
 
@@ -262,14 +262,14 @@ documentation on what you can configure.</p>
 <span class="n">SITETITLE</span> <span class="o">=</span> <span class="n">SITENAME</span>
 <span class="n">SITESUBTITLE</span> <span class="o">=</span> <span class="s1">&#39;My cool descrition&#39;</span>
 <span class="n">email</span> <span class="o">=</span> <span class="s1">&#39;my.email@somedomain.com&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-<span class="n">SITELOGO</span> <span class="o">=</span> <span class="s1">&#39;https://seccdn.libravatar.org/avatar/{}?s=256&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="n">SITELOGO</span> <span class="o">=</span> <span class="s1">&#39;https://seccdn.libravatar.org/avatar/</span><span class="si">{}</span><span class="s1">?s=256&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
     <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
 <span class="n">copyright_year_start</span> <span class="o">=</span> <span class="mi">2016</span>
 <span class="n">copyright_year_end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span>
 <span class="k">if</span> <span class="n">copyright_year_end</span> <span class="o">==</span> <span class="n">copyright_year_start</span><span class="p">:</span>
     <span class="n">COPYRIGHT_YEAR</span> <span class="o">=</span> <span class="n">copyright_year_start</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="n">COPYRIGHT_YEAR</span> <span class="o">=</span> <span class="s1">&#39;{}-{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">copyright_year_start</span><span class="p">,</span> <span class="n">copyright_year_end</span><span class="p">)</span>
+    <span class="n">COPYRIGHT_YEAR</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">copyright_year_start</span><span class="p">,</span> <span class="n">copyright_year_end</span><span class="p">)</span>
 <span class="n">PYGMENTS_STYLE</span> <span class="o">=</span> <span class="s1">&#39;native&#39;</span>
 </pre></div>
 
@@ -288,12 +288,12 @@ To use it for your own site, <a href="https://www.libravatar.org/account/new/">c
 <h2 id="creating-a-hello-world-blog-post">Creating a Hello World blog post</h2>
 <p>To create your first blog post, create a Markdown file in the <code>content</code>
 directory with the following content:</p>
-<div class="highlight"><pre><span></span><span class="n">Title</span><span class="o">:</span> <span class="n">Hello</span><span class="o">,</span> <span class="n">World</span><span class="o">!</span>
-<span class="n">Date</span><span class="o">:</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">06</span> <span class="mi">10</span><span class="o">:</span><span class="mi">52</span>
-<span class="n">Category</span><span class="o">:</span> <span class="n">Site</span>
+<div class="highlight"><pre><span></span><span class="nl">Title</span><span class="p">:</span><span class="w"> </span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="err">!</span>
+<span class="nc">Date</span><span class="err">:</span><span class="w"> </span><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">10</span><span class="err">:</span><span class="mi">52</span>
+<span class="nl">Category</span><span class="p">:</span><span class="w"> </span><span class="n">Site</span>
 
-<span class="n">This</span> <span class="k">is</span> <span class="n">my</span> <span class="n">first</span> <span class="n">blog</span> <span class="n">post</span> <span class="n">using</span> <span class="o">[</span><span class="n">Pelican</span><span class="o">](</span><span class="n">http</span><span class="o">://</span><span class="n">blog</span><span class="o">.</span><span class="na">getpelican</span><span class="o">.</span><span class="na">com</span><span class="o">/)</span>
-<span class="n">and</span> <span class="o">[</span><span class="n">Flex</span><span class="o">](</span><span class="n">https</span><span class="o">://</span><span class="n">github</span><span class="o">.</span><span class="na">com</span><span class="sr">/alexandrevicenzi/Flex/</span><span class="o">)!</span>
+<span class="n">This</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">my</span><span class="w"> </span><span class="k">first</span><span class="w"> </span><span class="n">blog</span><span class="w"> </span><span class="n">post</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="o">[</span><span class="n">Pelican</span><span class="o">]</span><span class="p">(</span><span class="nl">http</span><span class="p">:</span><span class="o">//</span><span class="n">blog</span><span class="p">.</span><span class="n">getpelican</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="p">)</span>
+<span class="ow">and</span><span class="w"> </span><span class="o">[</span><span class="n">Flex</span><span class="o">]</span><span class="p">(</span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">alexandrevicenzi</span><span class="o">/</span><span class="n">Flex</span><span class="o">/</span><span class="p">)</span><span class="err">!</span>
 </pre></div>
 
 
@@ -338,7 +338,7 @@ do it automatically. Stay tuned!</p>
 </article>
 
     <footer>
-        <p>&copy; Tadej Janež 2016-2018</p>
+        <p>&copy; Tadej Janež 2016-2026</p>
 <p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 

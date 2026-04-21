@@ -120,32 +120,32 @@ version.</p>
 <p>The problem is that this will leave <a href="http://rpm.org/">RPM</a> with no clue as to
 what is going on. If you run <code>rpm --verify python2-pip</code> it will show that
 everything is broken:</p>
-<div class="highlight"><pre><span></span>S.5....T.    /usr/bin/pip
-S.5....T.    /usr/bin/pip2
-S.5....T.    /usr/bin/pip2.7
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/PKG-INFO
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/SOURCES.txt
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/dependency_links.txt
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/entry_points.txt
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/not-zip-safe
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/requires.txt
-missing     /usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/top_level.txt
-S.5....T.    /usr/lib/python2.7/site-packages/pip/__init__.py
-S.5....T.    /usr/lib/python2.7/site-packages/pip/__init__.pyc
-missing     /usr/lib/python2.7/site-packages/pip/__init__.pyo
-.......T.    /usr/lib/python2.7/site-packages/pip/__main__.py
-S.5....T.    /usr/lib/python2.7/site-packages/pip/__main__.pyc
-missing     /usr/lib/python2.7/site-packages/pip/__main__.pyo
+<div class="highlight"><pre><span></span>S.5....T.<span class="w">    </span>/usr/bin/pip
+S.5....T.<span class="w">    </span>/usr/bin/pip2
+S.5....T.<span class="w">    </span>/usr/bin/pip2.7
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/PKG-INFO
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/SOURCES.txt
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/dependency_links.txt
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/entry_points.txt
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/not-zip-safe
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/requires.txt
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info/top_level.txt
+S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/__init__.py
+S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/__init__.pyc
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip/__init__.pyo
+.......T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/__main__.py
+S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/__main__.pyc
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip/__main__.pyo
 
-<span class="o">[</span> ... output trimmed ... <span class="o">]</span>
+<span class="o">[</span><span class="w"> </span>...<span class="w"> </span>output<span class="w"> </span>trimmed<span class="w"> </span>...<span class="w"> </span><span class="o">]</span>
 
-S.5....T.    /usr/lib/python2.7/site-packages/pip/vcs/subversion.py
-S.5....T.    /usr/lib/python2.7/site-packages/pip/vcs/subversion.pyc
-missing     /usr/lib/python2.7/site-packages/pip/vcs/subversion.pyo
-S.5....T.    /usr/lib/python2.7/site-packages/pip/wheel.py
-S.5....T.    /usr/lib/python2.7/site-packages/pip/wheel.pyc
-missing     /usr/lib/python2.7/site-packages/pip/wheel.pyo
+S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/vcs/subversion.py
+S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/vcs/subversion.pyc
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip/vcs/subversion.pyo
+S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/wheel.py
+S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/wheel.pyc
+missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip/wheel.pyo
 </pre></div>
 
 
@@ -154,22 +154,22 @@ upgrade will complain about not being able to find some files and directories.</
 <p>For example, on upgrade from <code>python-pip-7.1.0-1.el7</code> to
 <code>python2-pip-8.1.2-5.el7</code> when pip was upgraded with pip in-between, yum
 upgrade gives the following warnings:</p>
-<div class="highlight"><pre><span></span>warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyo: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyc: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.py: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyo: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyc: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.py: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip/_vendor/_markerlib: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/top_level.txt: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/requires.txt: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/pbr.json: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/not-zip-safe: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/entry_points.txt: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/dependency_links.txt: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/SOURCES.txt: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/PKG-INFO: remove failed: No such file or directory
-warning: file /usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info: remove failed: No such file or directory
+<div class="highlight"><pre><span></span>warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyo:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyc:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.py:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyo:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyc:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.py:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/top_level.txt:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/requires.txt:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/pbr.json:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/not-zip-safe:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/entry_points.txt:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/dependency_links.txt:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/SOURCES.txt:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/PKG-INFO:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
 </pre></div>
 
 
@@ -199,8 +199,8 @@ setuptools package no longer bundles its requirements and relies on
 installing whell distributions of its requirements. To install these
 wheels, it needs a newer version pip, hence pip needs to be updated
 separately before setuptools:</p>
-<div class="highlight"><pre><span></span>pip install -U pip
-pip install -U setuptools
+<div class="highlight"><pre><span></span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">-</span><span class="n">U</span><span class="w"> </span><span class="n">pip</span>
+<span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">-</span><span class="n">U</span><span class="w"> </span><span class="n">setuptools</span>
 </pre></div>
 
 
@@ -220,45 +220,45 @@ the minimum.</p>
 creation of a Python virtual environment for installation of project's
 requirements inside this virtual environment, you can use the following
 <a href="https://www.ansible.com/">Ansible</a> playbook:</p>
-<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Playbook for installation of packages inside a virtual environment</span>
-  <span class="l l-Scalar l-Scalar-Plain">hosts</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">all</span>
-  <span class="l l-Scalar l-Scalar-Plain">become</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Playbook for installation of packages inside a virtual environment</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-  <span class="l l-Scalar l-Scalar-Plain">vars</span><span class="p p-Indicator">:</span>
-    <span class="c1"># adjust these variables to your project&#39;s needs</span>
-    <span class="l l-Scalar l-Scalar-Plain">venv_path</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/myvenv/</span>
-    <span class="l l-Scalar l-Scalar-Plain">requirements</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">requests</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">simplejson</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">six</span>
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># adjust these variables to your project&#39;s needs</span>
+<span class="w">    </span><span class="nt">venv_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/myvenv/</span>
+<span class="w">    </span><span class="nt">requirements</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">requests</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simplejson</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">six</span>
 
-  <span class="l l-Scalar l-Scalar-Plain">tasks</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install python-virtualenv package</span>
-      <span class="l l-Scalar l-Scalar-Plain">package</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">name=python-virtualenv state=installed</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install python-virtualenv package</span>
+<span class="w">      </span><span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name=python-virtualenv state=installed</span>
 
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">block</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">block</span><span class="p">:</span>
 
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Create virtual environment with up-to-date pip</span>
-        <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
-          <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
-          <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">pip</span>
-          <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create virtual environment with up-to-date pip</span>
+<span class="w">        </span><span class="nt">pip</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">virtualenv</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip</span>
+<span class="w">          </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
 
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Update virtual environment&#39;s setuptools</span>
-        <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
-          <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
-          <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">setuptools</span>
-          <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update virtual environment&#39;s setuptools</span>
+<span class="w">        </span><span class="nt">pip</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">virtualenv</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">setuptools</span>
+<span class="w">          </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
 
-      <span class="l l-Scalar l-Scalar-Plain">when</span><span class="p p-Indicator">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ansible_distribution in [&quot;CentOS&quot;, &quot;RedHat&quot;]</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ansible_distribution_major_version | int == 7</span>
+<span class="w">      </span><span class="nt">when</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansible_distribution in [&quot;CentOS&quot;, &quot;RedHat&quot;]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansible_distribution_major_version | int == 7</span>
 
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project&#39;s requirements in virtual environement</span>
-      <span class="l l-Scalar l-Scalar-Plain">pip</span><span class="p p-Indicator">:</span>
-        <span class="l l-Scalar l-Scalar-Plain">virtualenv</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
-        <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">}}&quot;</span>
-        <span class="l l-Scalar l-Scalar-Plain">state</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install project&#39;s requirements in virtual environement</span>
+<span class="w">      </span><span class="nt">pip</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">virtualenv</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
 </pre></div>
 
 
@@ -283,12 +283,12 @@ packages with <a href="https://docs.python.org/3/extending/index.html">C/C++ ext
 part of the installation process. Therefore, you'll need to have at least <code>gcc</code>
 and <code>python-devel</code> packages installed. You can use the following Ansible task
 to achieve that:</p>
-<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Install project&#39;s building prerequisites</span>
-  <span class="l l-Scalar l-Scalar-Plain">package</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">name={{ item }} state=installed</span>
-  <span class="l l-Scalar l-Scalar-Plain">with_items</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gcc</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">python-devel</span>
-    <span class="c1"># add other packages required to build your project&#39;s requirements</span>
+<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install project&#39;s building prerequisites</span>
+<span class="w">  </span><span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name={{ item }} state=installed</span>
+<span class="w">  </span><span class="nt">with_items</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcc</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python-devel</span>
+<span class="w">    </span><span class="c1"># add other packages required to build your project&#39;s requirements</span>
 </pre></div>
 
 
@@ -321,7 +321,7 @@ task.</p>
 </article>
 
     <footer>
-        <p>&copy; Tadej Janež 2016-2018</p>
+        <p>&copy; Tadej Janež 2016-2026</p>
 <p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 

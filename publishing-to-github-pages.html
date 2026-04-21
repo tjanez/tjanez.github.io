@@ -119,17 +119,17 @@ fab preview
 
 <p>Add the contents of the <code>output</code> directory to the <em>username</em>.github.io git
 repository:</p>
-<div class="highlight"><pre><span></span>cd output
-git init
-git add --all
-git commit -m &quot;Initial commit&quot;
-git remote add origin git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git
-git push origin master
+<div class="highlight"><pre><span></span><span class="n">cd</span><span class="w"> </span><span class="k">output</span>
+<span class="n">git</span><span class="w"> </span><span class="n">init</span>
+<span class="n">git</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="c1">--all</span>
+<span class="n">git</span><span class="w"> </span><span class="k">commit</span><span class="w"> </span><span class="o">-</span><span class="n">m</span><span class="w"> </span><span class="ss">&quot;Initial commit&quot;</span>
+<span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="o">&lt;</span><span class="n">username</span><span class="o">&gt;/&lt;</span><span class="n">username</span><span class="o">&gt;</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">git</span>
+<span class="n">git</span><span class="w"> </span><span class="n">push</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="n">master</span>
 </pre></div>
 
 
 <p>Edit <code>publishconf.py</code> and remove the following line:</p>
-<div class="highlight"><pre><span></span><span class="n">DELETE_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="bp">True</span>
+<div class="highlight"><pre><span></span><span class="n">DELETE_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 
 
@@ -138,8 +138,8 @@ the git repository initialized in the previous step, when building the
 production version of the site.</p>
 <p>Modify the <code>clean</code> function in Fabric's <code>fabfile.py</code> to not delete the <code>.git</code>
 directory:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Remove generated files&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove generated files&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">[:]:</span>
             <span class="c1"># Do not recurse into this directory</span>
@@ -156,7 +156,7 @@ directory:</p>
 
 <p>Add the following <code>gh_pages</code> function (and its <code>publish</code> alias) to Fabric's
 <code>fabfile.py</code>:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fabric.contrib.console</span> <span class="kn">import</span> <span class="n">confirm</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fabric.contrib.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">confirm</span>
 
 <span class="c1"># Get absolute path of project&#39;s root directory</span>
 <span class="n">env</span><span class="o">.</span><span class="n">project_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">real_fabfile</span><span class="p">)</span>
@@ -166,37 +166,37 @@ directory:</p>
 <span class="c1"># Github Pages configuration</span>
 <span class="n">env</span><span class="o">.</span><span class="n">github_pages_branch</span> <span class="o">=</span> <span class="s1">&#39;master&#39;</span>
 
-<span class="k">def</span> <span class="nf">gh_pages</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Publish to GitHub Pages&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gh_pages</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish to GitHub Pages&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">project_root</span><span class="p">):</span>
         <span class="c1"># ensure the main git repository is clean</span>
         <span class="n">main_git_unclean</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git status --untracked-files=no --porcelain&#39;</span><span class="p">,</span>
-                                 <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                 <span class="n">capture</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">main_git_unclean</span><span class="p">:</span>
             <span class="n">abort</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;The main git repository is not clean:&quot;</span><span class="p">,</span>
                              <span class="n">main_git_unclean</span><span class="p">]))</span>
         <span class="c1"># get main git repository&#39;s HEAD&#39;s sha checksum</span>
-        <span class="n">main_commit_sha</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git rev-parse --short HEAD&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">main_commit_sha</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git rev-parse --short HEAD&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
         <span class="c1"># sync local GitHub Pages git repository with remote repository</span>
-        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git fetch origin {github_pages_branch}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
-        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git reset --hard origin/{github_pages_branch}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
+        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git fetch origin </span><span class="si">{github_pages_branch}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
+        <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git reset --hard origin/</span><span class="si">{github_pages_branch}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
 
     <span class="n">clean</span><span class="p">()</span>
     <span class="c1"># build a production version of the site</span>
     <span class="n">preview</span><span class="p">()</span>
 
     <span class="k">with</span> <span class="n">lcd</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
-        <span class="n">pages_git_unclean</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git status --porcelain&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">pages_git_unclean</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git status --porcelain&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pages_git_unclean</span><span class="p">:</span>
             <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git add --all&#39;</span><span class="p">)</span>
-            <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git commit -m &quot;Build of source repo @ {}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">main_commit_sha</span><span class="p">))</span>
+            <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git commit -m &quot;Build of source repo @ </span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">main_commit_sha</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Do you wish to publish the current version of the &quot;</span>
-                       <span class="s2">&quot;page to GitHub Pages?&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-                <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git push origin {github_pages_branch}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
-                <span class="n">commit_sha</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git rev-parse --short HEAD&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-                <span class="n">puts</span><span class="p">(</span><span class="s2">&quot;Pushed commit {} to GitHub Pages&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">commit_sha</span><span class="p">))</span>
+                       <span class="s2">&quot;page to GitHub Pages?&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git push origin </span><span class="si">{github_pages_branch}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
+                <span class="n">commit_sha</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git rev-parse --short HEAD&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">puts</span><span class="p">(</span><span class="s2">&quot;Pushed commit </span><span class="si">{}</span><span class="s2"> to GitHub Pages&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">commit_sha</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># reset the git repo to the one on GitHub Pages</span>
                 <span class="n">local</span><span class="p">(</span><span class="s1">&#39;git reset origin/master&#39;</span><span class="p">)</span>
@@ -204,8 +204,8 @@ directory:</p>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">puts</span><span class="p">(</span><span class="s2">&quot;Nothing has changed. Exiting.&quot;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">publish</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Publish to GitHub Pages&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish to GitHub Pages&quot;&quot;&quot;</span>
     <span class="n">gh_pages</span><span class="p">()</span>
 </pre></div>
 
@@ -319,7 +319,7 @@ will transparently redirect any HTTP requests to your site to HTTPS.</p>
 </article>
 
     <footer>
-        <p>&copy; Tadej Janež 2016-2018</p>
+        <p>&copy; Tadej Janež 2016-2026</p>
 <p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - Android</title><link href="https://tadej.ja.nez.si/" rel="alternate"></link><link href="https://tadej.ja.nez.si/feeds/category-android.atom.xml" rel="self"></link><id>https://tadej.ja.nez.si/</id><updated>2017-07-30T12:28:00+02:00</updated><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="https://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"></link><published>2017-07-30T12:28:00+02:00</published><updated>2017-07-30T12:28:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - Android</title><link href="https://tadej.ja.nez.si/" rel="alternate"/><link href="https://tadej.ja.nez.si/feeds/category-android.atom.xml" rel="self"/><id>https://tadej.ja.nez.si/</id><updated>2017-07-30T12:28:00+02:00</updated><subtitle>Passionate about DevOps, Python and OSS</subtitle><entry><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link href="https://tadej.ja.nez.si/android-internal-storage-backup.html" rel="alternate"/><published>2017-07-30T12:28:00+02:00</published><updated>2017-07-30T12:28:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</id><summary type="html">
 
 &lt;p&gt;Recently I had to clone my &lt;a href="https://en.wikipedia.org/wiki/Nexus_4"&gt;Nexus 4&lt;/a&gt; to
 another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
@@ -41,11 +41,11 @@ otherwise mangle binary data.&lt;/p&gt;
 &lt;p&gt;To backup &lt;code&gt;/data/media&lt;/code&gt; (i.e. internal storage), first reboot your phone into
 &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; recovery.&lt;/p&gt;
 &lt;p&gt;Then execute the following:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb exec-out &lt;span class="s1"&gt;&amp;#39;tar --create --exclude=data/media/0/TWRP \&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb&lt;span class="w"&gt; &lt;/span&gt;exec-out&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tar --create --exclude=data/media/0/TWRP \&lt;/span&gt;
 &lt;span class="s1"&gt;  data/media/0 2&amp;gt;/backup-errors.txt | \&lt;/span&gt;
-&lt;span class="s1"&gt;  gzip&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-dd &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;backup-name&amp;gt;-&lt;span class="k"&gt;$(&lt;/span&gt;date +%Y%m%d&lt;span class="k"&gt;)&lt;/span&gt;.tar.gz &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-adb shell cat /backup-errors.txt
+&lt;span class="s1"&gt;  gzip&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+dd&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;backup-name&amp;gt;-&lt;span class="k"&gt;$(&lt;/span&gt;date&lt;span class="w"&gt; &lt;/span&gt;+%Y%m%d&lt;span class="k"&gt;)&lt;/span&gt;.tar.gz&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+adb&lt;span class="w"&gt; &lt;/span&gt;shell&lt;span class="w"&gt; &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/backup-errors.txt
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -63,11 +63,11 @@ reducing the backup size.
 On the other hand, if compression on the phone is CPU-bound, then performing
 the compression on the computer will help reduce the backup time.&lt;/p&gt;
 &lt;p&gt;The variant of the command that compresses files on the computer is:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb exec-out &lt;span class="s1"&gt;&amp;#39;tar --create --exclude=data/media/0/TWRP \&lt;/span&gt;
-&lt;span class="s1"&gt;  data/media/0 2&amp;gt;/backup-errors.txt&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&amp;lt;compression-command&amp;gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-dd &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;backup-name&amp;gt;-&lt;span class="k"&gt;$(&lt;/span&gt;date +%Y%m%d&lt;span class="k"&gt;)&lt;/span&gt;.tar.&amp;lt;compression-extension&amp;gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-adb shell cat /backup-errors.txt
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb&lt;span class="w"&gt; &lt;/span&gt;exec-out&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tar --create --exclude=data/media/0/TWRP \&lt;/span&gt;
+&lt;span class="s1"&gt;  data/media/0 2&amp;gt;/backup-errors.txt&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&amp;lt;compression-command&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+dd&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;backup-name&amp;gt;-&lt;span class="k"&gt;$(&lt;/span&gt;date&lt;span class="w"&gt; &lt;/span&gt;+%Y%m%d&lt;span class="k"&gt;)&lt;/span&gt;.tar.&amp;lt;compression-extension&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+adb&lt;span class="w"&gt; &lt;/span&gt;shell&lt;span class="w"&gt; &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/backup-errors.txt
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -217,4 +217,4 @@ cannot be further compressed to any significant extent.&lt;/p&gt;
 &lt;a href="https://github.com/lemonsqueeze/disk_usage_by_file_type"&gt;lemonsqueeze's &lt;code&gt;disk_usage_by_file_type&lt;/code&gt; Bash script&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To draw the pie chart, I used &lt;a href="https://matplotlib.org/"&gt;matplotlib&lt;/a&gt;
 (&lt;a href="https://tadej.ja.nez.si/scripts/android-internal-storage-backup-usage.py"&gt;source&lt;/a&gt;).&lt;/p&gt;
-&lt;/div&gt;</content><category term="android"></category><category term="backup"></category><category term="twrp"></category><category term="adb"></category><category term="benchmark"></category></entry></feed>
+&lt;/div&gt;</content><category term="android"/><category term="backup"/><category term="twrp"/><category term="adb"/><category term="benchmark"/></entry></feed>

@@ -98,11 +98,11 @@ otherwise mangle binary data.</p>
 <p>To backup <code>/data/media</code> (i.e. internal storage), first reboot your phone into
 <abbr title="Team Win Recovery Project">TWRP</abbr> recovery.</p>
 <p>Then execute the following:</p>
-<div class="highlight"><pre><span></span>adb exec-out <span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
+<div class="highlight"><pre><span></span>adb<span class="w"> </span>exec-out<span class="w"> </span><span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
 <span class="s1">  data/media/0 2&gt;/backup-errors.txt | \</span>
-<span class="s1">  gzip&#39;</span> <span class="p">|</span> <span class="se">\</span>
-dd <span class="nv">of</span><span class="o">=</span>&lt;backup-name&gt;-<span class="k">$(</span>date +%Y%m%d<span class="k">)</span>.tar.gz <span class="o">&amp;&amp;</span> <span class="se">\</span>
-adb shell cat /backup-errors.txt
+<span class="s1">  gzip&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+dd<span class="w"> </span><span class="nv">of</span><span class="o">=</span>&lt;backup-name&gt;-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+adb<span class="w"> </span>shell<span class="w"> </span>cat<span class="w"> </span>/backup-errors.txt
 </pre></div>
 
 
@@ -120,11 +120,11 @@ reducing the backup size.
 On the other hand, if compression on the phone is CPU-bound, then performing
 the compression on the computer will help reduce the backup time.</p>
 <p>The variant of the command that compresses files on the computer is:</p>
-<div class="highlight"><pre><span></span>adb exec-out <span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
-<span class="s1">  data/media/0 2&gt;/backup-errors.txt&#39;</span> <span class="p">|</span> <span class="se">\</span>
-&lt;compression-command&gt; <span class="p">|</span> <span class="se">\</span>
-dd <span class="nv">of</span><span class="o">=</span>&lt;backup-name&gt;-<span class="k">$(</span>date +%Y%m%d<span class="k">)</span>.tar.&lt;compression-extension&gt; <span class="o">&amp;&amp;</span> <span class="se">\</span>
-adb shell cat /backup-errors.txt
+<div class="highlight"><pre><span></span>adb<span class="w"> </span>exec-out<span class="w"> </span><span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
+<span class="s1">  data/media/0 2&gt;/backup-errors.txt&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+&lt;compression-command&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+dd<span class="w"> </span><span class="nv">of</span><span class="o">=</span>&lt;backup-name&gt;-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.&lt;compression-extension&gt;<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+adb<span class="w"> </span>shell<span class="w"> </span>cat<span class="w"> </span>/backup-errors.txt
 </pre></div>
 
 
@@ -298,7 +298,7 @@ cannot be further compressed to any significant extent.</p>
 </article>
 
     <footer>
-        <p>&copy; Tadej Janež 2016-2018</p>
+        <p>&copy; Tadej Janež 2016-2026</p>
 <p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 
