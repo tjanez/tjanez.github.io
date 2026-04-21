@@ -3,7 +3,7 @@
 
 &lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
-they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
+they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
 &lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
 they didn't last long since I wiped the hard drive and installed &lt;a href="https://fedoramagazine.org/fedora-26-is-here/"&gt;Fedora 26&lt;/a&gt; on it.&lt;/p&gt;
 &lt;p&gt;Let me briefly describe my experience and guide you through some trickier parts
@@ -18,7 +18,7 @@ used Mesa's software rasterizer, which causes all sorts of issues.&lt;/em&gt;&lt
 
 &lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
-they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
+they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
 &lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
 they didn't last long since I wiped the hard drive and installed &lt;a href="https://fedoramagazine.org/fedora-26-is-here/"&gt;Fedora 26&lt;/a&gt; on it.&lt;/p&gt;
 &lt;p&gt;Let me briefly describe my experience and guide you through some trickier parts
@@ -102,7 +102,7 @@ kernel at boot. More information in &lt;a href="https://bugzilla.redhat.com/show
 &lt;p&gt;Unfortunately, that's not enough. After successfully booting the system into
 a graphical session, I soon started encountering soft kernel lockups due to
 Nouveau driver. The logs showed the following:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;NMI&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;watchdog&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;BUG&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;soft&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lockup&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;CPU#1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;stuck&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;plymouthd:423&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;NMI&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;watchdog&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;BUG&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;soft&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lockup&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;CPU#1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;stuck&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;plymouthd:423&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
 
 &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt; ... output trimmed ... &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
 
@@ -128,12 +128,11 @@ Nouveau driver. The logs showed the following:&lt;/p&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;nouveau_pmops_runtime_resume&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x91&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0x150&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
 
 &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt; ... output trimmed ... &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Looking through &lt;a href="https://fedoramagazine.org/systemd-using-journal/"&gt;systemd journal&lt;/a&gt; soon revealed other kernel
 tracebacks related to the Nouveau driver:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mo"&gt;0000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;00.0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bus&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;MMIO&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mo"&gt;00000000&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FAULT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;at&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;409800&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;TIMEOUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mo"&gt;0000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;00.0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bus&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;MMIO&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mo"&gt;00000000&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FAULT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;at&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;409800&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;TIMEOUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;drm&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;i915_gem_idle_work_handler&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i915&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Timeout&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;waiting&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;engines&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;idle&lt;/span&gt;
 &lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mo"&gt;0000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;00.0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;timeout&lt;/span&gt;
 &lt;span class="o"&gt;------------&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cut&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;------------&lt;/span&gt;
@@ -189,8 +188,7 @@ tracebacks related to the Nouveau driver:&lt;/p&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sock_write_iter&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x8c&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0xf0&lt;/span&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;nouveau_drm_ioctl&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;0x72&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;0xc0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nouveau&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trace&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;ee905135b51d0b0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
@@ -241,16 +239,14 @@ enabled&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Fortunately, Dell has put Linux users in the prime seat and offers seamless
 firmware updates on Linux via &lt;a href="https://blogs.gnome.org/hughsie/"&gt;Richard Hughes&lt;/a&gt;'s excellent &lt;a href="http://www.fwupd.org/"&gt;fwupd tool&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To update the firmware using command line, simply run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fwupdmgr&lt;span class="w"&gt; &lt;/span&gt;refresh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fwupdmgr&lt;span class="w"&gt; &lt;/span&gt;refresh
 fwupdmgr&lt;span class="w"&gt; &lt;/span&gt;get-updates
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;to see the list of available updates. To download the available update and
 install it after reboot, run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;fwupdmgr&lt;span class="w"&gt; &lt;/span&gt;update
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fwupdmgr&lt;span class="w"&gt; &lt;/span&gt;update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Alternatively, you can also update the firmware using GNOME's &lt;a href="https://wiki.gnome.org/Apps/Software"&gt;Software app&lt;/a&gt;.&lt;/p&gt;
 &lt;h1 id="issues-with-wireless-performance-on-kernel-412"&gt;Issues with wireless performance on kernel 4.12&lt;/h1&gt;
@@ -270,4 +266,4 @@ the most out of the system.&lt;/p&gt;
 &lt;p&gt;However, I'm optimistic and I think it's getting better. For example, I was
 pleasantly surprised how GNOME seamlessly re-scales the interface after
 connecting/disconnecting a non-HiDPI monitor. Suspend also works without a
-hitch!&lt;/p&gt;</content><category term="fedora"/><category term="dell"/><category term="hardware"/><category term="laptop"/></entry></feed>
+hitch!&lt;/p&gt;</content><category term="Hardware"/><category term="fedora"/><category term="dell"/><category term="hardware"/><category term="laptop"/></entry></feed>

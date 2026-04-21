@@ -90,28 +90,24 @@ the same directory structure, so one can't use the same parameterized extra
 repository URL.</p>
 <p>If you want to enable the <code>updates-testing</code> repository in a Fedora chroot,
 add the following extra repository URL to your Copr project:</p>
-<div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">fedoraproject</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pub</span><span class="o">/$</span><span class="n">distname</span><span class="o">/</span><span class="n">linux</span><span class="o">/</span><span class="n">updates</span><span class="o">/</span><span class="n">testing</span><span class="o">/$</span><span class="n">releasever</span><span class="o">/$</span><span class="n">basearch</span><span class="o">/</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">fedoraproject</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pub</span><span class="o">/$</span><span class="n">distname</span><span class="o">/</span><span class="n">linux</span><span class="o">/</span><span class="n">updates</span><span class="o">/</span><span class="n">testing</span><span class="o">/$</span><span class="n">releasever</span><span class="o">/$</span><span class="n">basearch</span><span class="o">/</span>
+</code></pre></div>
 
 <p>If you want to enable the <a href="https://fedoraproject.org/wiki/EPEL/testing"><code>epel-testing</code> repository</a> in an <abbr title="Extra Packages for Enterprise Linux">EPEL</abbr> chroot, add the
 following extra repository URL to your Copr project:</p>
-<div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">fedoraproject</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pub</span><span class="o">/$</span><span class="n">distname</span><span class="o">/</span><span class="n">testing</span><span class="o">/$</span><span class="n">releasever</span><span class="o">/$</span><span class="n">basearch</span><span class="o">/</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">fedoraproject</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pub</span><span class="o">/$</span><span class="n">distname</span><span class="o">/</span><span class="n">testing</span><span class="o">/$</span><span class="n">releasever</span><span class="o">/$</span><span class="n">basearch</span><span class="o">/</span>
+</code></pre></div>
 
 <p>To do this using <a href="https://developer.fedoraproject.org/deployment/copr/copr-cli.html">Copr command line interface</a>, run the
 following:</p>
-<div class="highlight"><pre><span></span>copr-cli<span class="w"> </span>modify<span class="w"> </span>--repo<span class="w"> </span><span class="s1">&#39;&lt;parameterized-extra-repository-URL&gt;&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>copr-cli<span class="w"> </span>modify<span class="w"> </span>--repo<span class="w"> </span><span class="s1">&#39;&lt;parameterized-extra-repository-URL&gt;&#39;</span>
+</code></pre></div>
 
 <p>For example, to enable the <code>updates-testing</code> repository in a Fedora chroot,
 run:</p>
-<div class="highlight"><pre><span></span>copr-cli<span class="w"> </span>modify<span class="w"> </span>--repo<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>copr-cli<span class="w"> </span>modify<span class="w"> </span>--repo<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="s1">&#39;http://download.fedoraproject.org/pub/$distname/linux/updates/testing/$releasever/$basearch/&#39;</span>
-</pre></div>
-
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>

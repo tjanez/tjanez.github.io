@@ -112,33 +112,30 @@ second git repository and pushes it to GitHub Pages.</p>
 <p>To use this approach, first create the <em>username</em>.github.io repository on
 <a href="https://github.com/new">GitHub</a>.</p>
 <p>Then generate a clean production version of the site:</p>
-<div class="highlight"><pre><span></span>fab clean
+<div class="highlight"><pre><span></span><code>fab clean
 fab preview
-</pre></div>
-
+</code></pre></div>
 
 <p>Add the contents of the <code>output</code> directory to the <em>username</em>.github.io git
 repository:</p>
-<div class="highlight"><pre><span></span><span class="n">cd</span><span class="w"> </span><span class="k">output</span>
+<div class="highlight"><pre><span></span><code><span class="n">cd</span><span class="w"> </span><span class="k">output</span>
 <span class="n">git</span><span class="w"> </span><span class="n">init</span>
 <span class="n">git</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="c1">--all</span>
 <span class="n">git</span><span class="w"> </span><span class="k">commit</span><span class="w"> </span><span class="o">-</span><span class="n">m</span><span class="w"> </span><span class="ss">&quot;Initial commit&quot;</span>
 <span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="o">&lt;</span><span class="n">username</span><span class="o">&gt;/&lt;</span><span class="n">username</span><span class="o">&gt;</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">git</span>
 <span class="n">git</span><span class="w"> </span><span class="n">push</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="n">master</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Edit <code>publishconf.py</code> and remove the following line:</p>
-<div class="highlight"><pre><span></span><span class="n">DELETE_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="kc">True</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">DELETE_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
 
 <p>This will prevent Pelican from deleting the whole <code>output</code> directory, including
 the git repository initialized in the previous step, when building the
 production version of the site.</p>
 <p>Modify the <code>clean</code> function in Fabric's <code>fabfile.py</code> to not delete the <code>.git</code>
 directory:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">():</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove generated files&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">deploy_path</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">[:]:</span>
@@ -151,12 +148,11 @@ directory:</p>
                 <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
             <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Add the following <code>gh_pages</code> function (and its <code>publish</code> alias) to Fabric's
 <code>fabfile.py</code>:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fabric.contrib.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">confirm</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">fabric.contrib.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">confirm</span>
 
 <span class="c1"># Get absolute path of project&#39;s root directory</span>
 <span class="n">env</span><span class="o">.</span><span class="n">project_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">real_fabfile</span><span class="p">)</span>
@@ -207,13 +203,11 @@ directory:</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish to GitHub Pages&quot;&quot;&quot;</span>
     <span class="n">gh_pages</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>To publish the page, run:</p>
-<div class="highlight"><pre><span></span>fab publish
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>fab publish
+</code></pre></div>
 
 <p>and answer <code>y</code> when prompted.</p>
 <p>Visit the page at https://<em>username</em>.github.io and share it with the World!</p>
@@ -224,34 +218,30 @@ on which custom domain the site is hosted.</p>
 <p>The contents of the file should match the custom domain name. For the example
 custom domain above, one would create the file <code>content/extra/CNAME</code> with
 the following content:</p>
-<div class="highlight"><pre><span></span>blog.mysite.com
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>blog.mysite.com
+</code></pre></div>
 
 <p>To instruct Pelican to copy the <code>CNAME</code> file to site's root, list it among
 site's static paths:</p>
-<div class="highlight"><pre><span></span><span class="n">STATIC_PATHS</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight"><pre><span></span><code><span class="n">STATIC_PATHS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span> <span class="n">other</span> <span class="n">static</span> <span class="n">paths</span> <span class="o">...</span>
     <span class="c1"># GitHub Pages custom domain</span>
     <span class="s1">&#39;extra/CNAME&#39;</span><span class="p">,</span>
 <span class="p">]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>and annotate it with extra path metadata:</p>
-<div class="highlight"><pre><span></span><span class="n">EXTRA_PATH_METADATA</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">EXTRA_PATH_METADATA</span> <span class="o">=</span> <span class="p">{</span>
     <span class="o">...</span> <span class="n">other</span> <span class="n">extra</span> <span class="n">path</span> <span class="n">metadata</span> <span class="o">...</span>
     <span class="s1">&#39;extra/CNAME&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;CNAME&#39;</span><span class="p">},</span>
 <span class="p">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Finally, change the value of <code>SITEURL</code> variable in <code>publishconf.py</code> to the
 custom domain's name and commit the changes:</p>
-<div class="highlight"><pre><span></span>git add content/extra/CNAME
+<div class="highlight"><pre><span></span><code>git add content/extra/CNAME
 git commit -a -m &quot;Change site&#39;s URL to https://blog.mysite.com&quot;
-</pre></div>
-
+</code></pre></div>
 
 <p>Before we publish the new version of the site with a custom domain, we need
 to configure an appropriate DNS record with our DNS provider. The above example
@@ -259,27 +249,24 @@ custom domain is a custom <strong>subdomain</strong>, so we need to set up a <co
 with our DNS provider that points to <em>username</em>.github.io. Follow your DNS
 provider's instructions on how to do that.</p>
 <p>To confirm that the new DNS record is set up correctly, use the <code>dig</code> utility:</p>
-<div class="highlight"><pre><span></span>dig +nocmd +nostats +nocomments blog.mysite.com
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>dig +nocmd +nostats +nocomments blog.mysite.com
+</code></pre></div>
 
 <p>and make sure the output is similar to:</p>
-<div class="highlight"><pre><span></span>;blog.mysite.com.               IN  A
+<div class="highlight"><pre><span></span><code>;blog.mysite.com.               IN  A
 blog.mysite.com.        1747    IN  CNAME   username.github.io.
 username.github.io.     3547    IN  CNAME   github.map.fastly.net.
 github.map.fastly.net.  650     IN  CNAME   prod.github.map.fastlylb.net.
 prod.github.map.fastlylb.net. 17 IN A       151.101.12.133
-</pre></div>
-
+</code></pre></div>
 
 <p>If your custom domain is an apex domain (e.g. <code>mysite.com</code>), you will need
 to configure a different type of a DNS record. See <a href="https://help.github.com/articles/setting-up-an-apex-domain/">GitHub Pages's Help on
 Setting up an apex domain</a>.</p>
 <p>After DNS is properly configured, publish the updated site to GitHub Pages
 with:</p>
-<div class="highlight"><pre><span></span>fab publish
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>fab publish
+</code></pre></div>
 
 <p>Visit the page at your custom domain!</p>
 <div class="admonition note">

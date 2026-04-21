@@ -98,13 +98,12 @@ otherwise mangle binary data.</p>
 <p>To backup <code>/data/media</code> (i.e. internal storage), first reboot your phone into
 <abbr title="Team Win Recovery Project">TWRP</abbr> recovery.</p>
 <p>Then execute the following:</p>
-<div class="highlight"><pre><span></span>adb<span class="w"> </span>exec-out<span class="w"> </span><span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
+<div class="highlight"><pre><span></span><code>adb<span class="w"> </span>exec-out<span class="w"> </span><span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
 <span class="s1">  data/media/0 2&gt;/backup-errors.txt | \</span>
 <span class="s1">  gzip&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 dd<span class="w"> </span><span class="nv">of</span><span class="o">=</span>&lt;backup-name&gt;-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
 adb<span class="w"> </span>shell<span class="w"> </span>cat<span class="w"> </span>/backup-errors.txt
-</pre></div>
-
+</code></pre></div>
 
 <p>replacing <code>&lt;backup-name&gt;</code> with your desired backup name, e.g.
 <code>tadej-nexus4-sdcard_backup</code>.</p>
@@ -120,13 +119,12 @@ reducing the backup size.
 On the other hand, if compression on the phone is CPU-bound, then performing
 the compression on the computer will help reduce the backup time.</p>
 <p>The variant of the command that compresses files on the computer is:</p>
-<div class="highlight"><pre><span></span>adb<span class="w"> </span>exec-out<span class="w"> </span><span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
+<div class="highlight"><pre><span></span><code>adb<span class="w"> </span>exec-out<span class="w"> </span><span class="s1">&#39;tar --create --exclude=data/media/0/TWRP \</span>
 <span class="s1">  data/media/0 2&gt;/backup-errors.txt&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 &lt;compression-command&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 dd<span class="w"> </span><span class="nv">of</span><span class="o">=</span>&lt;backup-name&gt;-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.&lt;compression-extension&gt;<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
 adb<span class="w"> </span>shell<span class="w"> </span>cat<span class="w"> </span>/backup-errors.txt
-</pre></div>
-
+</code></pre></div>
 
 <p>where <code>&lt;compression-command&gt;</code> is one of <code>gzip</code>, <code>bzip2</code> and <code>xz</code> (optionally,
 with extra arguments) and <code>&lt;compression-extension&gt;</code> is the chosen compression
@@ -138,86 +136,86 @@ more details about the data being backed up in the next section
 <table>
 <thead>
 <tr>
-<th align="left">Compression command</th>
-<th align="center">Compression execution</th>
-<th align="right">Backup size</th>
-<th align="right">Size compared to best</th>
-<th align="right">Backup time</th>
-<th align="right">Time compared to best</th>
+<th style="text-align: left;">Compression command</th>
+<th style="text-align: center;">Compression execution</th>
+<th style="text-align: right;">Backup size</th>
+<th style="text-align: right;">Size compared to best</th>
+<th style="text-align: right;">Backup time</th>
+<th style="text-align: right;">Time compared to best</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><em>without</em></td>
-<td align="center"><em>N/A</em></td>
-<td align="right">3558 MiB</td>
-<td align="right">+4.8%</td>
-<td align="right">878 s</td>
-<td align="right">+61%</td>
+<td style="text-align: left;"><em>without</em></td>
+<td style="text-align: center;"><em>N/A</em></td>
+<td style="text-align: right;">3558 MiB</td>
+<td style="text-align: right;">+4.8%</td>
+<td style="text-align: right;">878 s</td>
+<td style="text-align: right;">+61%</td>
 </tr>
 <tr>
-<td align="left"><code>gzip</code></td>
-<td align="center">on the phone</td>
-<td align="right">3428 MiB</td>
-<td align="right">+1.0%</td>
-<td align="right">549 s</td>
-<td align="right">+1%</td>
+<td style="text-align: left;"><code>gzip</code></td>
+<td style="text-align: center;">on the phone</td>
+<td style="text-align: right;">3428 MiB</td>
+<td style="text-align: right;">+1.0%</td>
+<td style="text-align: right;">549 s</td>
+<td style="text-align: right;">+1%</td>
 </tr>
 <tr>
-<td align="left"><code>gzip --best</code></td>
-<td align="center">on the phone</td>
-<td align="right">3428 MiB</td>
-<td align="right">+1.0%</td>
-<td align="right"><strong>545 s</strong></td>
-<td align="right"><em>N/A</em></td>
+<td style="text-align: left;"><code>gzip --best</code></td>
+<td style="text-align: center;">on the phone</td>
+<td style="text-align: right;">3428 MiB</td>
+<td style="text-align: right;">+1.0%</td>
+<td style="text-align: right;"><strong>545 s</strong></td>
+<td style="text-align: right;"><em>N/A</em></td>
 </tr>
 <tr>
-<td align="left"><code>bzip2</code></td>
-<td align="center">on the phone</td>
-<td align="right">3411 MiB</td>
-<td align="right">+0.5%</td>
-<td align="right">4236 s</td>
-<td align="right">+677%</td>
+<td style="text-align: left;"><code>bzip2</code></td>
+<td style="text-align: center;">on the phone</td>
+<td style="text-align: right;">3411 MiB</td>
+<td style="text-align: right;">+0.5%</td>
+<td style="text-align: right;">4236 s</td>
+<td style="text-align: right;">+677%</td>
 </tr>
 <tr>
-<td align="left"><code>gzip</code></td>
-<td align="center">on the computer</td>
-<td align="right">3425 MiB</td>
-<td align="right">+0.9%</td>
-<td align="right">982 s</td>
-<td align="right">+80%</td>
+<td style="text-align: left;"><code>gzip</code></td>
+<td style="text-align: center;">on the computer</td>
+<td style="text-align: right;">3425 MiB</td>
+<td style="text-align: right;">+0.9%</td>
+<td style="text-align: right;">982 s</td>
+<td style="text-align: right;">+80%</td>
 </tr>
 <tr>
-<td align="left"><code>bzip2</code></td>
-<td align="center">on the computer</td>
-<td align="right">3411 MiB</td>
-<td align="right">+0.5%</td>
-<td align="right">824 s</td>
-<td align="right">+51%</td>
+<td style="text-align: left;"><code>bzip2</code></td>
+<td style="text-align: center;">on the computer</td>
+<td style="text-align: right;">3411 MiB</td>
+<td style="text-align: right;">+0.5%</td>
+<td style="text-align: right;">824 s</td>
+<td style="text-align: right;">+51%</td>
 </tr>
 <tr>
-<td align="left"><code>xz</code></td>
-<td align="center">on the computer</td>
-<td align="right">3402 MiB</td>
-<td align="right">+0.2%</td>
-<td align="right">1566 s</td>
-<td align="right">+187%</td>
+<td style="text-align: left;"><code>xz</code></td>
+<td style="text-align: center;">on the computer</td>
+<td style="text-align: right;">3402 MiB</td>
+<td style="text-align: right;">+0.2%</td>
+<td style="text-align: right;">1566 s</td>
+<td style="text-align: right;">+187%</td>
 </tr>
 <tr>
-<td align="left"><code>xz --threads=0</code></td>
-<td align="center">on the computer</td>
-<td align="right">3404 MiB</td>
-<td align="right">+0.3%</td>
-<td align="right">811 s</td>
-<td align="right">+48%</td>
+<td style="text-align: left;"><code>xz --threads=0</code></td>
+<td style="text-align: center;">on the computer</td>
+<td style="text-align: right;">3404 MiB</td>
+<td style="text-align: right;">+0.3%</td>
+<td style="text-align: right;">811 s</td>
+<td style="text-align: right;">+48%</td>
 </tr>
 <tr>
-<td align="left"><code>xz --best --threads=0</code></td>
-<td align="center">on the computer</td>
-<td align="right"><strong>3395 MiB</strong></td>
-<td align="right"><em>N/A</em></td>
-<td align="right">895 s</td>
-<td align="right">+64%</td>
+<td style="text-align: left;"><code>xz --best --threads=0</code></td>
+<td style="text-align: center;">on the computer</td>
+<td style="text-align: right;"><strong>3395 MiB</strong></td>
+<td style="text-align: right;"><em>N/A</em></td>
+<td style="text-align: right;">895 s</td>
+<td style="text-align: right;">+64%</td>
 </tr>
 </tbody>
 </table>

@@ -92,16 +92,14 @@ finally, create a Hello World blog post.</p>
 </div>
 <p>Install Pelican (Python 3 version), git and Fabric (unfortunately,
 <a href="http://fedora.portingdb.xyz/pkg/fabric/">only Python 2 version is currently available</a>):</p>
-<div class="highlight"><pre><span></span>sudo dnf -y install python3-pelican git fabric
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sudo dnf -y install python3-pelican git fabric
+</code></pre></div>
 
 <h2 id="creating-a-git-repository-for-the-site">Creating a git repository for the site</h2>
 <p>Create a directory for the site:</p>
-<div class="highlight"><pre><span></span>mkdir my-site
+<div class="highlight"><pre><span></span><code>mkdir my-site
 cd my-site
-</pre></div>
-
+</code></pre></div>
 
 <p>To setup a Pelican skeleton for the site, run <code>pelican-quickstart-3</code> and
 answer the questions. If you are unsure, you can safely accept the default
@@ -116,7 +114,7 @@ safely remove the parts connected with Rackspace Cloud Files, rsync publishing
 and <a href="https://pages.github.com/">GitHub Pages</a> (I'll describe how to add support
 for it in a follow-up blog post).</p>
 <p>The cleaned-up version of <code>fabfile.py</code> should look something like:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fabric.api</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">fabric.api</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">fabric.contrib.project</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">project</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
@@ -159,49 +157,43 @@ for it in a follow-up blog post).</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">preview</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Build production version of site&quot;&quot;&quot;</span>
     <span class="n">local</span><span class="p">(</span><span class="s1">&#39;pelican-3 -s publishconf.py&#39;</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Since we are using the Python 3 version of Pelican, we can remove the Python 2
 compatibility headers from <code>pelicanconf.py</code> and <code>publishconf.py</code>:</p>
-<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*- #</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># -*- coding: utf-8 -*- #</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">unicode_literals</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>In addition, remove the shebang from <code>publishconf.py</code>.</p>
 <p>Initialize the git repository and create the initial commit:</p>
-<div class="highlight"><pre><span></span>git init
+<div class="highlight"><pre><span></span><code>git init
 git add *.py
 git commit -m &quot;Initial site created with pelican-quickstart&quot;
-</pre></div>
-
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you use git for the first time, you must configure your git email and
 user name with:</p>
-<div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;&amp;lt;your-email-address&amp;gt;&quot;</span>
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;&amp;lt;your-name&amp;gt;&quot;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;&lt;your-email-address&gt;&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;&lt;your-name&gt;&quot;</span>
+</code></pre></div>
 
 </div>
 <p>To instruct git to ignore the generated Python byte-code and the generated
 site, create <code>.gitignore</code> file with the following contents:</p>
-<div class="highlight"><pre><span></span><span class="gh">#</span> ignore Python byte-code
+<div class="highlight"><pre><span></span><code><span class="gh">#</span> ignore Python byte-code
 *.pyc
 
 <span class="gh">#</span> ignore generated site
 /output/
-</pre></div>
-
+</code></pre></div>
 
 <p>and commit it with:</p>
-<div class="highlight"><pre><span></span>git add .gitignore
+<div class="highlight"><pre><span></span><code>git add .gitignore
 git commit -m &quot;Add .gitignore&quot;
-</pre></div>
-
+</code></pre></div>
 
 <h2 id="administering-the-site-with-fabric">Administering the site with Fabric</h2>
 <p>Fabric is a Python library and a command-line tool for automating deployment
@@ -212,26 +204,22 @@ to get a glimpse of how Fabric tasks look like.</p>
 <code>serve</code>. Here are a couple of tasks that you will typically use when
 administering a site.</p>
 <p>To generate the site, use:</p>
-<div class="highlight"><pre><span></span>fab build
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>fab build
+</code></pre></div>
 
 <p>To serve the site locally on port 8080, use:</p>
-<div class="highlight"><pre><span></span>fab serve
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>fab serve
+</code></pre></div>
 
 <p>To regenerate the site and serve it locally, use:</p>
-<div class="highlight"><pre><span></span>fab reserve
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>fab reserve
+</code></pre></div>
 
 <p>To automatically regenerate the site upon file modification and serve it
 locally, run the following commands in two separate terminals:</p>
-<div class="highlight"><pre><span></span><span class="n">fab</span><span class="w"> </span><span class="n">regenerate</span>
+<div class="highlight"><pre><span></span><code><span class="n">fab</span><span class="w"> </span><span class="n">regenerate</span>
 <span class="n">fab</span><span class="w"> </span><span class="n">serve</span>
-</pre></div>
-
+</code></pre></div>
 
 <h2 id="changing-sites-default-theme">Changing site's default theme</h2>
 <p>Frankly speaking, the default Pelican theme looks dated nowadays, so you'll
@@ -241,9 +229,8 @@ find a theme you like.</p>
 <p>After you decide which theme you'll use (in the example I'll use <a href="https://github.com/alexandrevicenzi/Flex/">Alexandre
 Vicenzi's Flex theme</a>, which I use
 for my Pelican site), add it to your git repo as a submodule:</p>
-<div class="highlight"><pre><span></span>git submodule add https://github.com/alexandrevicenzi/Flex.git Flex
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>git submodule add https://github.com/alexandrevicenzi/Flex.git Flex
+</code></pre></div>
 
 <p>Then configure it in <code>pelicanconf.py</code>.</p>
 <div class="admonition note">
@@ -252,7 +239,7 @@ for my Pelican site), add it to your git repo as a submodule:</p>
 documentation on what you can configure.</p>
 </div>
 <p>Here is an example configuration for the Flex theme:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 
 <span class="o">...</span> <span class="n">other</span> <span class="n">configuration</span> <span class="o">...</span>
@@ -271,8 +258,7 @@ documentation on what you can configure.</p>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">COPYRIGHT_YEAR</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">copyright_year_start</span><span class="p">,</span> <span class="n">copyright_year_end</span><span class="p">)</span>
 <span class="n">PYGMENTS_STYLE</span> <span class="o">=</span> <span class="s1">&#39;native&#39;</span>
-</pre></div>
-
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -281,32 +267,28 @@ federated open source avatar hosting service, for my site's logo.
 To use it for your own site, <a href="https://www.libravatar.org/account/new/">create an account</a> with them.</p>
 </div>
 <p>Finally, commit the changes to git:</p>
-<div class="highlight"><pre><span></span>git commit -a -m &quot;Use Flex theme&quot;
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>git commit -a -m &quot;Use Flex theme&quot;
+</code></pre></div>
 
 <h2 id="creating-a-hello-world-blog-post">Creating a Hello World blog post</h2>
 <p>To create your first blog post, create a Markdown file in the <code>content</code>
 directory with the following content:</p>
-<div class="highlight"><pre><span></span><span class="nl">Title</span><span class="p">:</span><span class="w"> </span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="err">!</span>
+<div class="highlight"><pre><span></span><code><span class="nl">Title</span><span class="p">:</span><span class="w"> </span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="err">!</span>
 <span class="nc">Date</span><span class="err">:</span><span class="w"> </span><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">06</span><span class="w"> </span><span class="mi">10</span><span class="err">:</span><span class="mi">52</span>
 <span class="nl">Category</span><span class="p">:</span><span class="w"> </span><span class="n">Site</span>
 
 <span class="n">This</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">my</span><span class="w"> </span><span class="k">first</span><span class="w"> </span><span class="n">blog</span><span class="w"> </span><span class="n">post</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="o">[</span><span class="n">Pelican</span><span class="o">]</span><span class="p">(</span><span class="nl">http</span><span class="p">:</span><span class="o">//</span><span class="n">blog</span><span class="p">.</span><span class="n">getpelican</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="p">)</span>
 <span class="ow">and</span><span class="w"> </span><span class="o">[</span><span class="n">Flex</span><span class="o">]</span><span class="p">(</span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">alexandrevicenzi</span><span class="o">/</span><span class="n">Flex</span><span class="o">/</span><span class="p">)</span><span class="err">!</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Commit the changes to git with:</p>
-<div class="highlight"><pre><span></span>git add content/
+<div class="highlight"><pre><span></span><code>git add content/
 git commit -m &quot;Add Hello World blog post&quot;
-</pre></div>
-
+</code></pre></div>
 
 <p>Preview the site with:</p>
-<div class="highlight"><pre><span></span>fab reserve
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>fab reserve
+</code></pre></div>
 
 <h2 id="next-steps">Next steps</h2>
 <p>You have successfully completed setting up a Pelican site. But the site doesn't

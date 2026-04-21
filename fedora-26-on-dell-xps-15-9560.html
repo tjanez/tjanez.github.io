@@ -73,7 +73,7 @@ used Mesa's software rasterizer, which causes all sorts of issues.</em></p>
 
 <p>Recently, I got a new laptop, a <a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop">Dell XPS 15 9560</a> with
 4k display, 32 GiBs of RAM and 1 TiB M.2 <abbr title="Solid-state drive">SSD</abbr> drive. Quite nice specs, aren't
-they <img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f609.svg" title=":wink:" width="20px">?</p>
+they <img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px">?</p>
 <p>Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
 they didn't last long since I wiped the hard drive and installed <a href="https://fedoramagazine.org/fedora-26-is-here/">Fedora 26</a> on it.</p>
 <p>Let me briefly describe my experience and guide you through some trickier parts
@@ -157,7 +157,7 @@ kernel at boot. More information in <a href="https://bugzilla.redhat.com/show_bu
 <p>Unfortunately, that's not enough. After successfully booting the system into
 a graphical session, I soon started encountering soft kernel lockups due to
 Nouveau driver. The logs showed the following:</p>
-<div class="highlight"><pre><span></span><span class="n">NMI</span><span class="w"> </span><span class="nl">watchdog</span><span class="p">:</span><span class="w"> </span><span class="nl">BUG</span><span class="p">:</span><span class="w"> </span><span class="n">soft</span><span class="w"> </span><span class="n">lockup</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">CPU#1</span><span class="w"> </span><span class="n">stuck</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">22</span><span class="n">s</span><span class="err">!</span><span class="w"> </span><span class="o">[</span><span class="n">plymouthd:423</span><span class="o">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">NMI</span><span class="w"> </span><span class="nl">watchdog</span><span class="p">:</span><span class="w"> </span><span class="nl">BUG</span><span class="p">:</span><span class="w"> </span><span class="n">soft</span><span class="w"> </span><span class="n">lockup</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">CPU#1</span><span class="w"> </span><span class="n">stuck</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">22</span><span class="n">s</span><span class="err">!</span><span class="w"> </span><span class="o">[</span><span class="n">plymouthd:423</span><span class="o">]</span>
 
 <span class="o">[</span><span class="n"> ... output trimmed ... </span><span class="o">]</span>
 
@@ -183,12 +183,11 @@ Nouveau driver. The logs showed the following:</p>
 <span class="w"> </span><span class="n">nouveau_pmops_runtime_resume</span><span class="o">+</span><span class="mh">0x91</span><span class="o">/</span><span class="mh">0x150</span><span class="w"> </span><span class="o">[</span><span class="n">nouveau</span><span class="o">]</span>
 
 <span class="o">[</span><span class="n"> ... output trimmed ... </span><span class="o">]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Looking through <a href="https://fedoramagazine.org/systemd-using-journal/">systemd journal</a> soon revealed other kernel
 tracebacks related to the Nouveau driver:</p>
-<div class="highlight"><pre><span></span><span class="n">nouveau</span><span class="w"> </span><span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="o">:</span><span class="w"> </span><span class="n">bus</span><span class="o">:</span><span class="w"> </span><span class="n">MMIO</span><span class="w"> </span><span class="n">read</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="mo">00000000</span><span class="w"> </span><span class="n">FAULT</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mi">409800</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">TIMEOUT</span><span class="w"> </span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">nouveau</span><span class="w"> </span><span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="o">:</span><span class="w"> </span><span class="n">bus</span><span class="o">:</span><span class="w"> </span><span class="n">MMIO</span><span class="w"> </span><span class="n">read</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="mo">00000000</span><span class="w"> </span><span class="n">FAULT</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mi">409800</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">TIMEOUT</span><span class="w"> </span><span class="p">]</span>
 <span class="p">[</span><span class="n">drm</span><span class="o">:</span><span class="n">i915_gem_idle_work_handler</span><span class="w"> </span><span class="p">[</span><span class="n">i915</span><span class="p">]]</span><span class="w"> </span><span class="o">*</span><span class="n">ERROR</span><span class="o">*</span><span class="w"> </span><span class="n">Timeout</span><span class="w"> </span><span class="n">waiting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">engines</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">idle</span>
 <span class="n">nouveau</span><span class="w"> </span><span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="o">:</span><span class="w"> </span><span class="n">timeout</span>
 <span class="o">------------</span><span class="p">[</span><span class="w"> </span><span class="n">cut</span><span class="w"> </span><span class="n">here</span><span class="w"> </span><span class="p">]</span><span class="o">------------</span>
@@ -244,8 +243,7 @@ tracebacks related to the Nouveau driver:</p>
 <span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">sock_write_iter</span><span class="o">+</span><span class="mh">0x8c</span><span class="o">/</span><span class="mh">0xf0</span>
 <span class="w"> </span><span class="n">nouveau_drm_ioctl</span><span class="o">+</span><span class="mh">0x72</span><span class="o">/</span><span class="mh">0xc0</span><span class="w"> </span><span class="p">[</span><span class="n">nouveau</span><span class="p">]</span>
 <span class="o">---</span><span class="p">[</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="n">trace</span><span class="w"> </span><span class="mi">1</span><span class="n">ee905135b51d0b0</span><span class="w"> </span><span class="p">]</span><span class="o">---</span>
-</pre></div>
-
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -296,16 +294,14 @@ enabled</a>.</p>
 <p>Fortunately, Dell has put Linux users in the prime seat and offers seamless
 firmware updates on Linux via <a href="https://blogs.gnome.org/hughsie/">Richard Hughes</a>'s excellent <a href="http://www.fwupd.org/">fwupd tool</a>.</p>
 <p>To update the firmware using command line, simply run:</p>
-<div class="highlight"><pre><span></span>fwupdmgr<span class="w"> </span>refresh
+<div class="highlight"><pre><span></span><code>fwupdmgr<span class="w"> </span>refresh
 fwupdmgr<span class="w"> </span>get-updates
-</pre></div>
-
+</code></pre></div>
 
 <p>to see the list of available updates. To download the available update and
 install it after reboot, run:</p>
-<div class="highlight"><pre><span></span>fwupdmgr<span class="w"> </span>update
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>fwupdmgr<span class="w"> </span>update
+</code></pre></div>
 
 <p>Alternatively, you can also update the firmware using GNOME's <a href="https://wiki.gnome.org/Apps/Software">Software app</a>.</p>
 <h1 id="issues-with-wireless-performance-on-kernel-412">Issues with wireless performance on kernel 4.12</h1>

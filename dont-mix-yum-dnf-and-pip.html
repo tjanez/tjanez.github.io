@@ -95,24 +95,21 @@ distributions.</p>
 <h2 id="problems-with-mixing-yumdnf-and-pip">Problems with mixing yum/dnf and pip</h2>
 <p>People usually install the <code>python2-pip</code> package to boot-strap installation of
 pip on their systems:</p>
-<div class="highlight"><pre><span></span>sudo yum -y install epel-release
+<div class="highlight"><pre><span></span><code>sudo yum -y install epel-release
 sudo yum -y install python2-pip
-</pre></div>
-
+</code></pre></div>
 
 <p>At the time of writing, this will install pip 8.1.2 on the system, while the
 latest pip version is 9.0.1.
 A user will soon notice that on each run of the <code>pip</code> command the following
 message is shown:</p>
-<div class="highlight"><pre><span></span>You are using pip version 8.1.2, however version 9.0.1 is available.
+<div class="highlight"><pre><span></span><code>You are using pip version 8.1.2, however version 9.0.1 is available.
 You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.
-</pre></div>
-
+</code></pre></div>
 
 <p>Naively, he will upgrade pip with:</p>
-<div class="highlight"><pre><span></span>sudo pip install --upgrade pip
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sudo pip install --upgrade pip
+</code></pre></div>
 
 <p>which will replace the previous pip installation in system locations (e.g.
 <code>/usr/bin</code>, <code>/usr/lib/python2.7/site-packages/pip</code>, ...) with the new pip
@@ -120,7 +117,7 @@ version.</p>
 <p>The problem is that this will leave <a href="http://rpm.org/">RPM</a> with no clue as to
 what is going on. If you run <code>rpm --verify python2-pip</code> it will show that
 everything is broken:</p>
-<div class="highlight"><pre><span></span>S.5....T.<span class="w">    </span>/usr/bin/pip
+<div class="highlight"><pre><span></span><code>S.5....T.<span class="w">    </span>/usr/bin/pip
 S.5....T.<span class="w">    </span>/usr/bin/pip2
 S.5....T.<span class="w">    </span>/usr/bin/pip2.7
 missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip-8.1.2-py2.7.egg-info
@@ -146,15 +143,14 @@ missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip/vcs/subv
 S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/wheel.py
 S.5....T.<span class="w">    </span>/usr/lib/python2.7/site-packages/pip/wheel.pyc
 missing<span class="w">     </span>/usr/lib/python2.7/site-packages/pip/wheel.pyo
-</pre></div>
-
+</code></pre></div>
 
 <p>Furthermore, when a new version of the <code>python2-pip</code> becomes available, yum
 upgrade will complain about not being able to find some files and directories.</p>
 <p>For example, on upgrade from <code>python-pip-7.1.0-1.el7</code> to
 <code>python2-pip-8.1.2-5.el7</code> when pip was upgraded with pip in-between, yum
 upgrade gives the following warnings:</p>
-<div class="highlight"><pre><span></span>warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyo:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+<div class="highlight"><pre><span></span><code>warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyo:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
 warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.pyc:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
 warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/markers.py:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
 warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip/_vendor/_markerlib/__init__.pyo:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
@@ -170,22 +166,19 @@ warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/s
 warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/SOURCES.txt:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
 warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info/PKG-INFO:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
 warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
-</pre></div>
-
+</code></pre></div>
 
 <h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf">Proper way to to use pip without mixing it with yum/dnf</h2>
 <p>The solution is to limit pip's use to installation of Python packages inside a
 Python virtual environment.</p>
 <p>First install the <code>python-virtualenv</code> package with yum/dnf:</p>
-<div class="highlight"><pre><span></span>sudo yum -y install python-virtualenv
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sudo yum -y install python-virtualenv
+</code></pre></div>
 
 <p>Then use it to create and activate a new virtual environment:</p>
-<div class="highlight"><pre><span></span>virtualenv myvenv
+<div class="highlight"><pre><span></span><code>virtualenv myvenv
 source myvenv/bin/activate
-</pre></div>
-
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -199,10 +192,9 @@ setuptools package no longer bundles its requirements and relies on
 installing whell distributions of its requirements. To install these
 wheels, it needs a newer version pip, hence pip needs to be updated
 separately before setuptools:</p>
-<div class="highlight"><pre><span></span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">-</span><span class="n">U</span><span class="w"> </span><span class="n">pip</span>
+<div class="highlight"><pre><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">-</span><span class="n">U</span><span class="w"> </span><span class="n">pip</span>
 <span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">-</span><span class="n">U</span><span class="w"> </span><span class="n">setuptools</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>A complete Ansible playbook for proper creation of a Python virtual
 environment is provided <a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">later</a>.</p>
@@ -220,7 +212,7 @@ the minimum.</p>
 creation of a Python virtual environment for installation of project's
 requirements inside this virtual environment, you can use the following
 <a href="https://www.ansible.com/">Ansible</a> playbook:</p>
-<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Playbook for installation of packages inside a virtual environment</span>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Playbook for installation of packages inside a virtual environment</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span>
 <span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
@@ -259,8 +251,7 @@ requirements inside this virtual environment, you can use the following
 <span class="w">        </span><span class="nt">virtualenv</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">venv_path</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
-</pre></div>
-
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -283,14 +274,13 @@ packages with <a href="https://docs.python.org/3/extending/index.html">C/C++ ext
 part of the installation process. Therefore, you'll need to have at least <code>gcc</code>
 and <code>python-devel</code> packages installed. You can use the following Ansible task
 to achieve that:</p>
-<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install project&#39;s building prerequisites</span>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install project&#39;s building prerequisites</span>
 <span class="w">  </span><span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name={{ item }} state=installed</span>
 <span class="w">  </span><span class="nt">with_items</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcc</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python-devel</span>
 <span class="w">    </span><span class="c1"># add other packages required to build your project&#39;s requirements</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Put it before the <em>Install project's requirements in virtual environement</em>
 task.</p>
