@@ -148,7 +148,7 @@ setting up a <a href="http://getpelican.com/">Pelican</a> site with <a href="htt
 it on <a href="https://pages.github.com/">GitHub Pages</a> using a sleek Fabric task.</p>
 
 
-<h2 id="review-of-existing-approaches">Review of existing approaches</h2>
+<h2 id="review-of-existing-approaches">Review of existing approaches<a class="headerlink" href="#review-of-existing-approaches" title="Permanent link">&para;</a></h2>
 <p>There are various approaches to managing publishing your Pelican site to
 GitHub Pages.</p>
 <p><a href="http://docs.getpelican.com/en/stable/tips.html#publishing-to-github">Pelican authors recommend</a> using the
@@ -173,7 +173,7 @@ submodule in a separate git repo has the disadvantage of having to update the
 submodule reference in the main git repo every time a new version of the site
 is built, thus leading to a large number of "submodule bump" commits in the
 main git repo.</p>
-<h2 id="a-new-approach-using-a-custom-fabric-task">A new approach using a custom Fabric task</h2>
+<h2 id="a-new-approach-using-a-custom-fabric-task">A new approach using a custom Fabric task<a class="headerlink" href="#a-new-approach-using-a-custom-fabric-task" title="Permanent link">&para;</a></h2>
 <p>Therefore, I crafted a new approach that tries to overcome these disadvantages.
 Like in Ankur Sinha's article, I created two git repositories, the main
 repository containing the source of the Pelican page and the second repository
@@ -283,7 +283,7 @@ directory:</p>
 
 <p>and answer <code>y</code> when prompted.</p>
 <p>Visit the page at https://<em>username</em>.github.io and share it with the World!</p>
-<h2 id="setting-up-a-custom-domain">Setting up a custom domain</h2>
+<h2 id="setting-up-a-custom-domain">Setting up a custom domain<a class="headerlink" href="#setting-up-a-custom-domain" title="Permanent link">&para;</a></h2>
 <p>To use a custom domain with GitHub Pages, e.g. <code>blog.mysite.com</code>, one needs to
 add a <code>CNAME</code> file in the root of the generated site which tells GitHub Pages
 on which custom domain the site is hosted.</p>
@@ -389,7 +389,9 @@ will transparently redirect any HTTP requests to your site to HTTPS.</p>
 </article>
 
 <footer>
-<p>&copy; 2016-2026 </p>
+<p>
+  &copy; 2016-2026 Tadej Janež - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US" target="_blank">Creative Commons Attribution-ShareAlike</a>
+</p>
 <p>
 Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
   <span class="footer-separator">|</span>
@@ -400,6 +402,17 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
           data-default-theme="dark"
           type="text/javascript">
   </script>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+           src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
 </p></footer>  </main>
 
 <script type="application/ld+json">

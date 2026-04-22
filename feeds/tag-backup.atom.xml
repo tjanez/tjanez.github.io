@@ -17,7 +17,7 @@ another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
 &lt;p&gt;But thing are never as easy as them seem, are they?&lt;/p&gt;
 
 
-&lt;h2 id="problems-with-the-straight-forward-approach"&gt;Problems with the straight-forward approach&lt;/h2&gt;
+&lt;h2 id="problems-with-the-straight-forward-approach"&gt;Problems with the straight-forward approach&lt;a class="headerlink" href="#problems-with-the-straight-forward-approach" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;It turns out that &lt;strong&gt;creating&lt;/strong&gt; a &lt;strong&gt;backup of&lt;/strong&gt; the &lt;strong&gt;user data partition&lt;/strong&gt;
 using &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; &lt;strong&gt;will NOT include &lt;code&gt;/data/media&lt;/code&gt;&lt;/strong&gt; (i.e. your &lt;strong&gt;internal storage&lt;/strong&gt;).
 That means if you save photos or data on the internal storage (some apps will
@@ -30,7 +30,7 @@ in a &lt;a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/276
 &lt;p&gt;There is even an &lt;a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/176"&gt;old open issue on GitHub&lt;/a&gt; that asks for
 an implementation of an option to backup &lt;code&gt;/data/media&lt;/code&gt; using &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;, but there has
 been no updates since Apr 15, 2015 (as of writing this blog post).&lt;/p&gt;
-&lt;h2 id="simple-command-line-solution-using-adb-and-tar"&gt;Simple command-line solution using &lt;code&gt;adb&lt;/code&gt; and &lt;code&gt;tar&lt;/code&gt;&lt;/h2&gt;
+&lt;h2 id="simple-command-line-solution-using-adb-and-tar"&gt;Simple command-line solution using &lt;code&gt;adb&lt;/code&gt; and &lt;code&gt;tar&lt;/code&gt;&lt;a class="headerlink" href="#simple-command-line-solution-using-adb-and-tar" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Browsing the internet for a solution, I found a &lt;a href="https://forum.xda-developers.com/android/software-hacking/how-to-backup-compressed-data-android-t3464777"&gt;nice thread on XDA-developers&lt;/a&gt;
 explaining how to backup data from an Android device booted into &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; to a
 computer.&lt;/p&gt;
@@ -50,7 +50,7 @@ adb&lt;span class="w"&gt; &lt;/span&gt;shell&lt;span class="w"&gt; &lt;/span&gt;
 
 &lt;p&gt;replacing &lt;code&gt;&amp;lt;backup-name&amp;gt;&lt;/code&gt; with your desired backup name, e.g.
 &lt;code&gt;tadej-nexus4-sdcard_backup&lt;/code&gt;.&lt;/p&gt;
-&lt;h2 id="which-compression-algorithm-to-use"&gt;Which compression algorithm to use?&lt;/h2&gt;
+&lt;h2 id="which-compression-algorithm-to-use"&gt;Which compression algorithm to use?&lt;a class="headerlink" href="#which-compression-algorithm-to-use" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;A natural question that comes to mind is, which compression algorithm would
 perform best in an overall sense, i.e. with respect to compression ratio and
 the time it takes to create and transfer the archive.&lt;/p&gt;
@@ -188,7 +188,7 @@ uncompressed tar archive.&lt;/p&gt;
 it requires &lt;strong&gt;674 MiB per thread&lt;/strong&gt;. For example, on my quad-core CPU with
 hyperthreading enabled, it requires 5.3 GiB of RAM.&lt;/p&gt;
 &lt;/div&gt;
-&lt;h2 id="what-kind-of-data-was-being-compressed"&gt;What kind of data was being compressed?&lt;/h2&gt;
+&lt;h2 id="what-kind-of-data-was-being-compressed"&gt;What kind of data was being compressed?&lt;a class="headerlink" href="#what-kind-of-data-was-being-compressed" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;To be fair and transparent when comparing different compression algorithms, it
 is necessary to also tell something about the data being compressed.&lt;/p&gt;
 &lt;p&gt;The data being compressed is what I accumulated in my phone's user data

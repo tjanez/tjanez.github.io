@@ -164,7 +164,7 @@ concepts apply to all current <a href="https://getfedora.org/">Fedora</a> and
 CentOS/<a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">RHEL</a>
 distributions.</p>
 </div>
-<h2 id="problems-with-mixing-yumdnf-and-pip">Problems with mixing yum/dnf and pip</h2>
+<h2 id="problems-with-mixing-yumdnf-and-pip">Problems with mixing yum/dnf and pip<a class="headerlink" href="#problems-with-mixing-yumdnf-and-pip" title="Permanent link">&para;</a></h2>
 <p>People usually install the <code>python2-pip</code> package to boot-strap installation of
 pip on their systems:</p>
 <div class="highlight"><pre><span></span><code>sudo yum -y install epel-release
@@ -240,7 +240,7 @@ warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/s
 warning:<span class="w"> </span>file<span class="w"> </span>/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info:<span class="w"> </span>remove<span class="w"> </span>failed:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
 </code></pre></div>
 
-<h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf">Proper way to to use pip without mixing it with yum/dnf</h2>
+<h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf">Proper way to to use pip without mixing it with yum/dnf<a class="headerlink" href="#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf" title="Permanent link">&para;</a></h2>
 <p>The solution is to limit pip's use to installation of Python packages inside a
 Python virtual environment.</p>
 <p>First install the <code>python-virtualenv</code> package with yum/dnf:</p>
@@ -273,13 +273,13 @@ environment is provided <a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pi
 </div>
 <p>Then install whichever Python package you want inside the Python virtual
 environment.</p>
-<h3 id="tip-dont-install-the-system-pip-package">Tip: Don't install the system pip package</h3>
+<h3 id="tip-dont-install-the-system-pip-package">Tip: Don't install the system pip package<a class="headerlink" href="#tip-dont-install-the-system-pip-package" title="Permanent link">&para;</a></h3>
 <p>To avoid mistakenly using pip outside a virtual environment, don't install
 the pip system package (e.g. <code>python2-pip</code>).</p>
 <p>This way, <code>pip</code> executable will only be available after you activate the chosen
 virtual environment, which limits mistakes with using the system-wide pip to
 the minimum.</p>
-<h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible playbook for installation of packages inside a virtual environment</h2>
+<h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment">Ansible playbook for installation of packages inside a virtual environment<a class="headerlink" href="#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment" title="Permanent link">&para;</a></h2>
 <p>If you need to automate installation of <code>python-virtualenv</code> system package and
 creation of a Python virtual environment for installation of project's
 requirements inside this virtual environment, you can use the following
@@ -394,7 +394,9 @@ task.</p>
 </article>
 
 <footer>
-<p>&copy; 2016-2026 </p>
+<p>
+  &copy; 2016-2026 Tadej Janež - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US" target="_blank">Creative Commons Attribution-ShareAlike</a>
+</p>
 <p>
 Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
   <span class="footer-separator">|</span>
@@ -405,6 +407,17 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
           data-default-theme="dark"
           type="text/javascript">
   </script>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+           src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
 </p></footer>  </main>
 
 <script type="application/ld+json">

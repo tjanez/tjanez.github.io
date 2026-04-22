@@ -33,7 +33,7 @@ concepts apply to all current &lt;a href="https://getfedora.org/"&gt;Fedora&lt;/
 CentOS/&lt;a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux"&gt;RHEL&lt;/a&gt;
 distributions.&lt;/p&gt;
 &lt;/div&gt;
-&lt;h2 id="problems-with-mixing-yumdnf-and-pip"&gt;Problems with mixing yum/dnf and pip&lt;/h2&gt;
+&lt;h2 id="problems-with-mixing-yumdnf-and-pip"&gt;Problems with mixing yum/dnf and pip&lt;a class="headerlink" href="#problems-with-mixing-yumdnf-and-pip" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;People usually install the &lt;code&gt;python2-pip&lt;/code&gt; package to boot-strap installation of
 pip on their systems:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo yum -y install epel-release
@@ -109,7 +109,7 @@ warning:&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span
 warning:&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span&gt;/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info:&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;failed:&lt;span class="w"&gt; &lt;/span&gt;No&lt;span class="w"&gt; &lt;/span&gt;such&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span&gt;or&lt;span class="w"&gt; &lt;/span&gt;directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;Proper way to to use pip without mixing it with yum/dnf&lt;/h2&gt;
+&lt;h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;Proper way to to use pip without mixing it with yum/dnf&lt;a class="headerlink" href="#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The solution is to limit pip's use to installation of Python packages inside a
 Python virtual environment.&lt;/p&gt;
 &lt;p&gt;First install the &lt;code&gt;python-virtualenv&lt;/code&gt; package with yum/dnf:&lt;/p&gt;
@@ -142,13 +142,13 @@ environment is provided &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and
 &lt;/div&gt;
 &lt;p&gt;Then install whichever Python package you want inside the Python virtual
 environment.&lt;/p&gt;
-&lt;h3 id="tip-dont-install-the-system-pip-package"&gt;Tip: Don't install the system pip package&lt;/h3&gt;
+&lt;h3 id="tip-dont-install-the-system-pip-package"&gt;Tip: Don't install the system pip package&lt;a class="headerlink" href="#tip-dont-install-the-system-pip-package" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;To avoid mistakenly using pip outside a virtual environment, don't install
 the pip system package (e.g. &lt;code&gt;python2-pip&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;This way, &lt;code&gt;pip&lt;/code&gt; executable will only be available after you activate the chosen
 virtual environment, which limits mistakes with using the system-wide pip to
 the minimum.&lt;/p&gt;
-&lt;h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible playbook for installation of packages inside a virtual environment&lt;/h2&gt;
+&lt;h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible playbook for installation of packages inside a virtual environment&lt;a class="headerlink" href="#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;If you need to automate installation of &lt;code&gt;python-virtualenv&lt;/code&gt; system package and
 creation of a Python virtual environment for installation of project's
 requirements inside this virtual environment, you can use the following

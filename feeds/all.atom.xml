@@ -96,7 +96,7 @@ they didn't last long since I wiped the hard drive and installed &lt;a href="htt
 of the setup.&lt;/p&gt;
 
 
-&lt;h2 id="configuring-uefi-to-work-with-fedora-26"&gt;Configuring &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt; to work with Fedora 26&lt;/h2&gt;
+&lt;h2 id="configuring-uefi-to-work-with-fedora-26"&gt;Configuring &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt; to work with Fedora 26&lt;a class="headerlink" href="#configuring-uefi-to-work-with-fedora-26" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Before installing Fedora 26 on the system, it is necessary to modify some &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt;
 settings. &lt;a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#UEFI"&gt;They are nicely summed up in the ArchWiki page for this laptop&lt;/a&gt;:&lt;/p&gt;
 &lt;ul&gt;
@@ -110,7 +110,7 @@ settings. &lt;a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#UEFI
 &lt;p&gt;If you intend to run the proprietary NVIDIA graphics drivers, you must also
 disable secure boot.&lt;/p&gt;
 &lt;/div&gt;
-&lt;h2 id="booting-fedora-26-from-a-live-usb"&gt;Booting Fedora 26 from a live USB&lt;/h2&gt;
+&lt;h2 id="booting-fedora-26-from-a-live-usb"&gt;Booting Fedora 26 from a live USB&lt;a class="headerlink" href="#booting-fedora-26-from-a-live-usb" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The naive approach to just boot the computer from a live USB with Fedora 26
 Workstation image and wait for the live &lt;a href="https://www.gnome.org/"&gt;GNOME&lt;/a&gt; session
 to appear didn't work. Fedora hangs after the &lt;em&gt;Started User Manager for UID
@@ -118,18 +118,18 @@ to appear didn't work. Fedora hangs after the &lt;em&gt;Started User Manager for
 &lt;p&gt;Fortunately, &lt;a href="https://ask.fedoraproject.org/en/question/107784/f26-hanging-on-install-dell-xps-9560/?answer=107824#post-id-107824"&gt;Ask Fedora has an answer to this problem&lt;/a&gt;,
 which is to select &lt;em&gt;Troubleshooting&lt;/em&gt; from &lt;a href="https://www.gnu.org/software/grub/"&gt;GRUB&lt;/a&gt;'s boot menu and then choose &lt;em&gt;Start in basic
 graphics mode&lt;/em&gt;. The live GNOME session should work fine after that.&lt;/p&gt;
-&lt;h2 id="installing-fedora-26-to-the-hard-drive"&gt;Installing Fedora 26 to the hard drive&lt;/h2&gt;
+&lt;h2 id="installing-fedora-26-to-the-hard-drive"&gt;Installing Fedora 26 to the hard drive&lt;a class="headerlink" href="#installing-fedora-26-to-the-hard-drive" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;This works smoothly. Just select &lt;em&gt;Install to Hard Drive&lt;/em&gt; option to start
 &lt;a href="https://fedoraproject.org/wiki/Anaconda"&gt;Anaconda&lt;/a&gt;, Fedora's installer, and
 follow its instructions.&lt;/p&gt;
 &lt;p&gt;After installation, make sure to update all packages to get the latest
 kernel (4.12 at the time of writing) and other important updates which will
 make Fedora run smoother on this laptop.&lt;/p&gt;
-&lt;h2 id="setting-up-graphics"&gt;Setting up graphics&lt;/h2&gt;
+&lt;h2 id="setting-up-graphics"&gt;Setting up graphics&lt;a class="headerlink" href="#setting-up-graphics" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The laptop comes with a discrete &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;, the &lt;a href="https://en.wikipedia.org/wiki/GeForce_10_series#GeForce_10_.2810xx.29_series_for_notebooks"&gt;NVIDIA GeForce GTX 1050
 Mobile (GP107M)&lt;/a&gt;,
 and an integrated &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;, the &lt;a href="https://en.wikipedia.org/wiki/Intel_HD_and_Iris_Graphics#Kaby_Lake"&gt;Intel HD Graphics 630 (Kaby Lake GT2)&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id="enabling-the-use-of-normal-graphics-drivers"&gt;Enabling the use of &lt;em&gt;normal&lt;/em&gt; graphics drivers&lt;/h3&gt;
+&lt;h3 id="enabling-the-use-of-normal-graphics-drivers"&gt;Enabling the use of &lt;em&gt;normal&lt;/em&gt; graphics drivers&lt;a class="headerlink" href="#enabling-the-use-of-normal-graphics-drivers" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Since we needed to use the &lt;em&gt;basic graphics mode&lt;/em&gt; when &lt;a href="#booting-fedora-26-from-a-live-usb"&gt;booting Fedora 26 from
 a live USB&lt;/a&gt;, the installer "baked" this
 information into the newly installed system. While this is a safe choice, i.e.
@@ -155,7 +155,7 @@ on the &lt;abbr title="Central processing unit"&gt;CPU&lt;/abbr&gt;.&lt;/p&gt;
 &lt;code&gt;nomodeset&lt;/code&gt; from the contents of the &lt;code&gt;GRUB_CMDLINE_LINUX&lt;/code&gt; variable.&lt;/p&gt;
 &lt;p&gt;Afterwards, run &lt;code&gt;sudo grub2-mkconfig -o /etc/grub2-efi.cfg&lt;/code&gt; to regenerate
 GRUB's configuration and reboot the system.&lt;/p&gt;
-&lt;h3 id="a-rocky-road-when-trying-to-use-nvidia-discrete-gpu-with-nouveau-drivers"&gt;A rocky road when trying to use NVIDIA discrete &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt; with Nouveau drivers&lt;/h3&gt;
+&lt;h3 id="a-rocky-road-when-trying-to-use-nvidia-discrete-gpu-with-nouveau-drivers"&gt;A rocky road when trying to use NVIDIA discrete &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt; with Nouveau drivers&lt;a class="headerlink" href="#a-rocky-road-when-trying-to-use-nvidia-discrete-gpu-with-nouveau-drivers" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Unfortunately, NVIDIA GeForce GTX 1050 Mobile (GP107M) doesn't work well with
 the &lt;a href="https://nouveau.freedesktop.org/wiki/"&gt;Nouveau drivers&lt;/a&gt; yet (as of kernel
 4.12).&lt;/p&gt;
@@ -275,7 +275,7 @@ The post describes the advancements the Red Hat Desktop team has made in
 making the hybrid graphics setups easy to use, even if one uses the
 proprietary Nvidia driver.&lt;/p&gt;
 &lt;/div&gt;
-&lt;h3 id="flying-high-after-starting-to-use-intels-integrated-gpu"&gt;Flying high after starting to use Intel's integrated &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;&lt;/h3&gt;
+&lt;h3 id="flying-high-after-starting-to-use-intels-integrated-gpu"&gt;Flying high after starting to use Intel's integrated &lt;abbr title="Graphics processing unit"&gt;GPU&lt;/abbr&gt;&lt;a class="headerlink" href="#flying-high-after-starting-to-use-intels-integrated-gpu" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;After encountering a Nouveau developer's (Rhys Kidd) &lt;a href="https://bugs.freedesktop.org/show_bug.cgi?id=102275#c1"&gt;answer to a bug report
 for a similar issue that I described above on freedesktop.org's Bugzilla&lt;/a&gt; on Aug 17, 2017:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -302,7 +302,7 @@ far, everything is working smootly:&lt;/p&gt;
 to the contents of the &lt;code&gt;GRUB_CMDLINE_LINUX&lt;/code&gt; variable.&lt;/p&gt;
 &lt;p&gt;Afterwards, run &lt;code&gt;sudo grub2-mkconfig -o /etc/grub2-efi.cfg&lt;/code&gt; to regenerate
 GRUB's configuration.&lt;/p&gt;
-&lt;h2 id="updating-firmware-to-version-134"&gt;Updating firmware to version 1.3.4+&lt;/h2&gt;
+&lt;h2 id="updating-firmware-to-version-134"&gt;Updating firmware to version 1.3.4+&lt;a class="headerlink" href="#updating-firmware-to-version-134" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;It is important to upgrade the laptop's firmware to (at least) &lt;a href="https://www.notebookcheck.net/XPS-15-9560-gets-BIOS-update-fixing-Skylake-Kaby-Lake-microcode-bug.232054.0.html"&gt;version 1.3.4&lt;/a&gt;
 since it fixes &lt;a href="https://lwn.net/Articles/726496/"&gt;a serious issue with Intel's Skylake and Kaby Lake
 architectures where the &lt;abbr title="Central processing unit"&gt;CPU&lt;/abbr&gt; could dangerously misbehave when hyper-threading is
@@ -320,14 +320,14 @@ install it after reboot, run:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Alternatively, you can also update the firmware using GNOME's &lt;a href="https://wiki.gnome.org/Apps/Software"&gt;Software app&lt;/a&gt;.&lt;/p&gt;
-&lt;h1 id="issues-with-wireless-performance-on-kernel-412"&gt;Issues with wireless performance on kernel 4.12&lt;/h1&gt;
+&lt;h1 id="issues-with-wireless-performance-on-kernel-412"&gt;Issues with wireless performance on kernel 4.12&lt;a class="headerlink" href="#issues-with-wireless-performance-on-kernel-412" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;I've experienced &lt;a href="https://bodhi.fedoraproject.org/updates/kernel-4.12.5-300.fc26#comment-645648"&gt;an order of magnitude wireless performance drop after
 upgrading from &lt;code&gt;kernel-4.11.11-300.fc26.x86_64&lt;/code&gt; to &lt;code&gt;kernel-4.12.5-300.fc26&lt;/code&gt;&lt;/a&gt;
 with the Qualcomm Atheros QCA6174 802.11ac wireless network adapter that is
 installed in the laptop.
 The reported wireless link speed is in 1 - 6 Mbps range, which is very low.&lt;/p&gt;
 &lt;p&gt;I haven't had time to investigate this further yet.&lt;/p&gt;
-&lt;h1 id="conclusion"&gt;Conclusion&lt;/h1&gt;
+&lt;h1 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Overall, my experience (minus the problems with NVIDIA's graphics card and
 its open-source drivers and the wireless performance issue) has been quite
 positive.&lt;/p&gt;
@@ -378,7 +378,7 @@ another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
 &lt;p&gt;But thing are never as easy as them seem, are they?&lt;/p&gt;
 
 
-&lt;h2 id="problems-with-the-straight-forward-approach"&gt;Problems with the straight-forward approach&lt;/h2&gt;
+&lt;h2 id="problems-with-the-straight-forward-approach"&gt;Problems with the straight-forward approach&lt;a class="headerlink" href="#problems-with-the-straight-forward-approach" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;It turns out that &lt;strong&gt;creating&lt;/strong&gt; a &lt;strong&gt;backup of&lt;/strong&gt; the &lt;strong&gt;user data partition&lt;/strong&gt;
 using &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; &lt;strong&gt;will NOT include &lt;code&gt;/data/media&lt;/code&gt;&lt;/strong&gt; (i.e. your &lt;strong&gt;internal storage&lt;/strong&gt;).
 That means if you save photos or data on the internal storage (some apps will
@@ -391,7 +391,7 @@ in a &lt;a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/276
 &lt;p&gt;There is even an &lt;a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/176"&gt;old open issue on GitHub&lt;/a&gt; that asks for
 an implementation of an option to backup &lt;code&gt;/data/media&lt;/code&gt; using &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;, but there has
 been no updates since Apr 15, 2015 (as of writing this blog post).&lt;/p&gt;
-&lt;h2 id="simple-command-line-solution-using-adb-and-tar"&gt;Simple command-line solution using &lt;code&gt;adb&lt;/code&gt; and &lt;code&gt;tar&lt;/code&gt;&lt;/h2&gt;
+&lt;h2 id="simple-command-line-solution-using-adb-and-tar"&gt;Simple command-line solution using &lt;code&gt;adb&lt;/code&gt; and &lt;code&gt;tar&lt;/code&gt;&lt;a class="headerlink" href="#simple-command-line-solution-using-adb-and-tar" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Browsing the internet for a solution, I found a &lt;a href="https://forum.xda-developers.com/android/software-hacking/how-to-backup-compressed-data-android-t3464777"&gt;nice thread on XDA-developers&lt;/a&gt;
 explaining how to backup data from an Android device booted into &lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt; to a
 computer.&lt;/p&gt;
@@ -411,7 +411,7 @@ adb&lt;span class="w"&gt; &lt;/span&gt;shell&lt;span class="w"&gt; &lt;/span&gt;
 
 &lt;p&gt;replacing &lt;code&gt;&amp;lt;backup-name&amp;gt;&lt;/code&gt; with your desired backup name, e.g.
 &lt;code&gt;tadej-nexus4-sdcard_backup&lt;/code&gt;.&lt;/p&gt;
-&lt;h2 id="which-compression-algorithm-to-use"&gt;Which compression algorithm to use?&lt;/h2&gt;
+&lt;h2 id="which-compression-algorithm-to-use"&gt;Which compression algorithm to use?&lt;a class="headerlink" href="#which-compression-algorithm-to-use" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;A natural question that comes to mind is, which compression algorithm would
 perform best in an overall sense, i.e. with respect to compression ratio and
 the time it takes to create and transfer the archive.&lt;/p&gt;
@@ -549,7 +549,7 @@ uncompressed tar archive.&lt;/p&gt;
 it requires &lt;strong&gt;674 MiB per thread&lt;/strong&gt;. For example, on my quad-core CPU with
 hyperthreading enabled, it requires 5.3 GiB of RAM.&lt;/p&gt;
 &lt;/div&gt;
-&lt;h2 id="what-kind-of-data-was-being-compressed"&gt;What kind of data was being compressed?&lt;/h2&gt;
+&lt;h2 id="what-kind-of-data-was-being-compressed"&gt;What kind of data was being compressed?&lt;a class="headerlink" href="#what-kind-of-data-was-being-compressed" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;To be fair and transparent when comparing different compression algorithms, it
 is necessary to also tell something about the data being compressed.&lt;/p&gt;
 &lt;p&gt;The data being compressed is what I accumulated in my phone's user data
@@ -610,7 +610,7 @@ concepts apply to all current &lt;a href="https://getfedora.org/"&gt;Fedora&lt;/
 CentOS/&lt;a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux"&gt;RHEL&lt;/a&gt;
 distributions.&lt;/p&gt;
 &lt;/div&gt;
-&lt;h2 id="problems-with-mixing-yumdnf-and-pip"&gt;Problems with mixing yum/dnf and pip&lt;/h2&gt;
+&lt;h2 id="problems-with-mixing-yumdnf-and-pip"&gt;Problems with mixing yum/dnf and pip&lt;a class="headerlink" href="#problems-with-mixing-yumdnf-and-pip" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;People usually install the &lt;code&gt;python2-pip&lt;/code&gt; package to boot-strap installation of
 pip on their systems:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo yum -y install epel-release
@@ -686,7 +686,7 @@ warning:&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span
 warning:&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span&gt;/usr/lib/python2.7/site-packages/pip-7.1.0-py2.7.egg-info:&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;failed:&lt;span class="w"&gt; &lt;/span&gt;No&lt;span class="w"&gt; &lt;/span&gt;such&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span&gt;or&lt;span class="w"&gt; &lt;/span&gt;directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;Proper way to to use pip without mixing it with yum/dnf&lt;/h2&gt;
+&lt;h2 id="proper-way-to-to-use-pip-without-mixing-it-with-yumdnf"&gt;Proper way to to use pip without mixing it with yum/dnf&lt;a class="headerlink" href="#proper-way-to-to-use-pip-without-mixing-it-with-yumdnf" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The solution is to limit pip's use to installation of Python packages inside a
 Python virtual environment.&lt;/p&gt;
 &lt;p&gt;First install the &lt;code&gt;python-virtualenv&lt;/code&gt; package with yum/dnf:&lt;/p&gt;
@@ -719,13 +719,13 @@ environment is provided &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and
 &lt;/div&gt;
 &lt;p&gt;Then install whichever Python package you want inside the Python virtual
 environment.&lt;/p&gt;
-&lt;h3 id="tip-dont-install-the-system-pip-package"&gt;Tip: Don't install the system pip package&lt;/h3&gt;
+&lt;h3 id="tip-dont-install-the-system-pip-package"&gt;Tip: Don't install the system pip package&lt;a class="headerlink" href="#tip-dont-install-the-system-pip-package" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;To avoid mistakenly using pip outside a virtual environment, don't install
 the pip system package (e.g. &lt;code&gt;python2-pip&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;This way, &lt;code&gt;pip&lt;/code&gt; executable will only be available after you activate the chosen
 virtual environment, which limits mistakes with using the system-wide pip to
 the minimum.&lt;/p&gt;
-&lt;h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible playbook for installation of packages inside a virtual environment&lt;/h2&gt;
+&lt;h2 id="ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible playbook for installation of packages inside a virtual environment&lt;a class="headerlink" href="#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;If you need to automate installation of &lt;code&gt;python-virtualenv&lt;/code&gt; system package and
 creation of a Python virtual environment for installation of project's
 requirements inside this virtual environment, you can use the following
@@ -819,7 +819,7 @@ setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with 
 it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
 
 
-&lt;h2 id="review-of-existing-approaches"&gt;Review of existing approaches&lt;/h2&gt;
+&lt;h2 id="review-of-existing-approaches"&gt;Review of existing approaches&lt;a class="headerlink" href="#review-of-existing-approaches" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;There are various approaches to managing publishing your Pelican site to
 GitHub Pages.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://docs.getpelican.com/en/stable/tips.html#publishing-to-github"&gt;Pelican authors recommend&lt;/a&gt; using the
@@ -844,7 +844,7 @@ submodule in a separate git repo has the disadvantage of having to update the
 submodule reference in the main git repo every time a new version of the site
 is built, thus leading to a large number of "submodule bump" commits in the
 main git repo.&lt;/p&gt;
-&lt;h2 id="a-new-approach-using-a-custom-fabric-task"&gt;A new approach using a custom Fabric task&lt;/h2&gt;
+&lt;h2 id="a-new-approach-using-a-custom-fabric-task"&gt;A new approach using a custom Fabric task&lt;a class="headerlink" href="#a-new-approach-using-a-custom-fabric-task" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Therefore, I crafted a new approach that tries to overcome these disadvantages.
 Like in Ankur Sinha's article, I created two git repositories, the main
 repository containing the source of the Pelican page and the second repository
@@ -954,7 +954,7 @@ directory:&lt;/p&gt;
 
 &lt;p&gt;and answer &lt;code&gt;y&lt;/code&gt; when prompted.&lt;/p&gt;
 &lt;p&gt;Visit the page at https://&lt;em&gt;username&lt;/em&gt;.github.io and share it with the World!&lt;/p&gt;
-&lt;h2 id="setting-up-a-custom-domain"&gt;Setting up a custom domain&lt;/h2&gt;
+&lt;h2 id="setting-up-a-custom-domain"&gt;Setting up a custom domain&lt;a class="headerlink" href="#setting-up-a-custom-domain" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;To use a custom domain with GitHub Pages, e.g. &lt;code&gt;blog.mysite.com&lt;/code&gt;, one needs to
 add a &lt;code&gt;CNAME&lt;/code&gt; file in the root of the generated site which tells GitHub Pages
 on which custom domain the site is hosted.&lt;/p&gt;
@@ -1054,7 +1054,7 @@ it in a &lt;a href="https://git-scm.com/"&gt;git&lt;/a&gt; repository, use &lt;a
 finally, create a Hello World blog post.&lt;/p&gt;
 
 
-&lt;h2 id="installing-prerequisites"&gt;Installing prerequisites&lt;/h2&gt;
+&lt;h2 id="installing-prerequisites"&gt;Installing prerequisites&lt;a class="headerlink" href="#installing-prerequisites" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
 &lt;p&gt;This example uses a vanilla &lt;a href="https://getfedora.org/en/cloud/"&gt;Fedora 24 Cloud&lt;/a&gt; system.&lt;/p&gt;
@@ -1064,7 +1064,7 @@ finally, create a Hello World blog post.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo dnf -y install python3-pelican git fabric
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="creating-a-git-repository-for-the-site"&gt;Creating a git repository for the site&lt;/h2&gt;
+&lt;h2 id="creating-a-git-repository-for-the-site"&gt;Creating a git repository for the site&lt;a class="headerlink" href="#creating-a-git-repository-for-the-site" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Create a directory for the site:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir my-site
 cd my-site
@@ -1164,7 +1164,7 @@ site, create &lt;code&gt;.gitignore&lt;/code&gt; file with the following content
 git commit -m &amp;quot;Add .gitignore&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="administering-the-site-with-fabric"&gt;Administering the site with Fabric&lt;/h2&gt;
+&lt;h2 id="administering-the-site-with-fabric"&gt;Administering the site with Fabric&lt;a class="headerlink" href="#administering-the-site-with-fabric" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Fabric is a Python library and a command-line tool for automating deployment
 and system administration tasks. By default, it looks for a &lt;code&gt;fabfile.py&lt;/code&gt; file
 where one can define Fabric's tasks. See the &lt;code&gt;fabfile.py&lt;/code&gt; code listing above
@@ -1190,7 +1190,7 @@ locally, run the following commands in two separate terminals:&lt;/p&gt;
 &lt;span class="n"&gt;fab&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;serve&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="changing-sites-default-theme"&gt;Changing site's default theme&lt;/h2&gt;
+&lt;h2 id="changing-sites-default-theme"&gt;Changing site's default theme&lt;a class="headerlink" href="#changing-sites-default-theme" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Frankly speaking, the default Pelican theme looks dated nowadays, so you'll
 want to change it sooner rather than later.
 Take a look at the &lt;a href="http://www.pelicanthemes.com/"&gt;Pelican Themes site&lt;/a&gt; and
@@ -1239,7 +1239,7 @@ To use it for your own site, &lt;a href="https://www.libravatar.org/account/new/
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git commit -a -m &amp;quot;Use Flex theme&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="creating-a-hello-world-blog-post"&gt;Creating a Hello World blog post&lt;/h2&gt;
+&lt;h2 id="creating-a-hello-world-blog-post"&gt;Creating a Hello World blog post&lt;a class="headerlink" href="#creating-a-hello-world-blog-post" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;To create your first blog post, create a Markdown file in the &lt;code&gt;content&lt;/code&gt;
 directory with the following content:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nl"&gt;Title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Hello&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;World&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt;
@@ -1259,7 +1259,7 @@ git commit -m &amp;quot;Add Hello World blog post&amp;quot;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fab reserve
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="next-steps"&gt;Next steps&lt;/h2&gt;
+&lt;h2 id="next-steps"&gt;Next steps&lt;a class="headerlink" href="#next-steps" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;You have successfully completed setting up a Pelican site. But the site doesn't
 really serve its purpose if its only available on your local computer, does it?&lt;/p&gt;
 &lt;p&gt;I plan to write a follow-up blog post that will show you how to publish your

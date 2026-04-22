@@ -146,7 +146,7 @@ another Nexus 4 device since my Nexus 4's front glass broke :-(.</p>
 <p>But thing are never as easy as them seem, are they?</p>
 
 
-<h2 id="problems-with-the-straight-forward-approach">Problems with the straight-forward approach</h2>
+<h2 id="problems-with-the-straight-forward-approach">Problems with the straight-forward approach<a class="headerlink" href="#problems-with-the-straight-forward-approach" title="Permanent link">&para;</a></h2>
 <p>It turns out that <strong>creating</strong> a <strong>backup of</strong> the <strong>user data partition</strong>
 using <abbr title="Team Win Recovery Project">TWRP</abbr> <strong>will NOT include <code>/data/media</code></strong> (i.e. your <strong>internal storage</strong>).
 That means if you save photos or data on the internal storage (some apps will
@@ -159,7 +159,7 @@ in a <a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/276">h
 <p>There is even an <a href="https://github.com/TeamWin/Team-Win-Recovery-Project/issues/176">old open issue on GitHub</a> that asks for
 an implementation of an option to backup <code>/data/media</code> using <abbr title="Team Win Recovery Project">TWRP</abbr>, but there has
 been no updates since Apr 15, 2015 (as of writing this blog post).</p>
-<h2 id="simple-command-line-solution-using-adb-and-tar">Simple command-line solution using <code>adb</code> and <code>tar</code></h2>
+<h2 id="simple-command-line-solution-using-adb-and-tar">Simple command-line solution using <code>adb</code> and <code>tar</code><a class="headerlink" href="#simple-command-line-solution-using-adb-and-tar" title="Permanent link">&para;</a></h2>
 <p>Browsing the internet for a solution, I found a <a href="https://forum.xda-developers.com/android/software-hacking/how-to-backup-compressed-data-android-t3464777">nice thread on XDA-developers</a>
 explaining how to backup data from an Android device booted into <abbr title="Team Win Recovery Project">TWRP</abbr> to a
 computer.</p>
@@ -179,7 +179,7 @@ adb<span class="w"> </span>shell<span class="w"> </span>cat<span class="w"> </sp
 
 <p>replacing <code>&lt;backup-name&gt;</code> with your desired backup name, e.g.
 <code>tadej-nexus4-sdcard_backup</code>.</p>
-<h2 id="which-compression-algorithm-to-use">Which compression algorithm to use?</h2>
+<h2 id="which-compression-algorithm-to-use">Which compression algorithm to use?<a class="headerlink" href="#which-compression-algorithm-to-use" title="Permanent link">&para;</a></h2>
 <p>A natural question that comes to mind is, which compression algorithm would
 perform best in an overall sense, i.e. with respect to compression ratio and
 the time it takes to create and transfer the archive.</p>
@@ -317,7 +317,7 @@ uncompressed tar archive.</p>
 it requires <strong>674 MiB per thread</strong>. For example, on my quad-core CPU with
 hyperthreading enabled, it requires 5.3 GiB of RAM.</p>
 </div>
-<h2 id="what-kind-of-data-was-being-compressed">What kind of data was being compressed?</h2>
+<h2 id="what-kind-of-data-was-being-compressed">What kind of data was being compressed?<a class="headerlink" href="#what-kind-of-data-was-being-compressed" title="Permanent link">&para;</a></h2>
 <p>To be fair and transparent when comparing different compression algorithms, it
 is necessary to also tell something about the data being compressed.</p>
 <p>The data being compressed is what I accumulated in my phone's user data
@@ -379,7 +379,9 @@ cannot be further compressed to any significant extent.</p>
 </article>
 
 <footer>
-<p>&copy; 2016-2026 </p>
+<p>
+  &copy; 2016-2026 Tadej Janež - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US" target="_blank">Creative Commons Attribution-ShareAlike</a>
+</p>
 <p>
 Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
   <span class="footer-separator">|</span>
@@ -390,6 +392,17 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
           data-default-theme="dark"
           type="text/javascript">
   </script>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+           src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
 </p></footer>  </main>
 
 <script type="application/ld+json">
