@@ -1,87 +1,41 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/stylesheet/style.min.css">
-
-  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
-  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
-
-    <link href="https://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
-
-    <link href="https://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
-
-
-
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="" />
 
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <meta name="author" content="Tadej Janež" />
-    <meta name="description" content="" />
-<meta property="og:site_name" content="Tadej Janež"/>
-<meta property="og:type" content="blog"/>
-<meta property="og:title" content="Tadej Janež"/>
-<meta property="og:description" content=""/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://tadej.ja.nez.si"/>
-<meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+    <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/stylesheet/style.min.css">
 
-  <title>Tadej Janež &ndash; Tag: hardware</title>
-</head>
-<body>
-  <aside>
-    <div>
-      <a href="https://tadej.ja.nez.si">
-        <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
-      </a>
-      <h1><a href="https://tadej.ja.nez.si">Tadej Janež</a></h1>
-<p>Passionate about DevOps, Python and OSS</p>      <ul class="social">
-        <li><a class="sc-github" href="https://github.com/tjanez" target="_blank"><i class="fa fa-github"></i></a></li>
-        <li><a class="sc-twitter" href="https://twitter.com/TadejJanez" target="_blank"><i class="fa fa-twitter"></i></a></li>
-        <li><a class="sc-rss" href="//tadej.ja.nez.si/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
-      </ul>
-    </div>
-  </aside>
-  <main>
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+    href="https://tadej.ja.nez.si/theme/stylesheet/dark-theme.min.css">
 
-<article>
-  <header>
-    <h2><a href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html#fedora-26-on-dell-xps-15-9560">Running Fedora 26 on Dell XPS 15 9560</a></h2>
-    <p>
-      Posted on Mon 04 September 2017 in <a href="https://tadej.ja.nez.si/category/hardware.html">Hardware</a>
-      &#8226; Tagged with
-      <a href="https://tadej.ja.nez.si/tag/fedora.html">fedora</a>,      <a href="https://tadej.ja.nez.si/tag/dell.html">dell</a>,      <a href="https://tadej.ja.nez.si/tag/hardware.html">hardware</a>,      <a href="https://tadej.ja.nez.si/tag/laptop.html">laptop</a>      &#8226; <a href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html#disqus_thread">Leave a comment</a>
-    </p>
-  </header>
-  <div>
-      
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light)"
+          href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
 
-<p>Recently, I got a new laptop, a <a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop">Dell XPS 15 9560</a> with
-4k display, 32 GiBs of RAM and 1 TiB M.2 <abbr title="Solid-state drive">SSD</abbr> drive. Quite nice specs, aren't
-they <img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px">?</p>
-<p>Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
-they didn't last long since I wiped the hard drive and installed <a href="https://fedoramagazine.org/fedora-26-is-here/">Fedora 26</a> on it.</p>
-<p>Let me briefly describe my experience and guide you through some trickier parts
-of the setup.</p>
 
-      <a class="btn" href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html#fedora-26-on-dell-xps-15-9560">Continue reading</a>
-  </div>
-</article>
 
-  <div class="pagination">
-  </div>
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/solid.css">
 
-    <footer>
-        <p>&copy; Tadej Janež 2016-2026</p>
-<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
-  </main>
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/static/custom.css">
 
-<!-- Google Analytics -->
+
+
+  <link href="https://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+
+
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -91,9 +45,122 @@ of the setup.</p>
   ga('create', 'UA-85987058-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->
 
 
+
+
+
+
+ 
+
+    <meta name="author" content="Tadej Janež" />
+    <meta name="description" content="" />
+  <meta property="og:site_name" content="Tadej Janež"/>
+  <meta property="og:type" content="blog"/>
+  <meta property="og:title" content="Tadej Janež"/>
+  <meta property="og:description" content=""/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://tadej.ja.nez.si"/>
+  <meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+
+  <title>Tadej Janež &ndash; Tag hardware</title>
+
+
+</head>
+<body >
+
+<aside>
+  <div>
+    <a href="https://tadej.ja.nez.si/">
+      <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
+    </a>
+
+    <h1>
+      <a href="https://tadej.ja.nez.si/">Tadej Janež</a>
+    </h1>
+
+    <p>Passionate about DevOps, Python and OSS</p>
+
+
+
+    <ul class="social">
+      <li>
+        <a class="sc-github"
+           href="https://github.com/tjanez"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/TadejJanez"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-rss"
+           href="//tadej.ja.nez.si/feeds/all.atom.xml"
+           target="_blank">
+          <i class="fa-solid fa-rss"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+
+
+
+<article>
+  <header>
+    <h2><a href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html#fedora-26-on-dell-xps-15-9560">Running Fedora 26 on Dell XPS 15 9560</a></h2>
+    <p>
+      Posted on Mon 04 September 2017 in <a href="https://tadej.ja.nez.si/category/hardware.html">Hardware</a>
+
+          &#8226; Tagged with
+              <a href="https://tadej.ja.nez.si/tag/fedora.html">fedora</a>,              <a href="https://tadej.ja.nez.si/tag/dell.html">dell</a>,              <a href="https://tadej.ja.nez.si/tag/hardware.html">hardware</a>,              <a href="https://tadej.ja.nez.si/tag/laptop.html">laptop</a>
+    </p>
+  </header>
+  <div>
+      <div>
+
+<p>Recently, I got a new laptop, a <a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop">Dell XPS 15 9560</a> with
+4k display, 32 GiBs of RAM and 1 TiB M.2 <abbr title="Solid-state drive">SSD</abbr> drive. Quite nice specs, aren't
+they <img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px">?</p>
+<p>Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
+they didn't last long since I wiped the hard drive and installed <a href="https://fedoramagazine.org/fedora-26-is-here/">Fedora 26</a> on it.</p>
+<p>Let me briefly describe my experience and guide you through some trickier parts
+of the setup.</p>
+</div>
+        <br>
+        <a class="btn"
+           href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html#fedora-26-on-dell-xps-15-9560">
+          Continue reading
+        </a>
+  </div>
+</article>
+
+  <div class="pagination">
+  </div>
+
+
+
+<footer>
+<p>&copy; 2016-2026 </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="https://tadej.ja.nez.si/theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="dark"
+          type="text/javascript">
+  </script>
+</p></footer>  </main>
 
 <script type="application/ld+json">
 {
@@ -104,15 +171,6 @@ of the setup.</p>
   "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
   "description": ""
 }
-</script>
-<script type="text/javascript">
-    var disqus_shortname = 'tadejjanez';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
 </script>
 </body>
 </html>

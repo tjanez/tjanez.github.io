@@ -1,107 +1,41 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/stylesheet/style.min.css">
-
-  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
-  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/font-awesome.min.css">
-
-    <link href="https://tadej.ja.nez.si/static/custom.css" rel="stylesheet">
-
-    <link href="https://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
-
-
-
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="" />
 
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <meta name="author" content="Tadej Janež" />
-    <meta name="description" content="" />
-<meta property="og:site_name" content="Tadej Janež"/>
-<meta property="og:type" content="blog"/>
-<meta property="og:title" content="Tadej Janež"/>
-<meta property="og:description" content=""/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://tadej.ja.nez.si"/>
-<meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+    <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/stylesheet/style.min.css">
 
-  <title>Tadej Janež &ndash; Tag: fabric</title>
-</head>
-<body>
-  <aside>
-    <div>
-      <a href="https://tadej.ja.nez.si">
-        <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
-      </a>
-      <h1><a href="https://tadej.ja.nez.si">Tadej Janež</a></h1>
-<p>Passionate about DevOps, Python and OSS</p>      <ul class="social">
-        <li><a class="sc-github" href="https://github.com/tjanez" target="_blank"><i class="fa fa-github"></i></a></li>
-        <li><a class="sc-twitter" href="https://twitter.com/TadejJanez" target="_blank"><i class="fa fa-twitter"></i></a></li>
-        <li><a class="sc-rss" href="//tadej.ja.nez.si/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
-      </ul>
-    </div>
-  </aside>
-  <main>
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+    href="https://tadej.ja.nez.si/theme/stylesheet/dark-theme.min.css">
 
-<article>
-  <header>
-    <h2><a href="https://tadej.ja.nez.si/publishing-to-github-pages.html#publishing-to-github-pages">Publishing a Pelican site to GitHub Pages using Fabric</a></h2>
-    <p>
-      Posted on Wed 19 October 2016 in <a href="https://tadej.ja.nez.si/category/site.html">Site</a>
-      &#8226; Tagged with
-      <a href="https://tadej.ja.nez.si/tag/pelican.html">pelican</a>,      <a href="https://tadej.ja.nez.si/tag/python.html">python</a>,      <a href="https://tadej.ja.nez.si/tag/fabric.html">fabric</a>,      <a href="https://tadej.ja.nez.si/tag/github.html">github</a>,      <a href="https://tadej.ja.nez.si/tag/site.html">site</a>      &#8226; <a href="https://tadej.ja.nez.si/publishing-to-github-pages.html#disqus_thread">Leave a comment</a>
-    </p>
-  </header>
-  <div>
-      
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light)"
+          href="https://tadej.ja.nez.si/theme/pygments/native.min.css">
 
-<p>In the <a href="https://tadej.ja.nez.si/setting-up-pelican-site.html">previous blog post</a> we looked at
-setting up a <a href="http://getpelican.com/">Pelican</a> site with <a href="https://www.python.org/">Python 3</a> and <a href="http://www.fabfile.org/">Fabric</a> on <a href="https://getfedora.org/">Fedora 24</a>.</p>
-<p>Now that we have a Pelican site up and running, I will show you how to publish
-it on <a href="https://pages.github.com/">GitHub Pages</a> using a sleek Fabric task.</p>
 
-      <a class="btn" href="https://tadej.ja.nez.si/publishing-to-github-pages.html#publishing-to-github-pages">Continue reading</a>
-  </div>
-  <hr />
-</article>
-<article>
-  <header>
-    <h2><a href="https://tadej.ja.nez.si/setting-up-pelican-site.html#setting-up-pelican-site">Setting up a Pelican site with Python 3 and Fabric on Fedora 24</a></h2>
-    <p>
-      Posted on Sat 08 October 2016 in <a href="https://tadej.ja.nez.si/category/site.html">Site</a>
-      &#8226; Tagged with
-      <a href="https://tadej.ja.nez.si/tag/pelican.html">pelican</a>,      <a href="https://tadej.ja.nez.si/tag/fedora.html">fedora</a>,      <a href="https://tadej.ja.nez.si/tag/python.html">python</a>,      <a href="https://tadej.ja.nez.si/tag/fabric.html">fabric</a>,      <a href="https://tadej.ja.nez.si/tag/site.html">site</a>      &#8226; <a href="https://tadej.ja.nez.si/setting-up-pelican-site.html#disqus_thread">Leave a comment</a>
-    </p>
-  </header>
-  <div>
-      
 
-<p>According to <a href="https://www.staticgen.com/">StaticGen</a>, <a href="http://getpelican.com/">Pelican</a> is the most popular static site generator written in
-<a href="https://www.python.org/">Python</a>. As of Oct 10, 2016 it has
-<a href="https://github.com/getpelican/pelican">6168 stars on GitHub</a>.</p>
-<p>In this blog post, I'll show you how to create your own Pelican site, track
-it in a <a href="https://git-scm.com/">git</a> repository, use <a href="http://www.fabfile.org/">Fabric</a> to administer it, change site's default theme and
-finally, create a Hello World blog post.</p>
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/theme/font-awesome/css/solid.css">
 
-      <a class="btn" href="https://tadej.ja.nez.si/setting-up-pelican-site.html#setting-up-pelican-site">Continue reading</a>
-  </div>
-</article>
+  <link rel="stylesheet" type="text/css" href="https://tadej.ja.nez.si/static/custom.css">
 
-  <div class="pagination">
-  </div>
 
-    <footer>
-        <p>&copy; Tadej Janež 2016-2026</p>
-<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
-  </main>
 
-<!-- Google Analytics -->
+  <link href="https://tadej.ja.nez.si/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Tadej Janež Atom">
+
+
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -111,9 +45,147 @@ finally, create a Hello World blog post.</p>
   ga('create', 'UA-85987058-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->
 
 
+
+
+
+
+ 
+
+    <meta name="author" content="Tadej Janež" />
+    <meta name="description" content="" />
+  <meta property="og:site_name" content="Tadej Janež"/>
+  <meta property="og:type" content="blog"/>
+  <meta property="og:title" content="Tadej Janež"/>
+  <meta property="og:description" content=""/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://tadej.ja.nez.si"/>
+  <meta property="og:image" content="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256">
+
+  <title>Tadej Janež &ndash; Tag fabric</title>
+
+
+</head>
+<body >
+
+<aside>
+  <div>
+    <a href="https://tadej.ja.nez.si/">
+      <img src="https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256" alt="Tadej Janež" title="Tadej Janež">
+    </a>
+
+    <h1>
+      <a href="https://tadej.ja.nez.si/">Tadej Janež</a>
+    </h1>
+
+    <p>Passionate about DevOps, Python and OSS</p>
+
+
+
+    <ul class="social">
+      <li>
+        <a class="sc-github"
+           href="https://github.com/tjanez"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/TadejJanez"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-rss"
+           href="//tadej.ja.nez.si/feeds/all.atom.xml"
+           target="_blank">
+          <i class="fa-solid fa-rss"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+
+
+
+<article>
+  <header>
+    <h2><a href="https://tadej.ja.nez.si/publishing-to-github-pages.html#publishing-to-github-pages">Publishing a Pelican site to GitHub Pages using Fabric</a></h2>
+    <p>
+      Posted on Wed 19 October 2016 in <a href="https://tadej.ja.nez.si/category/site.html">Site</a>
+
+          &#8226; Tagged with
+              <a href="https://tadej.ja.nez.si/tag/pelican.html">pelican</a>,              <a href="https://tadej.ja.nez.si/tag/python.html">python</a>,              <a href="https://tadej.ja.nez.si/tag/fabric.html">fabric</a>,              <a href="https://tadej.ja.nez.si/tag/github.html">github</a>,              <a href="https://tadej.ja.nez.si/tag/site.html">site</a>
+    </p>
+  </header>
+  <div>
+      <div>
+
+<p>In the <a href="https://tadej.ja.nez.si/setting-up-pelican-site.html">previous blog post</a> we looked at
+setting up a <a href="http://getpelican.com/">Pelican</a> site with <a href="https://www.python.org/">Python 3</a> and <a href="http://www.fabfile.org/">Fabric</a> on <a href="https://getfedora.org/">Fedora 24</a>.</p>
+<p>Now that we have a Pelican site up and running, I will show you how to publish
+it on <a href="https://pages.github.com/">GitHub Pages</a> using a sleek Fabric task.</p>
+</div>
+        <br>
+        <a class="btn"
+           href="https://tadej.ja.nez.si/publishing-to-github-pages.html#publishing-to-github-pages">
+          Continue reading
+        </a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="https://tadej.ja.nez.si/setting-up-pelican-site.html#setting-up-pelican-site">Setting up a Pelican site with Python 3 and Fabric on Fedora 24</a></h2>
+    <p>
+      Posted on Sat 08 October 2016 in <a href="https://tadej.ja.nez.si/category/site.html">Site</a>
+
+          &#8226; Tagged with
+              <a href="https://tadej.ja.nez.si/tag/pelican.html">pelican</a>,              <a href="https://tadej.ja.nez.si/tag/fedora.html">fedora</a>,              <a href="https://tadej.ja.nez.si/tag/python.html">python</a>,              <a href="https://tadej.ja.nez.si/tag/fabric.html">fabric</a>,              <a href="https://tadej.ja.nez.si/tag/site.html">site</a>
+    </p>
+  </header>
+  <div>
+      <div>
+
+<p>According to <a href="https://www.staticgen.com/">StaticGen</a>, <a href="http://getpelican.com/">Pelican</a> is the most popular static site generator written in
+<a href="https://www.python.org/">Python</a>. As of Oct 10, 2016 it has
+<a href="https://github.com/getpelican/pelican">6168 stars on GitHub</a>.</p>
+<p>In this blog post, I'll show you how to create your own Pelican site, track
+it in a <a href="https://git-scm.com/">git</a> repository, use <a href="http://www.fabfile.org/">Fabric</a> to administer it, change site's default theme and
+finally, create a Hello World blog post.</p>
+</div>
+        <br>
+        <a class="btn"
+           href="https://tadej.ja.nez.si/setting-up-pelican-site.html#setting-up-pelican-site">
+          Continue reading
+        </a>
+  </div>
+</article>
+
+  <div class="pagination">
+  </div>
+
+
+
+<footer>
+<p>&copy; 2016-2026 </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="https://tadej.ja.nez.si/theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="dark"
+          type="text/javascript">
+  </script>
+</p></footer>  </main>
 
 <script type="application/ld+json">
 {
@@ -124,15 +196,6 @@ finally, create a Hello World blog post.</p>
   "image": "https://seccdn.libravatar.org/avatar/3eac8cb160ed7a2a285c206b585dc20c?s=256",
   "description": ""
 }
-</script>
-<script type="text/javascript">
-    var disqus_shortname = 'tadejjanez';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
 </script>
 </body>
 </html>
