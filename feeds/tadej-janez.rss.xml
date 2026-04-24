@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tadej Janež - Tadej Janež</title><link>https://tadej.ja.nez.si/</link><description>Passionate about DevOps, Python and OSS</description><atom:link href="https://tadej.ja.nez.si/feeds/tadej-janez.rss.xml" rel="self"/><lastBuildDate>Sun, 26 Nov 2017 22:13:00 +0100</lastBuildDate><item><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link>https://tadej.ja.nez.si/enabling-testing-repos-in-copr.html</link><description>
+
+&lt;p&gt;When creating a Copr project, one can specify which chroots, i.e. which
+distribution version and architecture combinations, to enable. Examples of
+chroots are &lt;code&gt;fedora-27-x86_64&lt;/code&gt;, &lt;code&gt;epel-7-ppc64le&lt;/code&gt;, &lt;code&gt;fedora-rawhide-i386&lt;/code&gt; etc.&lt;/p&gt;
+&lt;p&gt;However, there is no easy to use option to enable testing repositories, e.g.
+the &lt;a href="https://fedoraproject.org/wiki/Repositories#updates-testing"&gt;&lt;code&gt;updates-testing&lt;/code&gt; repository&lt;/a&gt; for Fedora
+Branched and stable releases, when specifying the chroots.
+Let me show you how you can easily achieve that by specifying an extra
+repository with a parameterized URL.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Sun, 26 Nov 2017 22:13:00 +0100</pubDate><guid>tag:tadej.ja.nez.si,2017-11-26:/enabling-testing-repos-in-copr.html</guid><category>Fedora</category><category>copr</category><category>fedora</category><category>epel</category></item><item><title>Running Fedora 26 on Dell XPS 15 9560</title><link>https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html</link><description>
+
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
+they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
+&lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
+they didn't last long since I wiped the hard drive and installed &lt;a href="https://fedoramagazine.org/fedora-26-is-here/"&gt;Fedora 26&lt;/a&gt; on it.&lt;/p&gt;
+&lt;p&gt;Let me briefly describe my experience and guide you through some trickier parts
+of the setup.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Mon, 04 Sep 2017 09:35:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</guid><category>Hardware</category><category>fedora</category><category>dell</category><category>hardware</category><category>laptop</category></item><item><title>Fedora EuroPython 2017 Attendee badge</title><link>https://tadej.ja.nez.si/fedora-europython2017-attendee-badge.html</link><description>
+
+&lt;p&gt;A little late, but no less cool, &lt;a href="https://badges.fedoraproject.org/badge/europython-2017-attendee"&gt;Fedora EuroPython 2017 Attendee badge&lt;/a&gt; is available
+&lt;img align="absmiddle" alt="🎉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f389.svg" title=":tada:" width="20px"&gt;!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fedora EuroPython 2017 Attendee badge" src="https://tadej.ja.nez.si/images/fedora-europython2017-attendee-badge.svg"&gt;&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Sun, 27 Aug 2017 15:51:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2017-08-27:/fedora-europython2017-attendee-badge.html</guid><category>Fedora</category><category>fedora</category><category>python</category><category>badge</category></item><item><title>Backing up Android's /data/media (i.e. internal storage) using adb and TWRP</title><link>https://tadej.ja.nez.si/android-internal-storage-backup.html</link><description>
+
+&lt;p&gt;Recently I had to clone my &lt;a href="https://en.wikipedia.org/wiki/Nexus_4"&gt;Nexus 4&lt;/a&gt; to
+another Nexus 4 device since my Nexus 4's front glass broke :-(.&lt;/p&gt;
+&lt;p&gt;At first, the task seemed quite straight-forward. Install the latest version of
+&lt;a href="https://twrp.me/"&gt;&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;&lt;/a&gt;'s recovery on the phone, backup all partitions using
+&lt;abbr title="Team Win Recovery Project"&gt;TWRP&lt;/abbr&gt;, transfer them to the other device and restore them.&lt;/p&gt;
+&lt;p&gt;But thing are never as easy as them seem, are they?&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Sun, 30 Jul 2017 12:28:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2017-07-30:/android-internal-storage-backup.html</guid><category>Android</category><category>android</category><category>backup</category><category>twrp</category><category>adb</category><category>benchmark</category></item><item><title>Don't mix yum/dnf and pip for installation of system-wide Python packages</title><link>https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html</link><description>
+
+&lt;p&gt;Too many times I've seen people using a mix of &lt;a href="http://yum.baseurl.org/"&gt;yum&lt;/a&gt;/
+&lt;a href="http://dnf.baseurl.org/"&gt;dnf&lt;/a&gt; and &lt;a href="https://pip.pypa.io/"&gt;pip&lt;/a&gt; for
+installation of system-wide Python packages This causes &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#problems-with-mixing-yumdnf-and-pip"&gt;all sorts of problems
+&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TL; DR&lt;/strong&gt; &lt;em&gt;Install system-wide Python packages with yum/dnf and only use pip
+inside a &lt;a href="https://virtualenv.pypa.io/"&gt;virtual environment&lt;/a&gt;. For an example,
+see my &lt;a href="https://tadej.ja.nez.si/dont-mix-yum-dnf-and-pip.html#ansible-playbook-for-installation-of-packages-inside-a-virtual-environment"&gt;Ansible snippet below
+&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Fri, 13 Jan 2017 11:43:00 +0100</pubDate><guid>tag:tadej.ja.nez.si,2017-01-13:/dont-mix-yum-dnf-and-pip.html</guid><category>Python</category><category>yum</category><category>dnf</category><category>pip</category><category>python</category><category>packaging</category><category>virtualenv</category><category>fedora</category><category>centos</category><category>rhel</category></item><item><title>Publishing a Pelican site to GitHub Pages using Fabric</title><link>https://tadej.ja.nez.si/publishing-to-github-pages.html</link><description>
+
+&lt;p&gt;In the &lt;a href="https://tadej.ja.nez.si/setting-up-pelican-site.html"&gt;previous blog post&lt;/a&gt; we looked at
+setting up a &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; site with &lt;a href="https://www.python.org/"&gt;Python 3&lt;/a&gt; and &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; on &lt;a href="https://getfedora.org/"&gt;Fedora 24&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now that we have a Pelican site up and running, I will show you how to publish
+it on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt; using a sleek Fabric task.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Wed, 19 Oct 2016 19:05:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2016-10-19:/publishing-to-github-pages.html</guid><category>Site</category><category>pelican</category><category>python</category><category>fabric</category><category>github</category><category>site</category></item><item><title>Setting up a Pelican site with Python 3 and Fabric on Fedora 24</title><link>https://tadej.ja.nez.si/setting-up-pelican-site.html</link><description>
+
+&lt;p&gt;According to &lt;a href="https://www.staticgen.com/"&gt;StaticGen&lt;/a&gt;, &lt;a href="http://getpelican.com/"&gt;Pelican&lt;/a&gt; is the most popular static site generator written in
+&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;. As of Oct 10, 2016 it has
+&lt;a href="https://github.com/getpelican/pelican"&gt;6168 stars on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this blog post, I'll show you how to create your own Pelican site, track
+it in a &lt;a href="https://git-scm.com/"&gt;git&lt;/a&gt; repository, use &lt;a href="http://www.fabfile.org/"&gt;Fabric&lt;/a&gt; to administer it, change site's default theme and
+finally, create a Hello World blog post.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Sat, 08 Oct 2016 10:16:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2016-10-08:/setting-up-pelican-site.html</guid><category>Site</category><category>pelican</category><category>fedora</category><category>python</category><category>fabric</category><category>site</category></item><item><title>Hello, World!</title><link>https://tadej.ja.nez.si/hello-world.html</link><description>&lt;p&gt;I finally made a personal web site with &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;
+and Alexandre Vicenzi's great &lt;a href="https://github.com/alexandrevicenzi/Flex/"&gt;Flex&lt;/a&gt;
+theme :)!&lt;/p&gt;
+&lt;p&gt;Stay tuned for a follow-up blog post, where I'll describe how to setup a
+Pelican site like this.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Thu, 06 Oct 2016 10:52:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2016-10-06:/hello-world.html</guid><category>Site</category></item></channel></rss>

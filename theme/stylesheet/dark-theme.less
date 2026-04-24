@@ -9,6 +9,14 @@ body {
   color: @text-color-dark-theme;
 }
 
+a {
+  color: @link-color-dark-theme;
+}
+
+a:hover {
+  color: @link-hover-color-dark-theme;
+}
+
 hr {
   background-color: @solid-dark-grey;
   color: @solid-dark-grey;
@@ -21,6 +29,18 @@ aside {
   form.navbar-search input#tipue_search_input {
     background-color: @very-dark-grey;
     color: @light-grey;
+  }
+
+  .stork-wrapper {
+    --stork-background-color: @solid-dark-grey;
+  }
+
+  .stork-input {
+    background-color: @very-dark-grey;
+  }
+
+  .stork-output-visible {
+    background: @solid-dark-grey;
   }
 }
 
@@ -57,9 +77,9 @@ main {
     }
 
     section#isso-thread {
-      div.textarea,
-      .auth-section p.input-wrapper input,
-      .notification-section input {
+      div.isso-textarea,
+      .isso-auth-section p.isso-input-wrapper input,
+      .isso-notification-section input {
         background: @very-dark-grey;
         color: @light-grey;
       }
@@ -68,7 +88,7 @@ main {
         color: @light-grey;
       }
 
-      .isso-postbox > .form-wrapper .preview {
+      .isso-postbox > .isso-form-wrapper .isso-preview {
         background: repeating-linear-gradient(
           -45deg,
           @solid-dark-grey, @solid-dark-grey 10px,
@@ -76,25 +96,37 @@ main {
         );
       }
 
-      .isso-comment > div.text-wrapper {
+      .isso-comment > div.isso-text-wrapper {
         > .isso-comment-header {
-          .author {
-            color: @light-grey;
+          .isso-author {
+            color: @isso-author-dark-theme;
           }
 
-          .spacer, a.permalink, .note, a.parent {
-            color: @med-grey;
+          .isso-spacer, a.isso-permalink, .isso-note, a.isso-parent {
+            color: @isso-link-dark-theme;
 
             &:hover {
-              color: @light-grey;
+              color: @isso-link-hover-dark-theme;
             }
           }
         }
 
         > .isso-comment-footer a:hover {
-          // Unfortunately, Isso uses a lot of !important in its styles, so I
-          // have to override that.
-          text-shadow: @dark-grey 0 0 1px !important;
+          color: @link-hover-color-dark-theme;
+          text-shadow: none;
+        }
+      }
+
+      // Highlight page author comments with special colors
+      .isso-comment.isso-is-page-author > .isso-text-wrapper {
+        background-color: @isso-page-author-bg-dark-theme;
+        > .isso-comment-header {
+          > .isso-author {
+            color: @isso-page-author-name-dark-theme;
+          }
+          > .isso-page-author-suffix {
+            color: @isso-page-author-suffix-dark-theme;
+          }
         }
       }
     }
