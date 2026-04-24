@@ -106,11 +106,97 @@
             </a>
           </li>
       </ul>
+        <p class="theme-toggle">
+          <a href="javascript:void(0)"
+             id="theme-toggle"
+             onclick="cycleTheme()"
+             aria-label="Toggle colour theme"
+             title="Switch to dark theme">
+            <span id="theme-toggle-text">Auto</span><i class="fa-solid fa-circle-half-stroke"
+               id="theme-toggle-icon"
+               aria-hidden="true"></i>
+          </a>
+        </p>
+        <script>
+          function updateThemeToggle() {
+            var icon = document.getElementById('theme-toggle-icon');
+            var text = document.getElementById('theme-toggle-text');
+            var toggle = document.getElementById('theme-toggle');
+            if (!icon || !text || !toggle) return;
+            var override = localStorage.getItem('themeOverride');
+            if (override === 'dark') {
+              text.textContent = 'Dark';
+              icon.className = 'fa-solid fa-moon';
+              toggle.title = 'Current: dark theme. Click to switch to light.';
+            } else if (override === 'light') {
+              text.textContent = 'Light';
+              icon.className = 'fa-solid fa-sun';
+              toggle.title = 'Current: light theme. Click to switch to system default.';
+            } else {
+              text.textContent = 'Auto';
+              icon.className = 'fa-solid fa-circle-half-stroke';
+              toggle.title = 'Current: system default theme. Click to switch to dark.';
+            }
+          }
+          function cycleTheme() {
+            var override = localStorage.getItem('themeOverride');
+            if (override === 'dark') {
+              theme.switch('light');
+            } else if (override === 'light') {
+              theme.switch('browser');
+            } else {
+              theme.switch('dark');
+            }
+            updateThemeToggle();
+          }
+          document.addEventListener('DOMContentLoaded', updateThemeToggle);
+        </script>
   </div>
 </aside>    <main>
   <nav>
     <a href="https://tadej.ja.nez.si/">Home</a>
 <a href="/archives.html">Archives</a><a href="/categories.html">Categories</a><a href="/tags.html">Tags</a><a href="https://tadej.ja.nez.si/feeds/all.atom.xml">Atom</a>  </nav>
+    <article>
+      <header>
+        <h2>
+          <a href="https://tadej.ja.nez.si/bash-prompt-coloring.html#bash-prompt-coloring">Modernize your Bash prompt colors</a>
+        </h2>
+        <p>
+          Posted on Fri 24 April 2026 in <a href="https://tadej.ja.nez.si/category/shell.html">Shell</a>
+            &#8226; Tagged with
+              <a href="https://tadej.ja.nez.si/tag/bash.html">bash</a>
+,              <a href="https://tadej.ja.nez.si/tag/colors.html">colors</a>
+,              <a href="https://tadej.ja.nez.si/tag/fedora.html">fedora</a>
+,              <a href="https://tadej.ja.nez.si/tag/containers.html">containers</a>
+,              <a href="https://tadej.ja.nez.si/tag/toolbox.html">toolbox</a>
+        </p>
+      </header>
+      <div class="entry-content">
+          <div>
+
+<p>Do you still use the default green-colored Bash prompt?</p>
+<p>Then it's time to upgrade to a much improved shell <abbr title="User Experience">UX</abbr> using the
+<a href="https://github.com/juhp/bash-color-prompt">Bash Color Prompt (bcp)</a>.</p>
+<p>Results:</p>
+
+    <figure>
+        <figcaption>Before</figcaption>
+        <img src="https://tadej.ja.nez.si/images/bash-prompt1-before.png" alt="Before">
+    </figure>
+    <figure>
+        <figcaption>After</figcaption>
+        <img src="https://tadej.ja.nez.si/images/bash-prompt2-after.png" alt="After">
+    </figure>
+
+
+</div>
+            <br>
+            <a class="btn"
+               href="https://tadej.ja.nez.si/bash-prompt-coloring.html#bash-prompt-coloring">
+              Continue reading
+            </a>
+      </div>
+<hr />    </article>
     <article>
       <header>
         <h2>
@@ -160,7 +246,7 @@ repository with a parameterized URL.</p>
       <div class="entry-content">
           <div>
 
-<p>Recently, I got a new laptop, a <a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop">Dell XPS 15 9560</a> with
+<p>Recently, I got a new laptop, a <a href="https://en.wikipedia.org/wiki/Dell_XPS#XPS_15_(9560,_Early_2017)">Dell XPS 15 9560</a> with
 4k display, 32 GiBs of RAM and 1 TiB M.2 <abbr title="Solid-state drive">SSD</abbr> drive. Quite nice specs, aren't
 they <img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px">?</p>
 <p>Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
@@ -357,12 +443,14 @@ Pelican site like this.</p></div>
 <p>
   &copy; 2016-2026 Tadej Janež - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US" target="_blank">Creative Commons Attribution-ShareAlike</a>
 </p><p>
-    Built with <a href="https://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/haplo/pelican-theme-reflex" target="_blank">Reflex</a> theme
-      <span class="footer-separator">|</span>
-      Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
-      <script id="dark-theme-script" src="https://tadej.ja.nez.si/theme/dark-theme/dark-theme.min.js" data-enable-auto-detect-theme="True" data-default-theme="dark" type="text/javascript">
-      </script>
-  </p>  <p>
+  Built with <a href="https://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/haplo/pelican-theme-reflex" target="_blank">Reflex</a> theme
+    <script id="dark-theme-script"
+            src="https://tadej.ja.nez.si/theme/dark-theme/dark-theme.min.js"
+            data-enable-auto-detect-theme="True"
+            data-default-theme="dark"
+            type="text/javascript">
+    </script>
+</p>  <p>
   </p>
 </footer>    </main>
 <script type="application/ld+json">

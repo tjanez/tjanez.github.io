@@ -54,6 +54,11 @@ body.dark-theme aside {
     background-color: var(--sidebar-dark);
 }
 
+/* main menu: increase nav link size (theme default is 12px) */
+main nav a {
+    font-size: 17px;
+}
+
 /* modify headings on main page */
 a {
     color: var(--dark-blue);
@@ -81,6 +86,26 @@ a.btn:hover {
 .tag-cloud a:hover {
     background-color: var(--blue);
     color: black;
+}
+
+/* theme toggle: second line below social icons, icon sized to match them */
+p.theme-toggle {
+    margin-top: 0.5em;
+}
+p.theme-toggle a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+}
+p.theme-toggle a:hover {
+    color: var(--white);
+    opacity: 0.75;
+}
+p.theme-toggle #theme-toggle-text {
+    font-size: 1rem;
 }
 
 /* inline code: harmonize with the chosen Pygments styles (tango/stata-dark) */
@@ -189,6 +214,11 @@ body.dark-theme div.admonition.error p.admonition-title {
 */
 div.admonition p.admonition-title::before {
     display: none;
+}
+
+/* before/after image comparison: stacked vertically, full width */
+.image-compare figure {
+    margin: 0 0 1em;
 }
 
 /* Heading permalink anchors: hidden by default, visible on heading hover (Sphinx-style) */

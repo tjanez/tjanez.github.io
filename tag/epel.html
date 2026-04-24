@@ -107,6 +107,51 @@
             </a>
           </li>
       </ul>
+        <p class="theme-toggle">
+          <a href="javascript:void(0)"
+             id="theme-toggle"
+             onclick="cycleTheme()"
+             aria-label="Toggle colour theme"
+             title="Switch to dark theme">
+            <span id="theme-toggle-text">Auto</span><i class="fa-solid fa-circle-half-stroke"
+               id="theme-toggle-icon"
+               aria-hidden="true"></i>
+          </a>
+        </p>
+        <script>
+          function updateThemeToggle() {
+            var icon = document.getElementById('theme-toggle-icon');
+            var text = document.getElementById('theme-toggle-text');
+            var toggle = document.getElementById('theme-toggle');
+            if (!icon || !text || !toggle) return;
+            var override = localStorage.getItem('themeOverride');
+            if (override === 'dark') {
+              text.textContent = 'Dark';
+              icon.className = 'fa-solid fa-moon';
+              toggle.title = 'Current: dark theme. Click to switch to light.';
+            } else if (override === 'light') {
+              text.textContent = 'Light';
+              icon.className = 'fa-solid fa-sun';
+              toggle.title = 'Current: light theme. Click to switch to system default.';
+            } else {
+              text.textContent = 'Auto';
+              icon.className = 'fa-solid fa-circle-half-stroke';
+              toggle.title = 'Current: system default theme. Click to switch to dark.';
+            }
+          }
+          function cycleTheme() {
+            var override = localStorage.getItem('themeOverride');
+            if (override === 'dark') {
+              theme.switch('light');
+            } else if (override === 'light') {
+              theme.switch('browser');
+            } else {
+              theme.switch('dark');
+            }
+            updateThemeToggle();
+          }
+          document.addEventListener('DOMContentLoaded', updateThemeToggle);
+        </script>
   </div>
 </aside>    <main>
   <nav>
@@ -150,12 +195,14 @@ repository with a parameterized URL.</p>
 <p>
   &copy; 2016-2026 Tadej Janež - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US" target="_blank">Creative Commons Attribution-ShareAlike</a>
 </p><p>
-    Built with <a href="https://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/haplo/pelican-theme-reflex" target="_blank">Reflex</a> theme
-      <span class="footer-separator">|</span>
-      Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
-      <script id="dark-theme-script" src="https://tadej.ja.nez.si/theme/dark-theme/dark-theme.min.js" data-enable-auto-detect-theme="True" data-default-theme="dark" type="text/javascript">
-      </script>
-  </p>  <p>
+  Built with <a href="https://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/haplo/pelican-theme-reflex" target="_blank">Reflex</a> theme
+    <script id="dark-theme-script"
+            src="https://tadej.ja.nez.si/theme/dark-theme/dark-theme.min.js"
+            data-enable-auto-detect-theme="True"
+            data-default-theme="dark"
+            type="text/javascript">
+    </script>
+</p>  <p>
   </p>
 </footer>    </main>
 <script type="application/ld+json">

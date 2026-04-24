@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež - Hardware</title><link href="https://tadej.ja.nez.si/" rel="alternate"/><link href="https://tadej.ja.nez.si/feeds/category-hardware.atom.xml" rel="self"/><id>https://tadej.ja.nez.si/</id><updated>2017-09-04T09:35:00+02:00</updated><subtitle>Passionate about DevOps, Python and OSS</subtitle><entry><title>Running Fedora 26 on Dell XPS 15 9560</title><link href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html" rel="alternate"/><published>2017-09-04T09:35:00+02:00</published><updated>2017-09-04T09:35:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</id><summary type="html">
 
-&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="https://en.wikipedia.org/wiki/Dell_XPS#XPS_15_(9560,_Early_2017)"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
 they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
 &lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
@@ -16,7 +16,7 @@ the use of &lt;em&gt;normal&lt;/em&gt; graphics drivers
 used Mesa's software rasterizer, which causes all sorts of issues.&lt;/em&gt;&lt;/p&gt;
 
 
-&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="https://en.wikipedia.org/wiki/Dell_XPS#XPS_15_(9560,_Early_2017)"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
 they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
 &lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
@@ -27,7 +27,7 @@ of the setup.&lt;/p&gt;
 
 &lt;h2 id="configuring-uefi-to-work-with-fedora-26"&gt;Configuring &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt; to work with Fedora 26&lt;a class="headerlink" href="#configuring-uefi-to-work-with-fedora-26" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Before installing Fedora 26 on the system, it is necessary to modify some &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt;
-settings. &lt;a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#UEFI"&gt;They are nicely summed up in the ArchWiki page for this laptop&lt;/a&gt;:&lt;/p&gt;
+settings. &lt;a href="https://wiki.archlinux.org/title/Dell_XPS_15_(9560)"&gt;They are nicely summed up in the ArchWiki page for this laptop&lt;/a&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Change the &lt;em&gt;SATA Mode&lt;/em&gt; from the default &lt;em&gt;RAID&lt;/em&gt; to &lt;em&gt;AHCI&lt;/em&gt;. This will allow
   Linux to detect the &lt;abbr title="Non-volatile memory (NVM) Express"&gt;NVMe&lt;/abbr&gt; &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt;.&lt;/li&gt;

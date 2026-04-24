@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tadej Janež - Tadej Janež</title><link>https://tadej.ja.nez.si/</link><description>Passionate about DevOps, Python and OSS</description><atom:link href="https://tadej.ja.nez.si/feeds/tadej-janez.rss.xml" rel="self"/><lastBuildDate>Sun, 26 Nov 2017 22:13:00 +0100</lastBuildDate><item><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link>https://tadej.ja.nez.si/enabling-testing-repos-in-copr.html</link><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tadej Janež - Tadej Janež</title><link>https://tadej.ja.nez.si/</link><description>Passionate about DevOps, Python and OSS</description><atom:link href="https://tadej.ja.nez.si/feeds/tadej-janez.rss.xml" rel="self"/><lastBuildDate>Fri, 24 Apr 2026 18:52:00 +0200</lastBuildDate><item><title>Modernize your Bash prompt colors</title><link>https://tadej.ja.nez.si/bash-prompt-coloring.html</link><description>
+
+&lt;p&gt;Do you still use the default green-colored Bash prompt?&lt;/p&gt;
+&lt;p&gt;Then it's time to upgrade to a much improved shell &lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; using the
+&lt;a href="https://github.com/juhp/bash-color-prompt"&gt;Bash Color Prompt (bcp)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Results:&lt;/p&gt;
+
+    &lt;figure&gt;
+        &lt;figcaption&gt;Before&lt;/figcaption&gt;
+        &lt;img src="https://tadej.ja.nez.si/images/bash-prompt1-before.png" alt="Before"&gt;
+    &lt;/figure&gt;
+    &lt;figure&gt;
+        &lt;figcaption&gt;After&lt;/figcaption&gt;
+        &lt;img src="https://tadej.ja.nez.si/images/bash-prompt2-after.png" alt="After"&gt;
+    &lt;/figure&gt;
+
+
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Fri, 24 Apr 2026 18:52:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2026-04-24:/bash-prompt-coloring.html</guid><category>Shell</category><category>bash</category><category>colors</category><category>fedora</category><category>containers</category><category>toolbox</category></item><item><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link>https://tadej.ja.nez.si/enabling-testing-repos-in-copr.html</link><description>
 
 &lt;p&gt;When creating a Copr project, one can specify which chroots, i.e. which
 distribution version and architecture combinations, to enable. Examples of
@@ -11,7 +28,7 @@ Let me show you how you can easily achieve that by specifying an extra
 repository with a parameterized URL.&lt;/p&gt;
 </description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Sun, 26 Nov 2017 22:13:00 +0100</pubDate><guid>tag:tadej.ja.nez.si,2017-11-26:/enabling-testing-repos-in-copr.html</guid><category>Fedora</category><category>copr</category><category>fedora</category><category>epel</category></item><item><title>Running Fedora 26 on Dell XPS 15 9560</title><link>https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html</link><description>
 
-&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="https://en.wikipedia.org/wiki/Dell_XPS#XPS_15_(9560,_Early_2017)"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
 they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
 &lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But

@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="https://tadej.ja.nez.si/" rel="alternate"/><link href="https://tadej.ja.nez.si/feeds/all-en.atom.xml" rel="self"/><id>https://tadej.ja.nez.si/</id><updated>2017-11-26T22:13:00+01:00</updated><subtitle>Passionate about DevOps, Python and OSS</subtitle><entry><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link href="https://tadej.ja.nez.si/enabling-testing-repos-in-copr.html" rel="alternate"/><published>2017-11-26T22:13:00+01:00</published><updated>2017-11-26T22:13:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-11-26:/enabling-testing-repos-in-copr.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="https://tadej.ja.nez.si/" rel="alternate"/><link href="https://tadej.ja.nez.si/feeds/all-en.atom.xml" rel="self"/><id>https://tadej.ja.nez.si/</id><updated>2026-04-24T18:52:00+02:00</updated><subtitle>Passionate about DevOps, Python and OSS</subtitle><entry><title>Modernize your Bash prompt colors</title><link href="https://tadej.ja.nez.si/bash-prompt-coloring.html" rel="alternate"/><published>2026-04-24T18:52:00+02:00</published><updated>2026-04-24T18:52:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2026-04-24:/bash-prompt-coloring.html</id><summary type="html">
+
+&lt;p&gt;Do you still use the default green-colored Bash prompt?&lt;/p&gt;
+&lt;p&gt;Then it's time to upgrade to a much improved shell &lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; using the
+&lt;a href="https://github.com/juhp/bash-color-prompt"&gt;Bash Color Prompt (bcp)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Results:&lt;/p&gt;
+
+    &lt;figure&gt;
+        &lt;figcaption&gt;Before&lt;/figcaption&gt;
+        &lt;img src="https://tadej.ja.nez.si/images/bash-prompt1-before.png" alt="Before"&gt;
+    &lt;/figure&gt;
+    &lt;figure&gt;
+        &lt;figcaption&gt;After&lt;/figcaption&gt;
+        &lt;img src="https://tadej.ja.nez.si/images/bash-prompt2-after.png" alt="After"&gt;
+    &lt;/figure&gt;
+
+
+</summary><content type="html">
+
+&lt;p&gt;Do you still use the default green-colored Bash prompt?&lt;/p&gt;
+&lt;p&gt;Then it's time to upgrade to a much improved shell &lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; using the
+&lt;a href="https://github.com/juhp/bash-color-prompt"&gt;Bash Color Prompt (bcp)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Results:&lt;/p&gt;
+&lt;div class="image-compare"&gt;
+    &lt;figure&gt;
+        &lt;figcaption&gt;Before&lt;/figcaption&gt;
+        &lt;img src="https://tadej.ja.nez.si/images/bash-prompt1-before.png" alt="Before"&gt;
+    &lt;/figure&gt;
+    &lt;figure&gt;
+        &lt;figcaption&gt;After&lt;/figcaption&gt;
+        &lt;img src="https://tadej.ja.nez.si/images/bash-prompt2-after.png" alt="After"&gt;
+    &lt;/figure&gt;
+&lt;/div&gt;
+
+
+
+&lt;h1 id="motivation-dealing-with-multiple-toolbox-containers"&gt;Motivation: dealing with multiple Toolbox containers&lt;a class="headerlink" href="#motivation-dealing-with-multiple-toolbox-containers" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Lately, I've been getting annoyed by my current Bash prompt offering me a poor
+&lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; when dealing with multiple &lt;a href="https://containertoolbx.org/"&gt;Toolbox&lt;/a&gt; containers.
+The prompt lacked crucial information: to which of the running containers a
+given shell belongs to?&lt;/p&gt;
+&lt;p&gt;I did a quick search to see if there's an easy fix I'm missing out but it turned
+out there is a long-standing desire to improve Toolbox's &lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; in this respect and
+multiple approaches have been discussed/tried. Here are some relevant tickets:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/containers/toolbox/pull/771"&gt;Making Toolbox containers set container name as hostname&lt;/a&gt;: Rejected
+  as unsuitable.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/containers/toolbox/issues/98"&gt;Offer a better way to visually distinguish between containers&lt;/a&gt;:
+  Currently still open.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/containers/toolbox/issues/744"&gt;Expose the name of the current toolbox container&lt;/a&gt;: Closed, but one
+  still needs to manually extract information from &lt;code&gt;/run/.containerenv&lt;/code&gt; file and
+  set the Bash prompt according to it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="discovering-the-old-and-new-version-of-bash-color-prompt"&gt;Discovering the old and new version of Bash Color Prompt&lt;a class="headerlink" href="#discovering-the-old-and-new-version-of-bash-color-prompt" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;After looking around on how to update my Bash prompt to become
+"container name"-aware, I came across Fedora's &lt;a href="https://src.fedoraproject.org/rpms/shell-color-prompt"&gt;shell-color-prompt&lt;/a&gt; package
+which was conveniently just a &lt;code&gt;dnf install bash-color-prompt&lt;/code&gt; away (strangely,
+the source package is named &lt;code&gt;shell-color-prompt&lt;/code&gt; while the binary package is
+named &lt;code&gt;bash-color-prompt&lt;/code&gt;, see also &lt;a href="https://bugzilla.redhat.com/show_bug.cgi?id=2291024"&gt;&lt;abbr title="Red Hat Bugzilla"&gt;RHBZ&lt;/abbr&gt; #2291024&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;My attempts at configuring the Bash prompt to be "container name"-aware with the
+help of shell-color-prompt didn't look very promising.&lt;/p&gt;
+&lt;p&gt;I had a little epiphany when discovering that shell-color-prompt's maintainer,
+&lt;a href="https://github.com/juhp"&gt;Jens Petersen&lt;/a&gt;, recently wrote a replacement for it: namely &lt;a href="https://github.com/juhp/bash-color-prompt"&gt;Bash Color Prompt
+(bcp)&lt;/a&gt;. Jens describes it as having a cleaner declarative approach for creating
+one's custom Bash prompt.&lt;/p&gt;
+&lt;h1 id="setting-up-the-new-version-of-bash-color-prompt"&gt;Setting up the new version of Bash Color Prompt&lt;a class="headerlink" href="#setting-up-the-new-version-of-bash-color-prompt" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Seeing how easy &lt;a href="https://github.com/juhp/bash-color-prompt"&gt;Bash Color Prompt (bcp)&lt;/a&gt;'s &lt;a href="https://github.com/juhp/bash-color-prompt/blob/main/example.bashrc.sh"&gt;example.bashrc.sh&lt;/a&gt; looked like, I
+decided to give it a try.&lt;/p&gt;
+&lt;p&gt;It worked and its declarative approach at creating a custom Bash prompt was
+really easy to follow and tailor to my needs.&lt;/p&gt;
+&lt;p&gt;Currently, until the new version of &lt;a href="https://github.com/juhp/bash-color-prompt"&gt;Bash Color Prompt (bcp)&lt;/a&gt; is packaged in
+Fedora (and other distributions), a simple way to install it is to just grab the
+&lt;a href="https://github.com/juhp/bash-color-prompt/blob/main/bash-color-prompt.sh"&gt;bash-color-prompt.sh&lt;/a&gt; file directly from its GitHub repository and put it
+somewhere in your home directory.&lt;/p&gt;
+&lt;p&gt;Afterwards, just source and configure it in your &lt;code&gt;.bashrc&lt;/code&gt; file. Here is how
+I've done it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Use the new Bash Color Prompt (bcp) by Jens Petersen (Red Hat) to handle PS1.&lt;/span&gt;
+&lt;span class="c1"&gt;# NOTE: Temporarily, I&amp;#39;ve just copied the script from:&lt;/span&gt;
+&lt;span class="c1"&gt;# https://github.com/juhp/bash-color-prompt/blob/main/bash-color-prompt.sh&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/bash-color-prompt.sh&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/bash-color-prompt.sh
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="c1"&gt;# Configure bcp.&lt;/span&gt;
+bcp_layout&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;exit_code&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# hexagon&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;bcp_container
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# opening [&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;bcp_append&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;[&amp;quot;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# user@host or user@container(host)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;user_color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;green&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$EUID&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-eq&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;user_color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;red&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;machine&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\h&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;/run/.containerenv&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;container_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;-oP&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;(?&amp;lt;=name=&amp;quot;)[^&amp;quot;]+&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/run/.containerenv&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;machine&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$container_name&lt;/span&gt;&lt;span class="s2"&gt;(\h)&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;bcp_append&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\u@&lt;/span&gt;&lt;span class="nv"&gt;$machine&lt;/span&gt;&lt;span class="s2"&gt; &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$user_color&lt;/span&gt;&lt;span class="s2"&gt;;bold&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;bcp_title&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\u@&lt;/span&gt;&lt;span class="nv"&gt;$machine&lt;/span&gt;&lt;span class="s2"&gt;:\w&amp;quot;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# directory&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;bcp_append&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\w&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;blue&amp;quot;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# git status&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;bcp_git_branch&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;magenta&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# status indicator&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$exit_code&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-ne&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;bcp_append&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; ✘&lt;/span&gt;&lt;span class="nv"&gt;$exit_code&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;red;bold&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# actual prompt char&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;bcp_append&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;]\$ &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;default&amp;quot;&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# Initialize bcp.&lt;/span&gt;
+bcp_init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Shell"/><category term="bash"/><category term="colors"/><category term="fedora"/><category term="containers"/><category term="toolbox"/></entry><entry><title>Enabling updates-testing and epel-testing repositories when using Copr</title><link href="https://tadej.ja.nez.si/enabling-testing-repos-in-copr.html" rel="alternate"/><published>2017-11-26T22:13:00+01:00</published><updated>2017-11-26T22:13:00+01:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-11-26:/enabling-testing-repos-in-copr.html</id><summary type="html">
 
 &lt;p&gt;When creating a Copr project, one can specify which chroots, i.e. which
 distribution version and architecture combinations, to enable. Examples of
@@ -72,7 +191,7 @@ successfully continue. The same goes for a build in an &lt;abbr title="Extra Pac
 rawhide&lt;/a&gt;
 chroot, which don't have a corresponding &lt;code&gt;updates-testing&lt;/code&gt; repository.&lt;/p&gt;</content><category term="Fedora"/><category term="copr"/><category term="fedora"/><category term="epel"/></entry><entry><title>Running Fedora 26 on Dell XPS 15 9560</title><link href="https://tadej.ja.nez.si/fedora-26-on-dell-xps-15-9560.html" rel="alternate"/><published>2017-09-04T09:35:00+02:00</published><updated>2017-09-04T09:35:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2017-09-04:/fedora-26-on-dell-xps-15-9560.html</id><summary type="html">
 
-&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="https://en.wikipedia.org/wiki/Dell_XPS#XPS_15_(9560,_Early_2017)"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
 they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
 &lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
@@ -87,7 +206,7 @@ the use of &lt;em&gt;normal&lt;/em&gt; graphics drivers
 used Mesa's software rasterizer, which causes all sorts of issues.&lt;/em&gt;&lt;/p&gt;
 
 
-&lt;p&gt;Recently, I got a new laptop, a &lt;a href="http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop"&gt;Dell XPS 15 9560&lt;/a&gt; with
+&lt;p&gt;Recently, I got a new laptop, a &lt;a href="https://en.wikipedia.org/wiki/Dell_XPS#XPS_15_(9560,_Early_2017)"&gt;Dell XPS 15 9560&lt;/a&gt; with
 4k display, 32 GiBs of RAM and 1 TiB M.2 &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt; drive. Quite nice specs, aren't
 they &lt;img align="absmiddle" alt="😉" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f609.svg" title=":wink:" width="20px"&gt;?&lt;/p&gt;
 &lt;p&gt;Unfortunately, I wasn't able to purchase it without Windows pre-installed. But
@@ -98,7 +217,7 @@ of the setup.&lt;/p&gt;
 
 &lt;h2 id="configuring-uefi-to-work-with-fedora-26"&gt;Configuring &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt; to work with Fedora 26&lt;a class="headerlink" href="#configuring-uefi-to-work-with-fedora-26" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Before installing Fedora 26 on the system, it is necessary to modify some &lt;abbr title="Unified Extensible Firmware Interface"&gt;UEFI&lt;/abbr&gt;
-settings. &lt;a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#UEFI"&gt;They are nicely summed up in the ArchWiki page for this laptop&lt;/a&gt;:&lt;/p&gt;
+settings. &lt;a href="https://wiki.archlinux.org/title/Dell_XPS_15_(9560)"&gt;They are nicely summed up in the ArchWiki page for this laptop&lt;/a&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Change the &lt;em&gt;SATA Mode&lt;/em&gt; from the default &lt;em&gt;RAID&lt;/em&gt; to &lt;em&gt;AHCI&lt;/em&gt;. This will allow
   Linux to detect the &lt;abbr title="Non-volatile memory (NVM) Express"&gt;NVMe&lt;/abbr&gt; &lt;abbr title="Solid-state drive"&gt;SSD&lt;/abbr&gt;.&lt;/li&gt;
