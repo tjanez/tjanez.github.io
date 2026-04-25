@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tadej Janež - Tadej Janež</title><link>https://tadej.ja.nez.si/</link><description>Passionate about DevOps, Python and OSS</description><atom:link href="https://tadej.ja.nez.si/feeds/tadej-janez.rss.xml" rel="self"/><lastBuildDate>Fri, 24 Apr 2026 18:52:00 +0200</lastBuildDate><item><title>Modernize your Bash prompt colors</title><link>https://tadej.ja.nez.si/bash-prompt-coloring.html</link><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tadej Janež - Tadej Janež</title><link>https://tadej.ja.nez.si/</link><description>Passion for tech, security and privacy.&lt;br&gt;PhD in AI. Hacker by ♥.</description><atom:link href="https://tadej.ja.nez.si/feeds/tadej-janez.rss.xml" rel="self"/><lastBuildDate>Fri, 24 Apr 2026 18:52:00 +0200</lastBuildDate><item><title>Modernize your Bash prompt colors</title><link>https://tadej.ja.nez.si/bash-prompt-coloring.html</link><description>
 
 &lt;p&gt;Do you still use the default green-colored Bash prompt?&lt;/p&gt;
 &lt;p&gt;Then it's time to upgrade to a much improved shell &lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; using the
