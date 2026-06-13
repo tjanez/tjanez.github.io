@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="robots" content="" />
+      <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+            rel="stylesheet">
+      <link rel="stylesheet"
+            type="text/css"
+            href="https://tadej.ja.nez.si/theme/stylesheet/style.min.css">
+      <link id="dark-theme-style"
+            rel="stylesheet"
+            type="text/css"
+  media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"             href="https://tadej.ja.nez.si/theme/stylesheet/dark-theme.min.css">
+      <link id="pygments-dark-theme"
+            rel="stylesheet"
+            type="text/css"
+  media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"             href="https://tadej.ja.nez.si/theme/pygments/stata-dark.min.css">
+      <link id="pygments-light-theme"
+            rel="stylesheet"
+            type="text/css"
+  media="(prefers-color-scheme: light)"             href="https://tadej.ja.nez.si/theme/pygments/tango.min.css">
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://tadej.ja.nez.si/theme/font-awesome/css/fontawesome.css">
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://tadej.ja.nez.si/theme/font-awesome/css/brands.css">
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://tadej.ja.nez.si/theme/font-awesome/css/solid.css">
+      <link rel="stylesheet"
+            type="text/css"
+            href="https://tadej.ja.nez.si/static/custom.css">
+  <link href="https://tadej.ja.nez.si/feeds/all.atom.xml"
+        type="application/atom+xml"
+        rel="alternate"
+        title="Tadej Janež Atom">
+  <script async
+          src="https://www.googletagmanager.com/gtag/js?id=G-7EYHFGQKP1"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7EYHFGQKP1');
+  </script>
+  <meta name="author" content="Tadej Janež" />
+  <meta name="description" content="Confidential apps are great! But they are so complex to build and deploy... are they really? I will show you how to create your first confidential Go app running inside an Intel TDX VM with Oasis ROFL in a matter of minutes. Here is a sneak peek: Continue reading to find out more..." />
+  <meta name="keywords" content="tees, tdx, sgx, go, podman, docker, containers, oasis, rofl, cli">
+  <meta property="og:site_name" content="Tadej Janež" />
+  <meta property="og:title" content="Create your first confidential Go app running in TDX VM with Oasis ROFL" />
+  <meta property="og:description"
+        content="Confidential apps are great! But they are so complex to build and deploy... are they really? I will show you how to create your first confidential Go app running inside an Intel TDX VM with Oasis ROFL in a matter of minutes. Here is a sneak peek: Continue reading to find out more..." />
+  <meta property="og:locale"
+        content="en_US" />
+  <meta property="og:url" content="https://tadej.ja.nez.si/confidential-go-app-with-oasis-rofl.html" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-13 13:50:00+02:00" />
+  <meta property="article:modified_time" content="" />
+  <meta property="article:author"
+        content="https://tadej.ja.nez.si/author/tadej-janez.html">
+  <meta property="article:section" content="TEEs" />
+<meta property="article:tag" content="tees" /><meta property="article:tag" content="tdx" /><meta property="article:tag" content="sgx" /><meta property="article:tag" content="go" /><meta property="article:tag" content="podman" /><meta property="article:tag" content="docker" /><meta property="article:tag" content="containers" /><meta property="article:tag" content="oasis" /><meta property="article:tag" content="rofl" /><meta property="article:tag" content="cli" />    <meta property="og:image" content="/images/profile.png">
+    <title>Tadej Janež
+  &ndash; Create your first confidential Go app running in TDX VM with Oasis ROFL
+    </title>
+  </head>
+  <body >
+<aside>
+  <div>
+    <a href="https://tadej.ja.nez.si/">
+        <img src="/images/profile.png" alt="Tadej Janež" title="Tadej Janež">
+    </a>
+    <h1>
+      <a href="https://tadej.ja.nez.si/">Tadej Janež</a>
+    </h1>
+<p>Passion for tech, security and privacy.<br>PhD in AI. Hacker by ♥.</p>      <ul class="social">
+          <li>
+            <a class="sc-github"
+               href="https://github.com/tjanez"
+               target="_blank"
+               aria-label="github">
+              <i class="fa-brands fa-github"
+                 aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <a class="sc-linkedin"
+               href="https://www.linkedin.com/in/tadej-janez/"
+               target="_blank"
+               aria-label="linkedin">
+              <i class="fa-brands fa-linkedin"
+                 aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <a class="sc-x-twitter"
+               href="https://x.com/TadejJanez"
+               target="_blank"
+               aria-label="x-twitter">
+              <i class="fa-brands fa-x-twitter"
+                 aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <a class="sc-rss"
+               href="/feeds/all.atom.xml"
+               target="_blank"
+               aria-label="rss">
+              <i class="fa-solid fa-rss"
+                 aria-hidden="true"></i>
+            </a>
+          </li>
+      </ul>
+        <p class="theme-toggle">
+          <a href="javascript:void(0)"
+             id="theme-toggle"
+             onclick="cycleTheme()"
+             aria-label="Toggle colour theme"
+             title="Switch to dark theme">
+            <span id="theme-toggle-text">Auto</span><i class="fa-solid fa-circle-half-stroke"
+               id="theme-toggle-icon"
+               aria-hidden="true"></i>
+          </a>
+        </p>
+        <script>
+          function updateThemeToggle() {
+            var icon = document.getElementById('theme-toggle-icon');
+            var text = document.getElementById('theme-toggle-text');
+            var toggle = document.getElementById('theme-toggle');
+            if (!icon || !text || !toggle) return;
+            var override = localStorage.getItem('themeOverride');
+            if (override === 'dark') {
+              text.textContent = 'Dark';
+              icon.className = 'fa-solid fa-moon';
+              toggle.title = 'Current: dark theme. Click to switch to light.';
+            } else if (override === 'light') {
+              text.textContent = 'Light';
+              icon.className = 'fa-solid fa-sun';
+              toggle.title = 'Current: light theme. Click to switch to system default.';
+            } else {
+              text.textContent = 'Auto';
+              icon.className = 'fa-solid fa-circle-half-stroke';
+              toggle.title = 'Current: system default theme. Click to switch to dark.';
+            }
+          }
+          function cycleTheme() {
+            var override = localStorage.getItem('themeOverride');
+            if (override === 'dark') {
+              theme.switch('light');
+            } else if (override === 'light') {
+              theme.switch('browser');
+            } else {
+              theme.switch('dark');
+            }
+            updateThemeToggle();
+          }
+          document.addEventListener('DOMContentLoaded', updateThemeToggle);
+        </script>
+  </div>
+</aside>    <main>
+  <nav>
+    <a href="https://tadej.ja.nez.si/">Home</a>
+<a href="/archives.html">Archives</a><a href="/categories.html">Categories</a><a href="/tags.html">Tags</a><a href="https://tadej.ja.nez.si/feeds/all.atom.xml">Atom</a>  </nav>
+  <article class="single">
+    <header>
+        
+      <h1 id="confidential-go-app-with-oasis-rofl">Create your first confidential Go app running in TDX VM with Oasis ROFL</h1>
+      <p>
+        Posted on Sat 13 June 2026 in <a href="https://tadej.ja.nez.si/category/tees.html">TEEs</a>
+      </p>
+    </header>
+    <div class="entry-content">
+
+<p>Confidential apps are great! But they are so complex to build and deploy...
+are they really?</p>
+<p>I will show you how to create your first confidential Go app running inside
+an <a href="https://en.wikipedia.org/wiki/Trust_Domain_Extensions">Intel <abbr title="Trust Domain Extensions">TDX</abbr></a> VM with <a href="https://docs.oasis.io/build/rofl/">Oasis ROFL</a> in a matter of minutes.
+Here is a sneak peek:</p>
+<p><img alt="ROFL App running on Intel TDX" src="https://tadej.ja.nez.si/images/rofl-app-running-on-intel-tdx.png"></p>
+<p>Continue reading to find out more...</p>
+
+
+<h1 id="why-would-one-create-a-confidential-app">Why would one create a confidential app?<a class="headerlink" href="#why-would-one-create-a-confidential-app" title="Permanent link">&para;</a></h1>
+<p>Sooner or later, you will encounter a situation where you will have a high
+desire to run a program in a way that no one could peek into what is being
+computed (<strong>confidentiality</strong>) and prevent manipulation with the program's
+instructions (<strong>integrity</strong>).
+Examples are plenty, from signing transactions with private keys, to prompting
+AI models with sensitive data.</p>
+<p>But even when confidentiality and integrity are desirable, we are usually put
+off by the complexity that is involved with running a program in a way that
+preserves both. Are things really so hard?</p>
+<p>One option that is both easy to start with and offers the highest
+confidentiality and integrity guarantees is <a href="https://docs.oasis.io/build/rofl/">Oasis ROFL</a>.
+It utilizes <a href="https://en.wikipedia.org/wiki/Trusted_execution_environment"><abbr title="Trusted Execution Environment">TEE</abbr></a> technologies, namely <a href="https://en.wikipedia.org/wiki/Trust_Domain_Extensions">Intel <abbr title="Trust Domain Extensions">TDX</abbr></a> and <a href="https://en.wikipedia.org/wiki/Software_Guard_Extensions">Intel <abbr title="Software Guard Extensions">SGX</abbr></a>.
+It supports both <em>regular</em> single-binary apps as well as contemporary
+containerized apps.
+The latter are easier to <em>ROFLize</em>, so I'll go with this approach for this
+tutorial.</p>
+<h1 id="prerequisites-podmandocker-and-oasis-cli">Prerequisites: Podman/Docker and Oasis CLI<a class="headerlink" href="#prerequisites-podmandocker-and-oasis-cli" title="Permanent link">&para;</a></h1>
+<p>We will create a simple <a href="https://go.dev/">Go</a> app running in a <a href="https://podman.io/">Podman</a>/<a href="https://www.docker.com/">Docker</a> container.</p>
+<p>Either Podman or Docker should be easily installable onto your machine.
+Consult their installation guides (<a href="https://podman.io/docs/installation">Podman</a>,
+<a href="https://docs.docker.com/engine/install/">Docker</a>) for more details.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I will use Podman (<code>podman</code>) in the rest of the article.
+If you use Docker, just replace the <code>podman</code> command with <code>docker</code>.</p>
+</div>
+<p><a href="https://github.com/oasisprotocol/cli">Oasis CLI</a> can be installed using <a href="https://brew.sh/">Homebrew</a> on Linux and macOS
+(<code>brew install oasis</code>) or through
+<a href="https://github.com/oasisprotocol/cli/releases">official upstream binaries on GitHub</a>.
+Consult <a href="https://docs.oasis.io/build/tools/cli/setup/">Oasis CLI's Setup documentation</a> for more information.</p>
+<h1 id="create-simple-go-app">Create simple Go app<a class="headerlink" href="#create-simple-go-app" title="Permanent link">&para;</a></h1>
+<p>First we need to create a simple Go app that will run in a container.</p>
+<p>Start by creating a new directory:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>rofl-go-starter
+<span class="nb">cd</span><span class="w"> </span>rofl-go-starter
+</code></pre></div>
+
+<p>and adding the following files:</p>
+<ul>
+<li><code>go.mod</code>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nx">module</span><span class="w"> </span><span class="nx">rofl</span><span class="o">-</span><span class="k">go</span><span class="o">-</span><span class="nx">starter</span>
+
+<span class="k">go</span><span class="w"> </span><span class="mf">1.25</span>
+</code></pre></div>
+
+<ul>
+<li><code>main.go</code>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;log&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">SetFlags</span><span class="p">(</span><span class="nx">log</span><span class="p">.</span><span class="nx">LUTC</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">Ltime</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;rofl-go-starter: hello from TDX&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;rofl-go-starter: heartbeat&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>Containerfile</code>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">FROM</span><span class="w"> </span><span class="o">--</span><span class="n">platform</span><span class="o">=</span><span class="n">linux</span><span class="o">/</span><span class="n">amd64</span><span class="w"> </span><span class="n">golang</span><span class="p">:</span><span class="mf">1.26</span><span class="o">.</span><span class="mi">4</span><span class="o">-</span><span class="n">trixie</span><span class="w"> </span><span class="n">AS</span><span class="w"> </span><span class="n">build</span>
+<span class="c1"># Specify working directory to override base image&#39;s default of /go and ensure</span>
+<span class="c1"># reproducible builds.</span>
+<span class="n">WORKDIR</span><span class="w"> </span><span class="o">/</span><span class="n">src</span>
+<span class="n">COPY</span><span class="w"> </span><span class="n">go</span><span class="o">.</span><span class="n">mod</span><span class="w"> </span><span class="o">./</span>
+<span class="n">COPY</span><span class="w"> </span><span class="n">main</span><span class="o">.</span><span class="n">go</span><span class="w"> </span><span class="o">./</span>
+<span class="c1"># Build Go binary in a reproducible way:</span>
+<span class="c1"># CGO_ENABLED=0: produce pure-Go static binary with no dependency on host&#39;s</span>
+<span class="c1">#     C toolchain</span>
+<span class="c1"># -trimpath: strip absolute filesystem paths out of the binary</span>
+<span class="c1"># -buildvcs=false: prevent adding VCS data (e.g. git commit hash, dirty flag)</span>
+<span class="c1">#     to the binary</span>
+<span class="c1"># -ldflags=&quot;-buildid=&quot;: bland build ID</span>
+<span class="n">RUN</span><span class="w"> </span><span class="n">CGO_ENABLED</span><span class="o">=</span><span class="mi">0</span><span class="w"> </span>\
+<span class="w">    </span><span class="n">go</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="o">-</span><span class="n">trimpath</span><span class="w"> </span><span class="o">-</span><span class="n">buildvcs</span><span class="o">=</span><span class="bp">false</span><span class="w"> </span><span class="o">-</span><span class="n">ldflags</span><span class="o">=</span><span class="s2">&quot;-buildid=&quot;</span><span class="w"> </span><span class="o">-</span><span class="n">o</span><span class="w"> </span><span class="o">/</span><span class="n">rofl</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="n">starter</span><span class="w"> </span><span class="o">.</span>
+
+<span class="n">FROM</span><span class="w"> </span><span class="n">scratch</span>
+<span class="n">COPY</span><span class="w"> </span><span class="o">--</span><span class="n">from</span><span class="o">=</span><span class="n">build</span><span class="w"> </span><span class="o">/</span><span class="n">rofl</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="n">starter</span><span class="w"> </span><span class="o">/</span><span class="n">rofl</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="n">starter</span>
+<span class="n">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/rofl-go-starter&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Test building the container by running:</p>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>rofl-go-starter<span class="w"> </span>.
+</code></pre></div>
+
+<p>The output should print something similar at the end:</p>
+<div class="highlight"><pre><span></span><code>Successfully tagged localhost/rofl-go-starter:latest
+59d237508e6e8c201ca273e5c92c83de1290b1faea88283196a8eea3f5cdefa9
+</code></pre></div>
+
+<h1 id="publish-go-apps-container-to-a-public-registry">Publish Go app's container to a public registry<a class="headerlink" href="#publish-go-apps-container-to-a-public-registry" title="Permanent link">&para;</a></h1>
+<p>To be able to ensure an app's integrity, Oasis ROFL requires that apps are built
+in a reproducible way.</p>
+<p>We already took the necessary steps above to build the app's Go binary (and
+corresponding container image) in a reproducible way.</p>
+<p>The second thing is to make the app's container image available in a public
+registry.</p>
+<p>If you have a GitHub account, you can use the freely available
+<a href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry">GitHub Container Registry (<abbr title="GitHub Container Registry">GHCR</abbr>)</a>.</p>
+<p>Build the container image again with the appropriate tag of the form
+<code>ghcr.io/&lt;GITHUB-USER&gt;/rofl-go-starter:&lt;VERSION&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">GHUSER</span><span class="o">=</span>&lt;GITHUB-USER&gt;<span class="w"> </span><span class="c1"># replace with your GitHub user name</span>
+<span class="nv">VERSION</span><span class="o">=</span><span class="m">0</span>.1.0<span class="w"> </span><span class="c1"># or use your desired version number</span>
+podman<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>ghcr.io/<span class="nv">$GHUSER</span>/rofl-go-starter:<span class="nv">$VERSION</span><span class="w"> </span>.
+</code></pre></div>
+
+<p>If things completed successfully, you should see the same image tagged twice,
+for example:</p>
+<div class="highlight"><pre><span></span><code>Successfully tagged ghcr.io/tjanez/rofl-go-starter:0.1.0
+Successfully tagged localhost/rofl-go-starter:latest
+59d237508e6e8c201ca273e5c92c83de1290b1faea88283196a8eea3f5cdefa9
+</code></pre></div>
+
+<p>Browse to <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> and generate a "classic" <abbr title="Personal access token">PAT</abbr>
+by selecting the <em>write:packages</em> scope which gives it permission to upload
+packages to the <abbr title="GitHub Container Registry">GHCR</abbr> (the dependent <em>read:packages</em> and <em>repo</em> scopes will be
+automatically selected).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At the time of writing, the newer
+<a href="https://docs.github.com/en/packages/learn-github-packages/about-permissions-for-github-packages#about-scopes-and-permissions-for-package-registries">fine-grained tokens aren't supported with GitHub Packages yet</a>.</p>
+</div>
+<p>Then login to the <abbr title="GitHub Container Registry">GHCR</abbr> by running:</p>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>login<span class="w"> </span>ghcr.io<span class="w"> </span>-u<span class="w"> </span><span class="nv">$GHUSER</span>
+</code></pre></div>
+
+<p>and pasting your newly generated <abbr title="Personal access token">PAT</abbr> when asked for a password.</p>
+<p>Now you are ready to publish the <code>rofl-go-starter</code> container image to <abbr title="GitHub Container Registry">GHCR</abbr>:</p>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>push<span class="w"> </span>ghcr.io/<span class="nv">$GHUSER</span>/rofl-go-starter:<span class="nv">$VERSION</span>
+</code></pre></div>
+
+<p>One last thing is to make the <code>rofl-go-starter</code> container image on <abbr title="GitHub Container Registry">GHCR</abbr> publicly
+accessible (GitHub makes new packages private by default).</p>
+<p>Browse to <a href="https://github.com/users/GITHUB-USER/packages/container/rofl-go-starter/settings">https://github.com/users/GITHUB-USER/packages/container/rofl-go-starter/settings</a>
+(replacing <code>GITHUB-USER</code> with your GitHub user name) and click
+<em>Change visibility</em> under <em>Danger Zone</em>. Set it to <em>Public</em> and confirm by
+entering <code>rofl-go-starter</code> in the text field.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This only sets the <code>rofl-go-starter</code> container image to be public on <abbr title="GitHub Container Registry">GHCR</abbr>.
+The corresponding GitHub repository (if you created one) has separate
+visibility settings and can remain private.</p>
+</div>
+<h1 id="set-up-new-account-in-oasis-cli">Set up new account in Oasis CLI<a class="headerlink" href="#set-up-new-account-in-oasis-cli" title="Permanent link">&para;</a></h1>
+<p>We will create a new Ethereum-compatible key pair that will be the administrator
+account of the soon-to-be-created <code>rofl-go-starter</code> application we will register
+with Oasis ROFL.</p>
+<p>A simple way to create a new Ethereum-compatible key (i.e. a <a href="https://en.bitcoin.it/wiki/Secp256k1">Secp256k1</a> key
+using <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">BIP-44</a> for derivation) is with Oasis CLI's <code>oasis wallet create</code>
+subcommand:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>wallet<span class="w"> </span>create<span class="w"> </span>rofl_go_starter<span class="w"> </span>--kind<span class="w"> </span>file<span class="w"> </span>--file.algorithm<span class="w"> </span>secp256k1-bip44
+</code></pre></div>
+
+<p>You will need to choose a passphrase with which the private key is protected
+when stored in a file on your machine.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Feel free to use your preferred option to generate an Ethereum-compatible
+private key (e.g. MetaMask, Ledger hardware wallet).</p>
+<p>In this case, export the private key in hex form and import it to Oasis CLI
+with:</p>
+<p><code>oasis wallet import rofl_go_starter</code></p>
+<p>and choose <em>Kind</em> is <code>private key</code> and <em>Algorithm</em> is <code>secp256k1-raw</code>, and
+finally paste your hex-encoded private key followed by 2 empty lines.
+Choose a passphrase with which the imported private key will be protected
+and you are done.</p>
+</div>
+<p>Confirm your <code>rofl_go_starter</code> account is successfully set up by running:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>wallet<span class="w"> </span>list
+</code></pre></div>
+
+<p>The output should contain something similar to:</p>
+<div class="highlight"><pre><span></span><code>ACCOUNT               KIND                         ADDRESS
+rofl_go_starter (*)   file (secp256k1-bip44:0)     0x488347710509ff23C03C00fF66dA3aaeb566D61e
+</code></pre></div>
+
+<p>Lastly, you need to fund the account. For Testnet, use the
+<a href="https://faucet.testnet.oasis.io/">Oasis Testnet Faucet</a>. Choose <em>Sapphire</em> as the network and enter your account
+address (e.g. <code>0x488347710509ff23C03C00fF66dA3aaeb566D61e</code>).</p>
+<p>To confirm you've received TEST tokens, browse to
+<a href="https://explorer.oasis.io/testnet/sapphire">Oasis Explorer</a> and search for your address.</p>
+<h1 id="initialize-rofl-app-from-your-go-app-and-register-it-on-chain">Initialize ROFL app from your Go app and register it on-chain<a class="headerlink" href="#initialize-rofl-app-from-your-go-app-and-register-it-on-chain" title="Permanent link">&para;</a></h1>
+<p>Oasis ROFL uses <a href="https://compose-spec.github.io/compose-spec/03-compose-file.html">Compose file</a> to specify how the containerized app is to be run
+so let's create <code>compose.yml</code> file with the following contents:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">go_starter</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/tjanez/rofl-go-starter:0.1.0</span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux/amd64</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+</code></pre></div>
+
+<p>Replace <code>ghcr.io/tjanez/rofl-go-starter:0.1.0</code> with your container image name.</p>
+<p>Then run the following command to create the ROFL manifest (i.e. <code>rofl.yaml</code>)
+for your <code>rofl-go-starter</code> app:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>rofl<span class="w"> </span>init
+</code></pre></div>
+
+<p>This should output something like:</p>
+<div class="highlight"><pre><span></span><code>Creating a new app with default policy...
+Name:     rofl-go-starter
+Version:  0.1.0
+TEE:      tdx
+Kind:     container
+Created manifest in &#39;rofl.yaml&#39;.
+Run `oasis rofl create` to register your ROFL app and configure an app ID.
+</code></pre></div>
+
+<p>Proceed with registering the <code>rofl-go-starter</code> ROFL app on Sapphire Testnet by
+running:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>rofl<span class="w"> </span>create<span class="w"> </span>--network<span class="w"> </span>testnet<span class="w"> </span>--account<span class="w"> </span>rofl_go_starter
+</code></pre></div>
+
+<p>This will ask you to unlock your <code>rofl_go_starter</code> account in your Oasis CLI
+wallet and sign the <code>rofl.Create</code> transaction which registers the
+<code>rofl-go-starter</code> as a ROFL app on the Sapphire Testnet chain.</p>
+<p>If things were successful, you should see something like the following at the
+end of the output:</p>
+<div class="highlight"><pre><span></span><code>Transaction included in block successfully.
+Round:            17491274
+Transaction hash: 3441751d211553db8e6d7b18462ebf140056b446129fbde568dfe89409bcafb5
+Execution successful.
+Created ROFL app: rofl1qphpdgztdm6edd7fhaulpg47qghtcr7uzyfgua3w
+</code></pre></div>
+
+<p>The ROFL manifest should also be amended to include the new information under
+the <code>deployments</code> key and you should be able to find your newly created ROFL app
+on <a href="https://explorer.oasis.io/testnet/sapphire/rofl/app">Oasis Explorer</a>.</p>
+<h1 id="build-rofl-bundle-for-your-rofl-app-and-update-its-on-chain-registration">Build ROFL bundle for your ROFL app and update its on-chain registration<a class="headerlink" href="#build-rofl-bundle-for-your-rofl-app-and-update-its-on-chain-registration" title="Permanent link">&para;</a></h1>
+<p>The next step is to build the so-called ROFL bundle for the <code>rofl-go-starter</code>
+ROFL app:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>rofl<span class="w"> </span>build
+</code></pre></div>
+
+<p>This should produce the Testnet deployment ROFL bundle named
+<code>rofl-go-starter.testnet.orc</code> and add the computed enclave identities to the
+ROFL manifest file under the <code>deployments.testnet.policy.enclaves</code> key, e.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">deployments</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">testnet</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># trimmed</span>
+<span class="w">    </span><span class="nt">policy</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># trimmed</span>
+<span class="w">      </span><span class="nt">enclaves</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPuQAQVS2DkLJC70l521aBVJTcfz70zhLXqVWqRSlHsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FmXtUEqGqWmPBrId7zCwG1PUbXoT69TpJTTBru+iDrAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</span>
+<span class="c1"># trimmed</span>
+</code></pre></div>
+
+<p>The first is for the base firmware/runtime and the second is for the
+<code>rofl-go-starter</code> app.</p>
+<p>Afterwards, we need to update the <code>rofl-go-starter</code> ROFL app's on-chain
+registration with these two locally computed enclave identities.
+This will ensure Oasis ROFL only accepts attestations matching those identities.</p>
+<p>Update on-chain registration by running:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>rofl<span class="w"> </span>update
+</code></pre></div>
+
+<p>This will ask you to unlock the <code>rofl_go_starter</code> account in Oasis CLI wallet
+and sign the <code>rofl.Update</code> transaction which re-registers <code>rofl-go-starter</code>
+ROFL app with these two newly added enclave identities.</p>
+<p>If things went OK, you should see something like the following at the end of
+output:</p>
+<div class="highlight"><pre><span></span><code>Transaction included in block successfully.
+Round:            17491666
+Transaction hash: ac430190eec61a2b6f919965b8d33b20c051d5abb76b3882db4f3ce95b28696d
+Execution successful.
+</code></pre></div>
+
+<h1 id="deploy-your-rofl-app">Deploy your ROFL app<a class="headerlink" href="#deploy-your-rofl-app" title="Permanent link">&para;</a></h1>
+<p>We are now at the exciting step when we'll actually deploy and run the simple
+Go app in a way that ensures both <em>confidentiality</em> and <em>integrity</em>.</p>
+<p>Oasis Protocol Foundation kindly provides a free ROFL provider for the Testnet,
+so we can use it to deploy our app there.</p>
+<p>Let's create a deployment with the <code>playground_short</code> offer and a 2-hour term:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>rofl<span class="w"> </span>deploy<span class="w"> </span>--offer<span class="w"> </span>playground_short<span class="w"> </span>--term<span class="w"> </span>hour<span class="w"> </span>--term-count<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+
+<p>This will ask you to unlock the <code>rofl_go_starter</code> account in Oasis CLI wallet
+and proceed with pushing the locally built ROFL bundle to the Oasis ROFL OCI
+image registry hosted at <a href="https://rofl.sh">rofl.sh</a>.</p>
+<p>Next, it will ask you to sign the <code>roflmarket.InstanceCreate</code> transaction that
+will create a machine with the appropriate configuration.</p>
+<p>If things were successful, you should see something like the following at the
+end of your output:</p>
+<div class="highlight"><pre><span></span><code>Transaction included in block successfully.
+Round:            17492125
+Transaction hash: 867adeaa241d3dfc1e3a987867b5a001b8de7113b74799d8fb2b0694d09fd26d
+Execution successful.
+Created machine: 000000000000062b
+Deployment into machine scheduled.
+This machine expires on 2026-06-13 14:33:37 +0200 CEST. Use `oasis rofl machine top-up` to extend it.
+</code></pre></div>
+
+<p>The ROFL manifest should be amended with two new keys:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">deployments</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">testnet</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># trimmed</span>
+<span class="w">    </span><span class="nt">oci_repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rofl.sh/67ce5956-2253-4a7d-a036-816e48279277:1781344823</span>
+<span class="w">    </span><span class="c1"># trimmed</span>
+<span class="w">    </span><span class="nt">machines</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oasis1qp2ens0hsp7gh23wajxa4hpetkdek3swyyulyrmz</span>
+<span class="w">        </span><span class="nt">offer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">playground_short</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">000000000000062b</span>
+</code></pre></div>
+
+<p>The <code>oci_repository</code> key refers to the location of the ROFL bundle in the Oasis
+ROFL OCI image registry and the <code>machines</code> key contains info where the ROFL app
+is deployed.</p>
+<p>Running <code>oasis rofl machine show</code> should output something similar to:</p>
+<div class="highlight"><pre><span></span><code>Downloading compose.yaml artifact...
+  URI: compose.yaml
+Name:       default
+Provider:   rofl:provider:sapphire (oasis1qp2ens0hsp7gh23wajxa4hpetkdek3swyyulyrmz)
+ID:         000000000000062b
+Offer:      0000000000000003
+Status:     accepted
+Creator:    rofl_go_starter (0x488347710509ff23C03C00fF66dA3aaeb566D61e)
+Admin:      rofl_go_starter (0x488347710509ff23C03C00fF66dA3aaeb566D61e)
+Node ID:    1owPK3eT21k0ajRG7VfHRgp4JPXobCQtzuglz6ZSJis=
+Created at: 2026-06-13 12:33:37 +0200 CEST
+Updated at: 2026-06-13 12:34:05 +0200 CEST
+Paid until: 2026-06-13 14:33:37 +0200 CEST
+Proxy:
+  Domain: m1579.opf-testnet-rofl-25.rofl.app
+Metadata:
+  net.oasis.scheduler.rak: 1RxzmNRnInoox3mMv9JYjNgvxapajeGEToAiZLz9Kfk=
+Resources:
+  TEE:     Intel TDX
+  Memory:  4096 MiB
+  vCPUs:   2
+  Storage: 20000 MiB
+Deployment:
+  App ID: rofl1qphpdgztdm6edd7fhaulpg47qghtcr7uzyfgua3w
+  Metadata:
+    net.oasis.deployment.orc.ref: rofl.sh/67ce5956-2253-4a7d-a036-816e48279277:1781344823@sha256:d8b4d6cddf8aaa434509d4165c961cf415dfaaa067572d15081fb78a2174807b
+Commands:
+  &lt;no queued commands&gt;
+</code></pre></div>
+
+<p>Finally, confirm your Go app is running inside the <abbr title="Trust Domain Extensions">TDX</abbr> virtual machine (VM) by
+inspecting its logs:</p>
+<div class="highlight"><pre><span></span><code>oasis<span class="w"> </span>rofl<span class="w"> </span>machine<span class="w"> </span>logs
+</code></pre></div>
+
+<p>This will ask you to unlock the <code>rofl_go_starter</code> account in Oasis CLI wallet
+and proceed with outputting machine logs to your terminal.</p>
+<p>Scroll to the end and if you see something similar to:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;warn&quot;</span><span class="p">,</span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;runtime&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;containers_go_starter_1&quot;</span><span class="p">,</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-13T10:34:56.686098709Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;runtime/post_registration_init&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;everything is up and running&quot;</span><span class="p">,</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-13T10:34:55.259270357Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;warn&quot;</span><span class="p">,</span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;runtime&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;2026/06/13 10:34:55 rofl-go-starter: hello from TDX&quot;</span><span class="p">,</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-13T10:34:56.935886469Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;runtime/modules/rofl/app/registration&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;refreshed registration&quot;</span><span class="p">,</span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="s2">&quot;Simple(NullValue)&quot;</span><span class="p">,</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-13T10:35:01.339313629Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;warn&quot;</span><span class="p">,</span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;runtime&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;2026/06/13 10:35:05 rofl-go-starter: heartbeat&quot;</span><span class="p">,</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-13T10:35:06.7329312Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;warn&quot;</span><span class="p">,</span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;runtime&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;2026/06/13 10:35:15 rofl-go-starter: heartbeat&quot;</span><span class="p">,</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-13T10:35:16.771830645Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;warn&quot;</span><span class="p">,</span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;runtime&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;2026/06/13 10:35:25 rofl-go-starter: heartbeat&quot;</span><span class="p">,</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-13T10:35:26.813976014Z&quot;</span><span class="p">}</span>
+</code></pre></div>
+
+<p>you have just successfully created your first confidential Go app running in
+<abbr title="Trust Domain Extensions">TDX</abbr> VM with Oasis ROFL 🎉🎉🎉!</p>
+<h1 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h1>
+<p>Ok, I admit it, it is still not very easy to deploy an app in a <abbr title="Trusted Execution Environment">TEE</abbr>, but I hope
+this article has shown it is also not immensely difficult anymore.</p>
+<p>To make it easier to get started, all the code snippets used in this article
+are available in the <a href="https://github.com/tjanez/rofl-go-starter">ROFL Go Starter GitHub repo</a>.</p>
+<p>To continue exploring Oasis ROFL and what it can offer, check out
+<a href="https://docs.oasis.io/build/rofl/">its documentation</a>.</p></div>
+    <div class="tag-cloud">
+      <p>
+<a href="https://tadej.ja.nez.si/tag/tees.html">tees</a><a href="https://tadej.ja.nez.si/tag/tdx.html">tdx</a><a href="https://tadej.ja.nez.si/tag/sgx.html">sgx</a><a href="https://tadej.ja.nez.si/tag/go.html">go</a><a href="https://tadej.ja.nez.si/tag/podman.html">podman</a><a href="https://tadej.ja.nez.si/tag/docker.html">docker</a><a href="https://tadej.ja.nez.si/tag/containers.html">containers</a><a href="https://tadej.ja.nez.si/tag/oasis.html">oasis</a><a href="https://tadej.ja.nez.si/tag/rofl.html">rofl</a><a href="https://tadej.ja.nez.si/tag/cli.html">cli</a>      </p>
+    </div>
+  <!-- Disqus -->
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = 'tadejjanez';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>
+    Please enable JavaScript to view comments.
+  </noscript>
+  <!-- End Disqus -->
+  </article>
+<footer>
+<p>
+  &copy; 2016-2026 Tadej Janež - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US" target="_blank">Creative Commons Attribution-ShareAlike</a>
+</p><p>
+  Built with <a href="https://getpelican.com" target="_blank">Pelican</a> using <a href="https://github.com/haplo/pelican-theme-reflex" target="_blank">Reflex</a> theme
+  <span class="footer-separator">|</span>
+  <a href="https://github.com/tjanez/site" target="_blank">Source on GitHub</a>
+    <script id="dark-theme-script"
+            src="https://tadej.ja.nez.si/theme/dark-theme/dark-theme.min.js"
+            data-enable-auto-detect-theme="True"
+            data-default-theme="dark"
+            type="text/javascript">
+    </script>
+</p>  <p>
+  </p>
+</footer>    </main>
+<script type="application/ld+json">
+{
+  "@context" : "https://schema.org",
+  "@type" : "Blog",
+  "name": " Tadej Janež ",
+  "url" : "https://tadej.ja.nez.si",
+  "image": "/images/profile.png",
+  "description": ""
+}
+</script>  </body>
+</html>

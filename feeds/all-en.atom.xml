@@ -1,5 +1,400 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="https://tadej.ja.nez.si/" rel="alternate"/><link href="https://tadej.ja.nez.si/feeds/all-en.atom.xml" rel="self"/><id>https://tadej.ja.nez.si/</id><updated>2026-04-24T18:52:00+02:00</updated><subtitle>Passion for tech, security and privacy.&lt;br&gt;PhD in AI. Hacker by ♥.</subtitle><entry><title>Modernize your Bash prompt colors</title><link href="https://tadej.ja.nez.si/bash-prompt-coloring.html" rel="alternate"/><published>2026-04-24T18:52:00+02:00</published><updated>2026-04-24T18:52:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2026-04-24:/bash-prompt-coloring.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tadej Janež</title><link href="https://tadej.ja.nez.si/" rel="alternate"/><link href="https://tadej.ja.nez.si/feeds/all-en.atom.xml" rel="self"/><id>https://tadej.ja.nez.si/</id><updated>2026-06-13T13:50:00+02:00</updated><subtitle>Passion for tech, security and privacy.&lt;br&gt;PhD in AI. Hacker by ♥.</subtitle><entry><title>Create your first confidential Go app running in TDX VM with Oasis ROFL</title><link href="https://tadej.ja.nez.si/confidential-go-app-with-oasis-rofl.html" rel="alternate"/><published>2026-06-13T13:50:00+02:00</published><updated>2026-06-13T13:50:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2026-06-13:/confidential-go-app-with-oasis-rofl.html</id><summary type="html">
+
+&lt;p&gt;Confidential apps are great! But they are so complex to build and deploy...
+are they really?&lt;/p&gt;
+&lt;p&gt;I will show you how to create your first confidential Go app running inside
+an &lt;a href="https://en.wikipedia.org/wiki/Trust_Domain_Extensions"&gt;Intel &lt;abbr title="Trust Domain Extensions"&gt;TDX&lt;/abbr&gt;&lt;/a&gt; VM with &lt;a href="https://docs.oasis.io/build/rofl/"&gt;Oasis ROFL&lt;/a&gt; in a matter of minutes.
+Here is a sneak peek:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ROFL App running on Intel TDX" src="https://tadej.ja.nez.si/images/rofl-app-running-on-intel-tdx.png"&gt;&lt;/p&gt;
+&lt;p&gt;Continue reading to find out more...&lt;/p&gt;
+</summary><content type="html">
+
+&lt;p&gt;Confidential apps are great! But they are so complex to build and deploy...
+are they really?&lt;/p&gt;
+&lt;p&gt;I will show you how to create your first confidential Go app running inside
+an &lt;a href="https://en.wikipedia.org/wiki/Trust_Domain_Extensions"&gt;Intel &lt;abbr title="Trust Domain Extensions"&gt;TDX&lt;/abbr&gt;&lt;/a&gt; VM with &lt;a href="https://docs.oasis.io/build/rofl/"&gt;Oasis ROFL&lt;/a&gt; in a matter of minutes.
+Here is a sneak peek:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ROFL App running on Intel TDX" src="https://tadej.ja.nez.si/images/rofl-app-running-on-intel-tdx.png"&gt;&lt;/p&gt;
+&lt;p&gt;Continue reading to find out more...&lt;/p&gt;
+
+
+&lt;h1 id="why-would-one-create-a-confidential-app"&gt;Why would one create a confidential app?&lt;a class="headerlink" href="#why-would-one-create-a-confidential-app" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Sooner or later, you will encounter a situation where you will have a high
+desire to run a program in a way that no one could peek into what is being
+computed (&lt;strong&gt;confidentiality&lt;/strong&gt;) and prevent manipulation with the program's
+instructions (&lt;strong&gt;integrity&lt;/strong&gt;).
+Examples are plenty, from signing transactions with private keys, to prompting
+AI models with sensitive data.&lt;/p&gt;
+&lt;p&gt;But even when confidentiality and integrity are desirable, we are usually put
+off by the complexity that is involved with running a program in a way that
+preserves both. Are things really so hard?&lt;/p&gt;
+&lt;p&gt;One option that is both easy to start with and offers the highest
+confidentiality and integrity guarantees is &lt;a href="https://docs.oasis.io/build/rofl/"&gt;Oasis ROFL&lt;/a&gt;.
+It utilizes &lt;a href="https://en.wikipedia.org/wiki/Trusted_execution_environment"&gt;&lt;abbr title="Trusted Execution Environment"&gt;TEE&lt;/abbr&gt;&lt;/a&gt; technologies, namely &lt;a href="https://en.wikipedia.org/wiki/Trust_Domain_Extensions"&gt;Intel &lt;abbr title="Trust Domain Extensions"&gt;TDX&lt;/abbr&gt;&lt;/a&gt; and &lt;a href="https://en.wikipedia.org/wiki/Software_Guard_Extensions"&gt;Intel &lt;abbr title="Software Guard Extensions"&gt;SGX&lt;/abbr&gt;&lt;/a&gt;.
+It supports both &lt;em&gt;regular&lt;/em&gt; single-binary apps as well as contemporary
+containerized apps.
+The latter are easier to &lt;em&gt;ROFLize&lt;/em&gt;, so I'll go with this approach for this
+tutorial.&lt;/p&gt;
+&lt;h1 id="prerequisites-podmandocker-and-oasis-cli"&gt;Prerequisites: Podman/Docker and Oasis CLI&lt;a class="headerlink" href="#prerequisites-podmandocker-and-oasis-cli" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;We will create a simple &lt;a href="https://go.dev/"&gt;Go&lt;/a&gt; app running in a &lt;a href="https://podman.io/"&gt;Podman&lt;/a&gt;/&lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt; container.&lt;/p&gt;
+&lt;p&gt;Either Podman or Docker should be easily installable onto your machine.
+Consult their installation guides (&lt;a href="https://podman.io/docs/installation"&gt;Podman&lt;/a&gt;,
+&lt;a href="https://docs.docker.com/engine/install/"&gt;Docker&lt;/a&gt;) for more details.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;I will use Podman (&lt;code&gt;podman&lt;/code&gt;) in the rest of the article.
+If you use Docker, just replace the &lt;code&gt;podman&lt;/code&gt; command with &lt;code&gt;docker&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a href="https://github.com/oasisprotocol/cli"&gt;Oasis CLI&lt;/a&gt; can be installed using &lt;a href="https://brew.sh/"&gt;Homebrew&lt;/a&gt; on Linux and macOS
+(&lt;code&gt;brew install oasis&lt;/code&gt;) or through
+&lt;a href="https://github.com/oasisprotocol/cli/releases"&gt;official upstream binaries on GitHub&lt;/a&gt;.
+Consult &lt;a href="https://docs.oasis.io/build/tools/cli/setup/"&gt;Oasis CLI's Setup documentation&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;h1 id="create-simple-go-app"&gt;Create simple Go app&lt;a class="headerlink" href="#create-simple-go-app" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;First we need to create a simple Go app that will run in a container.&lt;/p&gt;
+&lt;p&gt;Start by creating a new directory:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;rofl-go-starter
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;rofl-go-starter
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and adding the following files:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;go.mod&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nx"&gt;module&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;rofl&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;go&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;starter&lt;/span&gt;
+
+&lt;span class="k"&gt;go&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1.25&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;main.go&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;package&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;main&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;log&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;time&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;SetFlags&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;LUTC&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Ldate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Ltime&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rofl-go-starter: hello from TDX&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Second&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rofl-go-starter: heartbeat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Containerfile&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;FROM&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;platform&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;amd64&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;golang&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;1.26&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;trixie&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;AS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;
+&lt;span class="c1"&gt;# Specify working directory to override base image&amp;#39;s default of /go and ensure&lt;/span&gt;
+&lt;span class="c1"&gt;# reproducible builds.&lt;/span&gt;
+&lt;span class="n"&gt;WORKDIR&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;
+&lt;span class="n"&gt;COPY&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;./&lt;/span&gt;
+&lt;span class="n"&gt;COPY&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;./&lt;/span&gt;
+&lt;span class="c1"&gt;# Build Go binary in a reproducible way:&lt;/span&gt;
+&lt;span class="c1"&gt;# CGO_ENABLED=0: produce pure-Go static binary with no dependency on host&amp;#39;s&lt;/span&gt;
+&lt;span class="c1"&gt;#     C toolchain&lt;/span&gt;
+&lt;span class="c1"&gt;# -trimpath: strip absolute filesystem paths out of the binary&lt;/span&gt;
+&lt;span class="c1"&gt;# -buildvcs=false: prevent adding VCS data (e.g. git commit hash, dirty flag)&lt;/span&gt;
+&lt;span class="c1"&gt;#     to the binary&lt;/span&gt;
+&lt;span class="c1"&gt;# -ldflags=&amp;quot;-buildid=&amp;quot;: bland build ID&lt;/span&gt;
+&lt;span class="n"&gt;RUN&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;CGO_ENABLED&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;\
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;trimpath&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;buildvcs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;false&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ldflags&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-buildid=&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rofl&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;starter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+
+&lt;span class="n"&gt;FROM&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scratch&lt;/span&gt;
+&lt;span class="n"&gt;COPY&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;from&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rofl&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;starter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rofl&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;starter&lt;/span&gt;
+&lt;span class="n"&gt;ENTRYPOINT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/rofl-go-starter&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Test building the container by running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;podman&lt;span class="w"&gt; &lt;/span&gt;build&lt;span class="w"&gt; &lt;/span&gt;-t&lt;span class="w"&gt; &lt;/span&gt;rofl-go-starter&lt;span class="w"&gt; &lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The output should print something similar at the end:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Successfully tagged localhost/rofl-go-starter:latest
+59d237508e6e8c201ca273e5c92c83de1290b1faea88283196a8eea3f5cdefa9
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1 id="publish-go-apps-container-to-a-public-registry"&gt;Publish Go app's container to a public registry&lt;a class="headerlink" href="#publish-go-apps-container-to-a-public-registry" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;To be able to ensure an app's integrity, Oasis ROFL requires that apps are built
+in a reproducible way.&lt;/p&gt;
+&lt;p&gt;We already took the necessary steps above to build the app's Go binary (and
+corresponding container image) in a reproducible way.&lt;/p&gt;
+&lt;p&gt;The second thing is to make the app's container image available in a public
+registry.&lt;/p&gt;
+&lt;p&gt;If you have a GitHub account, you can use the freely available
+&lt;a href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry"&gt;GitHub Container Registry (&lt;abbr title="GitHub Container Registry"&gt;GHCR&lt;/abbr&gt;)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Build the container image again with the appropriate tag of the form
+&lt;code&gt;ghcr.io/&amp;lt;GITHUB-USER&amp;gt;/rofl-go-starter:&amp;lt;VERSION&amp;gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;GHUSER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;GITHUB-USER&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# replace with your GitHub user name&lt;/span&gt;
+&lt;span class="nv"&gt;VERSION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.1.0&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# or use your desired version number&lt;/span&gt;
+podman&lt;span class="w"&gt; &lt;/span&gt;build&lt;span class="w"&gt; &lt;/span&gt;-t&lt;span class="w"&gt; &lt;/span&gt;ghcr.io/&lt;span class="nv"&gt;$GHUSER&lt;/span&gt;/rofl-go-starter:&lt;span class="nv"&gt;$VERSION&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If things completed successfully, you should see the same image tagged twice,
+for example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Successfully tagged ghcr.io/tjanez/rofl-go-starter:0.1.0
+Successfully tagged localhost/rofl-go-starter:latest
+59d237508e6e8c201ca273e5c92c83de1290b1faea88283196a8eea3f5cdefa9
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Browse to &lt;a href="https://github.com/settings/tokens"&gt;https://github.com/settings/tokens&lt;/a&gt; and generate a "classic" &lt;abbr title="Personal access token"&gt;PAT&lt;/abbr&gt;
+by selecting the &lt;em&gt;write:packages&lt;/em&gt; scope which gives it permission to upload
+packages to the &lt;abbr title="GitHub Container Registry"&gt;GHCR&lt;/abbr&gt; (the dependent &lt;em&gt;read:packages&lt;/em&gt; and &lt;em&gt;repo&lt;/em&gt; scopes will be
+automatically selected).&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;At the time of writing, the newer
+&lt;a href="https://docs.github.com/en/packages/learn-github-packages/about-permissions-for-github-packages#about-scopes-and-permissions-for-package-registries"&gt;fine-grained tokens aren't supported with GitHub Packages yet&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Then login to the &lt;abbr title="GitHub Container Registry"&gt;GHCR&lt;/abbr&gt; by running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;podman&lt;span class="w"&gt; &lt;/span&gt;login&lt;span class="w"&gt; &lt;/span&gt;ghcr.io&lt;span class="w"&gt; &lt;/span&gt;-u&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$GHUSER&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and pasting your newly generated &lt;abbr title="Personal access token"&gt;PAT&lt;/abbr&gt; when asked for a password.&lt;/p&gt;
+&lt;p&gt;Now you are ready to publish the &lt;code&gt;rofl-go-starter&lt;/code&gt; container image to &lt;abbr title="GitHub Container Registry"&gt;GHCR&lt;/abbr&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;podman&lt;span class="w"&gt; &lt;/span&gt;push&lt;span class="w"&gt; &lt;/span&gt;ghcr.io/&lt;span class="nv"&gt;$GHUSER&lt;/span&gt;/rofl-go-starter:&lt;span class="nv"&gt;$VERSION&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;One last thing is to make the &lt;code&gt;rofl-go-starter&lt;/code&gt; container image on &lt;abbr title="GitHub Container Registry"&gt;GHCR&lt;/abbr&gt; publicly
+accessible (GitHub makes new packages private by default).&lt;/p&gt;
+&lt;p&gt;Browse to &lt;a href="https://github.com/users/GITHUB-USER/packages/container/rofl-go-starter/settings"&gt;https://github.com/users/GITHUB-USER/packages/container/rofl-go-starter/settings&lt;/a&gt;
+(replacing &lt;code&gt;GITHUB-USER&lt;/code&gt; with your GitHub user name) and click
+&lt;em&gt;Change visibility&lt;/em&gt; under &lt;em&gt;Danger Zone&lt;/em&gt;. Set it to &lt;em&gt;Public&lt;/em&gt; and confirm by
+entering &lt;code&gt;rofl-go-starter&lt;/code&gt; in the text field.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;This only sets the &lt;code&gt;rofl-go-starter&lt;/code&gt; container image to be public on &lt;abbr title="GitHub Container Registry"&gt;GHCR&lt;/abbr&gt;.
+The corresponding GitHub repository (if you created one) has separate
+visibility settings and can remain private.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h1 id="set-up-new-account-in-oasis-cli"&gt;Set up new account in Oasis CLI&lt;a class="headerlink" href="#set-up-new-account-in-oasis-cli" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;We will create a new Ethereum-compatible key pair that will be the administrator
+account of the soon-to-be-created &lt;code&gt;rofl-go-starter&lt;/code&gt; application we will register
+with Oasis ROFL.&lt;/p&gt;
+&lt;p&gt;A simple way to create a new Ethereum-compatible key (i.e. a &lt;a href="https://en.bitcoin.it/wiki/Secp256k1"&gt;Secp256k1&lt;/a&gt; key
+using &lt;a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki"&gt;BIP-44&lt;/a&gt; for derivation) is with Oasis CLI's &lt;code&gt;oasis wallet create&lt;/code&gt;
+subcommand:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;wallet&lt;span class="w"&gt; &lt;/span&gt;create&lt;span class="w"&gt; &lt;/span&gt;rofl_go_starter&lt;span class="w"&gt; &lt;/span&gt;--kind&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span&gt;--file.algorithm&lt;span class="w"&gt; &lt;/span&gt;secp256k1-bip44
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You will need to choose a passphrase with which the private key is protected
+when stored in a file on your machine.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Feel free to use your preferred option to generate an Ethereum-compatible
+private key (e.g. MetaMask, Ledger hardware wallet).&lt;/p&gt;
+&lt;p&gt;In this case, export the private key in hex form and import it to Oasis CLI
+with:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;oasis wallet import rofl_go_starter&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;and choose &lt;em&gt;Kind&lt;/em&gt; is &lt;code&gt;private key&lt;/code&gt; and &lt;em&gt;Algorithm&lt;/em&gt; is &lt;code&gt;secp256k1-raw&lt;/code&gt;, and
+finally paste your hex-encoded private key followed by 2 empty lines.
+Choose a passphrase with which the imported private key will be protected
+and you are done.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Confirm your &lt;code&gt;rofl_go_starter&lt;/code&gt; account is successfully set up by running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;wallet&lt;span class="w"&gt; &lt;/span&gt;list
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The output should contain something similar to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ACCOUNT               KIND                         ADDRESS
+rofl_go_starter (*)   file (secp256k1-bip44:0)     0x488347710509ff23C03C00fF66dA3aaeb566D61e
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Lastly, you need to fund the account. For Testnet, use the
+&lt;a href="https://faucet.testnet.oasis.io/"&gt;Oasis Testnet Faucet&lt;/a&gt;. Choose &lt;em&gt;Sapphire&lt;/em&gt; as the network and enter your account
+address (e.g. &lt;code&gt;0x488347710509ff23C03C00fF66dA3aaeb566D61e&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;To confirm you've received TEST tokens, browse to
+&lt;a href="https://explorer.oasis.io/testnet/sapphire"&gt;Oasis Explorer&lt;/a&gt; and search for your address.&lt;/p&gt;
+&lt;h1 id="initialize-rofl-app-from-your-go-app-and-register-it-on-chain"&gt;Initialize ROFL app from your Go app and register it on-chain&lt;a class="headerlink" href="#initialize-rofl-app-from-your-go-app-and-register-it-on-chain" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Oasis ROFL uses &lt;a href="https://compose-spec.github.io/compose-spec/03-compose-file.html"&gt;Compose file&lt;/a&gt; to specify how the containerized app is to be run
+so let's create &lt;code&gt;compose.yml&lt;/code&gt; file with the following contents:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;go_starter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;build&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;.&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;ghcr.io/tjanez/rofl-go-starter:0.1.0&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;platform&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;linux/amd64&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;restart&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;unless-stopped&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Replace &lt;code&gt;ghcr.io/tjanez/rofl-go-starter:0.1.0&lt;/code&gt; with your container image name.&lt;/p&gt;
+&lt;p&gt;Then run the following command to create the ROFL manifest (i.e. &lt;code&gt;rofl.yaml&lt;/code&gt;)
+for your &lt;code&gt;rofl-go-starter&lt;/code&gt; app:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;rofl&lt;span class="w"&gt; &lt;/span&gt;init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This should output something like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Creating a new app with default policy...
+Name:     rofl-go-starter
+Version:  0.1.0
+TEE:      tdx
+Kind:     container
+Created manifest in &amp;#39;rofl.yaml&amp;#39;.
+Run `oasis rofl create` to register your ROFL app and configure an app ID.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Proceed with registering the &lt;code&gt;rofl-go-starter&lt;/code&gt; ROFL app on Sapphire Testnet by
+running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;rofl&lt;span class="w"&gt; &lt;/span&gt;create&lt;span class="w"&gt; &lt;/span&gt;--network&lt;span class="w"&gt; &lt;/span&gt;testnet&lt;span class="w"&gt; &lt;/span&gt;--account&lt;span class="w"&gt; &lt;/span&gt;rofl_go_starter
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will ask you to unlock your &lt;code&gt;rofl_go_starter&lt;/code&gt; account in your Oasis CLI
+wallet and sign the &lt;code&gt;rofl.Create&lt;/code&gt; transaction which registers the
+&lt;code&gt;rofl-go-starter&lt;/code&gt; as a ROFL app on the Sapphire Testnet chain.&lt;/p&gt;
+&lt;p&gt;If things were successful, you should see something like the following at the
+end of the output:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Transaction included in block successfully.
+Round:            17491274
+Transaction hash: 3441751d211553db8e6d7b18462ebf140056b446129fbde568dfe89409bcafb5
+Execution successful.
+Created ROFL app: rofl1qphpdgztdm6edd7fhaulpg47qghtcr7uzyfgua3w
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The ROFL manifest should also be amended to include the new information under
+the &lt;code&gt;deployments&lt;/code&gt; key and you should be able to find your newly created ROFL app
+on &lt;a href="https://explorer.oasis.io/testnet/sapphire/rofl/app"&gt;Oasis Explorer&lt;/a&gt;.&lt;/p&gt;
+&lt;h1 id="build-rofl-bundle-for-your-rofl-app-and-update-its-on-chain-registration"&gt;Build ROFL bundle for your ROFL app and update its on-chain registration&lt;a class="headerlink" href="#build-rofl-bundle-for-your-rofl-app-and-update-its-on-chain-registration" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;The next step is to build the so-called ROFL bundle for the &lt;code&gt;rofl-go-starter&lt;/code&gt;
+ROFL app:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;rofl&lt;span class="w"&gt; &lt;/span&gt;build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This should produce the Testnet deployment ROFL bundle named
+&lt;code&gt;rofl-go-starter.testnet.orc&lt;/code&gt; and add the computed enclave identities to the
+ROFL manifest file under the &lt;code&gt;deployments.testnet.policy.enclaves&lt;/code&gt; key, e.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;deployments&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;testnet&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# trimmed&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;policy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# trimmed&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;enclaves&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;BPuQAQVS2DkLJC70l521aBVJTcfz70zhLXqVWqRSlHsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;FmXtUEqGqWmPBrId7zCwG1PUbXoT69TpJTTBru+iDrAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==&lt;/span&gt;
+&lt;span class="c1"&gt;# trimmed&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The first is for the base firmware/runtime and the second is for the
+&lt;code&gt;rofl-go-starter&lt;/code&gt; app.&lt;/p&gt;
+&lt;p&gt;Afterwards, we need to update the &lt;code&gt;rofl-go-starter&lt;/code&gt; ROFL app's on-chain
+registration with these two locally computed enclave identities.
+This will ensure Oasis ROFL only accepts attestations matching those identities.&lt;/p&gt;
+&lt;p&gt;Update on-chain registration by running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;rofl&lt;span class="w"&gt; &lt;/span&gt;update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will ask you to unlock the &lt;code&gt;rofl_go_starter&lt;/code&gt; account in Oasis CLI wallet
+and sign the &lt;code&gt;rofl.Update&lt;/code&gt; transaction which re-registers &lt;code&gt;rofl-go-starter&lt;/code&gt;
+ROFL app with these two newly added enclave identities.&lt;/p&gt;
+&lt;p&gt;If things went OK, you should see something like the following at the end of
+output:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Transaction included in block successfully.
+Round:            17491666
+Transaction hash: ac430190eec61a2b6f919965b8d33b20c051d5abb76b3882db4f3ce95b28696d
+Execution successful.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1 id="deploy-your-rofl-app"&gt;Deploy your ROFL app&lt;a class="headerlink" href="#deploy-your-rofl-app" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;We are now at the exciting step when we'll actually deploy and run the simple
+Go app in a way that ensures both &lt;em&gt;confidentiality&lt;/em&gt; and &lt;em&gt;integrity&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Oasis Protocol Foundation kindly provides a free ROFL provider for the Testnet,
+so we can use it to deploy our app there.&lt;/p&gt;
+&lt;p&gt;Let's create a deployment with the &lt;code&gt;playground_short&lt;/code&gt; offer and a 2-hour term:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;rofl&lt;span class="w"&gt; &lt;/span&gt;deploy&lt;span class="w"&gt; &lt;/span&gt;--offer&lt;span class="w"&gt; &lt;/span&gt;playground_short&lt;span class="w"&gt; &lt;/span&gt;--term&lt;span class="w"&gt; &lt;/span&gt;hour&lt;span class="w"&gt; &lt;/span&gt;--term-count&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will ask you to unlock the &lt;code&gt;rofl_go_starter&lt;/code&gt; account in Oasis CLI wallet
+and proceed with pushing the locally built ROFL bundle to the Oasis ROFL OCI
+image registry hosted at &lt;a href="https://rofl.sh"&gt;rofl.sh&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Next, it will ask you to sign the &lt;code&gt;roflmarket.InstanceCreate&lt;/code&gt; transaction that
+will create a machine with the appropriate configuration.&lt;/p&gt;
+&lt;p&gt;If things were successful, you should see something like the following at the
+end of your output:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Transaction included in block successfully.
+Round:            17492125
+Transaction hash: 867adeaa241d3dfc1e3a987867b5a001b8de7113b74799d8fb2b0694d09fd26d
+Execution successful.
+Created machine: 000000000000062b
+Deployment into machine scheduled.
+This machine expires on 2026-06-13 14:33:37 +0200 CEST. Use `oasis rofl machine top-up` to extend it.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The ROFL manifest should be amended with two new keys:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;deployments&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;testnet&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# trimmed&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;oci_repository&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;rofl.sh/67ce5956-2253-4a7d-a036-816e48279277:1781344823&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# trimmed&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;machines&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;default&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;oasis1qp2ens0hsp7gh23wajxa4hpetkdek3swyyulyrmz&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;offer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;playground_short&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;000000000000062b&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;oci_repository&lt;/code&gt; key refers to the location of the ROFL bundle in the Oasis
+ROFL OCI image registry and the &lt;code&gt;machines&lt;/code&gt; key contains info where the ROFL app
+is deployed.&lt;/p&gt;
+&lt;p&gt;Running &lt;code&gt;oasis rofl machine show&lt;/code&gt; should output something similar to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Downloading compose.yaml artifact...
+  URI: compose.yaml
+Name:       default
+Provider:   rofl:provider:sapphire (oasis1qp2ens0hsp7gh23wajxa4hpetkdek3swyyulyrmz)
+ID:         000000000000062b
+Offer:      0000000000000003
+Status:     accepted
+Creator:    rofl_go_starter (0x488347710509ff23C03C00fF66dA3aaeb566D61e)
+Admin:      rofl_go_starter (0x488347710509ff23C03C00fF66dA3aaeb566D61e)
+Node ID:    1owPK3eT21k0ajRG7VfHRgp4JPXobCQtzuglz6ZSJis=
+Created at: 2026-06-13 12:33:37 +0200 CEST
+Updated at: 2026-06-13 12:34:05 +0200 CEST
+Paid until: 2026-06-13 14:33:37 +0200 CEST
+Proxy:
+  Domain: m1579.opf-testnet-rofl-25.rofl.app
+Metadata:
+  net.oasis.scheduler.rak: 1RxzmNRnInoox3mMv9JYjNgvxapajeGEToAiZLz9Kfk=
+Resources:
+  TEE:     Intel TDX
+  Memory:  4096 MiB
+  vCPUs:   2
+  Storage: 20000 MiB
+Deployment:
+  App ID: rofl1qphpdgztdm6edd7fhaulpg47qghtcr7uzyfgua3w
+  Metadata:
+    net.oasis.deployment.orc.ref: rofl.sh/67ce5956-2253-4a7d-a036-816e48279277:1781344823@sha256:d8b4d6cddf8aaa434509d4165c961cf415dfaaa067572d15081fb78a2174807b
+Commands:
+  &amp;lt;no queued commands&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, confirm your Go app is running inside the &lt;abbr title="Trust Domain Extensions"&gt;TDX&lt;/abbr&gt; virtual machine (VM) by
+inspecting its logs:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;oasis&lt;span class="w"&gt; &lt;/span&gt;rofl&lt;span class="w"&gt; &lt;/span&gt;machine&lt;span class="w"&gt; &lt;/span&gt;logs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will ask you to unlock the &lt;code&gt;rofl_go_starter&lt;/code&gt; account in Oasis CLI wallet
+and proceed with outputting machine logs to your terminal.&lt;/p&gt;
+&lt;p&gt;Scroll to the end and if you see something similar to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;warn&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;runtime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;msg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;containers_go_starter_1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;ts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-06-13T10:34:56.686098709Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;runtime/post_registration_init&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;msg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;everything is up and running&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;ts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-06-13T10:34:55.259270357Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;warn&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;runtime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;msg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026/06/13 10:34:55 rofl-go-starter: hello from TDX&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;ts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-06-13T10:34:56.935886469Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;runtime/modules/rofl/app/registration&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;msg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;refreshed registration&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;result&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Simple(NullValue)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;ts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-06-13T10:35:01.339313629Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;warn&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;runtime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;msg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026/06/13 10:35:05 rofl-go-starter: heartbeat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;ts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-06-13T10:35:06.7329312Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;warn&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;runtime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;msg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026/06/13 10:35:15 rofl-go-starter: heartbeat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;ts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-06-13T10:35:16.771830645Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;warn&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;runtime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;msg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026/06/13 10:35:25 rofl-go-starter: heartbeat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;ts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-06-13T10:35:26.813976014Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;you have just successfully created your first confidential Go app running in
+&lt;abbr title="Trust Domain Extensions"&gt;TDX&lt;/abbr&gt; VM with Oasis ROFL 🎉🎉🎉!&lt;/p&gt;
+&lt;h1 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Ok, I admit it, it is still not very easy to deploy an app in a &lt;abbr title="Trusted Execution Environment"&gt;TEE&lt;/abbr&gt;, but I hope
+this article has shown it is also not immensely difficult anymore.&lt;/p&gt;
+&lt;p&gt;To make it easier to get started, all the code snippets used in this article
+are available in the &lt;a href="https://github.com/tjanez/rofl-go-starter"&gt;ROFL Go Starter GitHub repo&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To continue exploring Oasis ROFL and what it can offer, check out
+&lt;a href="https://docs.oasis.io/build/rofl/"&gt;its documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="TEEs"/><category term="tees"/><category term="tdx"/><category term="sgx"/><category term="go"/><category term="podman"/><category term="docker"/><category term="containers"/><category term="oasis"/><category term="rofl"/><category term="cli"/></entry><entry><title>Modernize your Bash prompt colors</title><link href="https://tadej.ja.nez.si/bash-prompt-coloring.html" rel="alternate"/><published>2026-04-24T18:52:00+02:00</published><updated>2026-04-24T18:52:00+02:00</updated><author><name>Tadej Janež</name></author><id>tag:tadej.ja.nez.si,2026-04-24:/bash-prompt-coloring.html</id><summary type="html">
 
 &lt;p&gt;Do you still use the default green-colored Bash prompt?&lt;/p&gt;
 &lt;p&gt;Then it's time to upgrade to a much improved shell &lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; using the

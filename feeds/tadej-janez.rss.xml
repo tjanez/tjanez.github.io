@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tadej Janež - Tadej Janež</title><link>https://tadej.ja.nez.si/</link><description>Passion for tech, security and privacy.&lt;br&gt;PhD in AI. Hacker by ♥.</description><atom:link href="https://tadej.ja.nez.si/feeds/tadej-janez.rss.xml" rel="self"/><lastBuildDate>Fri, 24 Apr 2026 18:52:00 +0200</lastBuildDate><item><title>Modernize your Bash prompt colors</title><link>https://tadej.ja.nez.si/bash-prompt-coloring.html</link><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tadej Janež - Tadej Janež</title><link>https://tadej.ja.nez.si/</link><description>Passion for tech, security and privacy.&lt;br&gt;PhD in AI. Hacker by ♥.</description><atom:link href="https://tadej.ja.nez.si/feeds/tadej-janez.rss.xml" rel="self"/><lastBuildDate>Sat, 13 Jun 2026 13:50:00 +0200</lastBuildDate><item><title>Create your first confidential Go app running in TDX VM with Oasis ROFL</title><link>https://tadej.ja.nez.si/confidential-go-app-with-oasis-rofl.html</link><description>
+
+&lt;p&gt;Confidential apps are great! But they are so complex to build and deploy...
+are they really?&lt;/p&gt;
+&lt;p&gt;I will show you how to create your first confidential Go app running inside
+an &lt;a href="https://en.wikipedia.org/wiki/Trust_Domain_Extensions"&gt;Intel &lt;abbr title="Trust Domain Extensions"&gt;TDX&lt;/abbr&gt;&lt;/a&gt; VM with &lt;a href="https://docs.oasis.io/build/rofl/"&gt;Oasis ROFL&lt;/a&gt; in a matter of minutes.
+Here is a sneak peek:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ROFL App running on Intel TDX" src="https://tadej.ja.nez.si/images/rofl-app-running-on-intel-tdx.png"&gt;&lt;/p&gt;
+&lt;p&gt;Continue reading to find out more...&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tadej Janež</dc:creator><pubDate>Sat, 13 Jun 2026 13:50:00 +0200</pubDate><guid>tag:tadej.ja.nez.si,2026-06-13:/confidential-go-app-with-oasis-rofl.html</guid><category>TEEs</category><category>tees</category><category>tdx</category><category>sgx</category><category>go</category><category>podman</category><category>docker</category><category>containers</category><category>oasis</category><category>rofl</category><category>cli</category></item><item><title>Modernize your Bash prompt colors</title><link>https://tadej.ja.nez.si/bash-prompt-coloring.html</link><description>
 
 &lt;p&gt;Do you still use the default green-colored Bash prompt?&lt;/p&gt;
 &lt;p&gt;Then it's time to upgrade to a much improved shell &lt;abbr title="User Experience"&gt;UX&lt;/abbr&gt; using the
